@@ -2,7 +2,13 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 import { Plus, Save, X } from "lucide-react";
 import { useState } from "react";
 import { useToast } from "@/components/ui/use-toast";
@@ -20,7 +26,7 @@ const availableExercises = [
   {
     id: "3",
     name: "Pull-ups",
-  }
+  },
 ];
 
 export interface Exercise {
@@ -51,7 +57,11 @@ export function WorkoutPlanForm() {
     setExercises(newExercises);
   };
 
-  const handleExerciseChange = (index: number, field: keyof Exercise, value: string) => {
+  const handleExerciseChange = (
+    index: number,
+    field: keyof Exercise,
+    value: string
+  ) => {
     const newExercises = exercises.map((exercise, i) => {
       if (i === index) {
         return { ...exercise, [field]: value };
@@ -62,19 +72,14 @@ export function WorkoutPlanForm() {
   };
 
   const handleEditPlan = (plan: WorkoutPlan) => {
-    const planIndex = savedPlans.findIndex(p => p.name === plan.name);
+    const planIndex = savedPlans.findIndex((p) => p.name === plan.name);
     setEditingPlanIndex(planIndex);
     setWorkoutName(plan.name);
     setExercises([...plan.exercises]);
-    toast({
-      title: "Edit Mode",
-      description: "You can now edit the workout plan.",
-      duration: 3000,
-    });
   };
 
   const handleDeletePlan = (plan: WorkoutPlan) => {
-    const updatedPlans = savedPlans.filter(p => p.name !== plan.name);
+    const updatedPlans = savedPlans.filter((p) => p.name !== plan.name);
     setSavedPlans(updatedPlans);
     toast({
       title: "Success",
@@ -96,8 +101,11 @@ export function WorkoutPlanForm() {
     }
 
     const newPlan = {
-      name: workoutName.toUpperCase(),
-      exercises: exercises.length === 0 ? [{ name: "", sets: "", reps: "", notes: "" }] : exercises
+      name: workoutName,
+      exercises:
+        exercises.length === 0
+          ? [{ name: "", sets: "", reps: "", notes: "" }]
+          : exercises,
     };
 
     if (editingPlanIndex !== null) {
@@ -118,7 +126,7 @@ export function WorkoutPlanForm() {
         duration: 3000,
       });
     }
-    
+
     setWorkoutName("");
     setExercises([]);
   };
@@ -126,12 +134,16 @@ export function WorkoutPlanForm() {
   return (
     <div className="space-y-6">
       <h2 className="text-3xl font-bold">
-        {editingPlanIndex !== null ? "Edit Workout Plan" : "Create Workout Plan"}
+        {editingPlanIndex !== null
+          ? "Edit Workout Plan"
+          : "Create Workout Plan"}
       </h2>
       <Card>
         <CardHeader>
           <CardTitle>
-            {editingPlanIndex !== null ? "Edit Workout Plan" : "New Workout Plan"}
+            {editingPlanIndex !== null
+              ? "Edit Workout Plan"
+              : "New Workout Plan"}
           </CardTitle>
         </CardHeader>
         <CardContent>
@@ -143,22 +155,27 @@ export function WorkoutPlanForm() {
                 onChange={(e) => setWorkoutName(e.target.value)}
               />
             </div>
-            
+
             <div className="space-y-4">
               {exercises.map((exercise, index) => (
-                <div key={index} className="flex items-start gap-4 p-4 border rounded-lg bg-accent/50 animate-fade-in">
+                <div
+                  key={index}
+                  className="flex items-start gap-4 p-4 border rounded-lg bg-accent/50 animate-fade-in"
+                >
                   <div className="flex-1 space-y-4">
                     <Select
                       value={exercise.name}
-                      onValueChange={(value) => handleExerciseChange(index, "name", value)}
+                      onValueChange={(value) =>
+                        handleExerciseChange(index, "name", value)
+                      }
                     >
                       <SelectTrigger>
                         <SelectValue placeholder="Select an exercise" />
                       </SelectTrigger>
                       <SelectContent>
                         {availableExercises.map((availableExercise) => (
-                          <SelectItem 
-                            key={availableExercise.id} 
+                          <SelectItem
+                            key={availableExercise.id}
                             value={availableExercise.name}
                           >
                             {availableExercise.name}
@@ -170,18 +187,24 @@ export function WorkoutPlanForm() {
                       <Input
                         placeholder="Sets"
                         value={exercise.sets}
-                        onChange={(e) => handleExerciseChange(index, "sets", e.target.value)}
+                        onChange={(e) =>
+                          handleExerciseChange(index, "sets", e.target.value)
+                        }
                       />
                       <Input
                         placeholder="Reps"
                         value={exercise.reps}
-                        onChange={(e) => handleExerciseChange(index, "reps", e.target.value)}
+                        onChange={(e) =>
+                          handleExerciseChange(index, "reps", e.target.value)
+                        }
                       />
                     </div>
                     <Textarea
                       placeholder="Notes"
                       value={exercise.notes}
-                      onChange={(e) => handleExerciseChange(index, "notes", e.target.value)}
+                      onChange={(e) =>
+                        handleExerciseChange(index, "notes", e.target.value)
+                      }
                     />
                   </div>
                   <Button
@@ -202,28 +225,28 @@ export function WorkoutPlanForm() {
                 <Plus className="w-4 h-4 mr-2" /> Add Exercise
               </Button>
               <Button type="submit">
-                <Save className="w-4 h-4 mr-2" /> {editingPlanIndex !== null ? "Update" : "Save"} Plan
+                <Save className="w-4 h-4 mr-2" />{" "}
+                {editingPlanIndex !== null ? "Update" : "Save"} Plan
               </Button>
             </div>
           </form>
         </CardContent>
       </Card>
 
-  {savedPlans.length > 0 && (
-    <Card>
-      <CardHeader>
-        <CardTitle>Saved Workout Plans</CardTitle>
-      </CardHeader>
-      <CardContent>
-        <SavedWorkoutPlansTable 
-          savedPlans={savedPlans} 
-          onEditPlan={handleEditPlan}
-          onDeletePlan={handleDeletePlan}
-        />
-      </CardContent>
-    </Card>
-  )}
-  
+      {savedPlans.length > 0 && (
+        <Card>
+          <CardHeader>
+            <CardTitle>Saved Workout Plans</CardTitle>
+          </CardHeader>
+          <CardContent>
+            <SavedWorkoutPlansTable
+              savedPlans={savedPlans}
+              onEditPlan={handleEditPlan}
+              onDeletePlan={handleDeletePlan}
+            />
+          </CardContent>
+        </Card>
+      )}
     </div>
   );
 }
