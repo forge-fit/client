@@ -102,8 +102,8 @@ export function WorkoutPlanForm() {
     setExercises([]);
   };
 
-  // Only disable save when trying to save the entire workout plan
-  const isSaveDisabled = (!workoutName && exercises.length > 0) || exercises.length === 0;
+  // Only disable save when there are no exercises
+  const isSaveDisabled = exercises.length === 0;
 
   return (
     <div className="space-y-6">
