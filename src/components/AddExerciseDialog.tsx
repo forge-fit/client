@@ -18,6 +18,7 @@ import {
 import { Plus } from "lucide-react";
 import { Exercise } from "./WorkoutPlanForm";
 import { useState } from "react";
+import { useToast } from "./ui/use-toast";
 
 interface AddExerciseDialogProps {
   onAddExercise: (exercise: Exercise) => void;
@@ -40,6 +41,7 @@ const availableExercises = [
 
 export function AddExerciseDialog({ onAddExercise }: AddExerciseDialogProps) {
   const [open, setOpen] = useState(false);
+  const { toast } = useToast();
   const [exercise, setExercise] = useState<Exercise>({
     name: "",
     sets: "",
@@ -49,9 +51,29 @@ export function AddExerciseDialog({ onAddExercise }: AddExerciseDialogProps) {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
+    
+    // Validate required fields
+    if (!exercise.name || !exercise.sets || !exercise.reps) {
+      toast({
+        title: "Error",
+        description: "Please fill in all required fields (Exercise, Sets, and Reps)",
+        variant: "destructive",
+      });
+      return;
+    }
+
+    // Add the exercise
     onAddExercise(exercise);
+    
+    // Reset form and close dialog
     setExercise({ name: "", sets: "", reps: "", notes: "" });
     setOpen(false);
+    
+    // Show success toast
+    toast({
+      title: "Success",
+      description: "Exercise added to workout plan",
+    });
   };
 
   return (
