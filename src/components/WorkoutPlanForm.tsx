@@ -60,6 +60,7 @@ export function WorkoutPlanForm() {
       toast({
         title: "Error",
         description: "Please enter a workout name",
+        variant: "destructive",
         duration: 3000,
       });
       return;
@@ -69,6 +70,7 @@ export function WorkoutPlanForm() {
       toast({
         title: "Error",
         description: "Please add at least one exercise",
+        variant: "destructive",
         duration: 3000,
       });
       return;
