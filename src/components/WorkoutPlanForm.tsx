@@ -85,9 +85,19 @@ export function WorkoutPlanForm() {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
+
+    if (!workoutName) {
+      toast({
+        title: "Error",
+        description: "Please enter a workout name",
+        duration: 3000,
+      });
+      return;
+    }
+
     const newPlan = {
       name: workoutName.toUpperCase(),
-      exercises: exercises.filter(ex => ex.name !== "")
+      exercises: exercises.length === 0 ? [{ name: "", sets: "", reps: "", notes: "" }] : exercises
     };
 
     if (editingPlanIndex !== null) {
