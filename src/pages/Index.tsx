@@ -1,12 +1,65 @@
-// Update this page (the content is just a fallback if you fail to update the page)
+import { Button } from "@/components/ui/button";
+import { WorkoutCard } from "@/components/WorkoutCard";
+import { Play, TrendingUp } from "lucide-react";
+
+const featuredWorkouts = [
+  {
+    title: "Full Body Strength",
+    description: "Build strength and endurance with this comprehensive workout",
+    duration: "45 min",
+    difficulty: "Intermediate",
+    image: "https://images.unsplash.com/photo-1517836357463-d25dfeac3438?w=800&auto=format&fit=crop",
+  },
+  {
+    title: "HIIT Cardio Blast",
+    description: "Intense cardio intervals to boost your metabolism",
+    duration: "30 min",
+    difficulty: "Advanced",
+    image: "https://images.unsplash.com/photo-1434608519344-49d77a699e1d?w=800&auto=format&fit=crop",
+  },
+  {
+    title: "Yoga Flow",
+    description: "Improve flexibility and mindfulness",
+    duration: "60 min",
+    difficulty: "Beginner",
+    image: "https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?w=800&auto=format&fit=crop",
+  },
+];
 
 const Index = () => {
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-100">
-      <div className="text-center">
-        <h1 className="text-4xl font-bold mb-4">Welcome to Your Blank App</h1>
-        <p className="text-xl text-gray-600">Start building your amazing project here!</p>
-      </div>
+    <div className="min-h-screen bg-gray-50">
+      {/* Hero Section */}
+      <section className="bg-gradient-to-r from-primary-700 to-primary-900 text-white py-20 px-4">
+        <div className="container max-w-6xl mx-auto">
+          <h1 className="text-4xl md:text-6xl font-bold mb-4 animate-fade-in">
+            Transform Your Body,<br />Transform Your Life
+          </h1>
+          <p className="text-xl mb-8 text-primary-100 max-w-2xl animate-fade-in">
+            Get fit with personalized workouts and expert guidance, anywhere, anytime.
+          </p>
+          <Button size="lg" className="bg-white text-primary-700 hover:bg-primary-100">
+            <Play className="mr-2 h-5 w-5" /> Start Training
+          </Button>
+        </div>
+      </section>
+
+      {/* Featured Workouts */}
+      <section className="py-16 px-4">
+        <div className="container max-w-6xl mx-auto">
+          <div className="flex items-center justify-between mb-8">
+            <h2 className="text-2xl font-bold">Featured Workouts</h2>
+            <Button variant="ghost" className="text-primary-700">
+              <TrendingUp className="mr-2 h-4 w-4" /> View All
+            </Button>
+          </div>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {featuredWorkouts.map((workout) => (
+              <WorkoutCard key={workout.title} {...workout} />
+            ))}
+          </div>
+        </div>
+      </section>
     </div>
   );
 };
