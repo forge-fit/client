@@ -41,7 +41,7 @@ export function SavedWorkoutPlansTable({ savedPlans, onEditPlan, onDeletePlan }:
               >
                 {exerciseIndex === 0 ? (
                   <div className="flex items-center justify-between">
-                    <span className="uppercase">{plan.name}</span>
+                    <span className="uppercase first-letter:uppercase">{plan.name}</span>
                     <div className="flex items-center gap-2">
                       <Edit2 className="h-4 w-4 opacity-0 group-hover:opacity-100 transition-opacity" />
                       <AlertDialog>
