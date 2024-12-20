@@ -65,12 +65,18 @@ export function WorkoutPlanForm() {
       return;
     }
 
+    if (exercises.length === 0) {
+      toast({
+        title: "Error",
+        description: "Please add at least one exercise",
+        duration: 3000,
+      });
+      return;
+    }
+
     const newPlan = {
       name: workoutName,
-      exercises:
-        exercises.length === 0
-          ? [{ name: "", sets: "", reps: "", notes: "" }]
-          : exercises,
+      exercises: exercises,
     };
 
     if (editingPlanIndex !== null) {
@@ -96,7 +102,8 @@ export function WorkoutPlanForm() {
     setExercises([]);
   };
 
-  const isSaveDisabled = !workoutName || exercises.length === 0;
+  // Only disable save when trying to save the entire workout plan
+  const isSaveDisabled = (!workoutName && exercises.length > 0) || exercises.length === 0;
 
   return (
     <div className="space-y-6">
