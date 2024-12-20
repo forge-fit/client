@@ -36,17 +36,33 @@ export function SavedWorkoutPlansTable({ savedPlans, onEditPlan, onDeletePlan }:
           plan.exercises.map((exercise, exerciseIndex) => (
             <TableRow key={`${planIndex}-${exerciseIndex}`}>
               <TableCell 
-                className={`font-medium ${exerciseIndex === 0 ? "cursor-pointer hover:text-primary group" : ""}`}
-                onClick={() => exerciseIndex === 0 ? onEditPlan(plan) : null}
+                className={`font-medium ${exerciseIndex === 0 ? "capitalize group" : ""}`}
               >
                 {exerciseIndex === 0 ? (
                   <div className="flex items-center justify-between">
-                    <span className="capitalize">{plan.name}</span>
+                    <span 
+                      className="cursor-pointer hover:text-primary"
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        onEditPlan(plan);
+                      }}
+                    >
+                      {plan.name}
+                    </span>
                     <div className="flex items-center gap-2">
-                      <Edit2 className="h-4 w-4 opacity-0 group-hover:opacity-100 transition-opacity" />
+                      <Edit2 
+                        className="h-4 w-4 opacity-0 group-hover:opacity-100 transition-opacity cursor-pointer"
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          onEditPlan(plan);
+                        }}
+                      />
                       <AlertDialog>
-                        <AlertDialogTrigger asChild onClick={(e) => e.stopPropagation()}>
-                          <Trash2 className="h-4 w-4 text-destructive opacity-0 group-hover:opacity-100 transition-opacity cursor-pointer" />
+                        <AlertDialogTrigger asChild>
+                          <Trash2 
+                            className="h-4 w-4 text-destructive opacity-0 group-hover:opacity-100 transition-opacity cursor-pointer"
+                            onClick={(e) => e.stopPropagation()}
+                          />
                         </AlertDialogTrigger>
                         <AlertDialogContent>
                           <AlertDialogHeader>
@@ -57,7 +73,12 @@ export function SavedWorkoutPlansTable({ savedPlans, onEditPlan, onDeletePlan }:
                           </AlertDialogHeader>
                           <AlertDialogFooter>
                             <AlertDialogCancel>Cancel</AlertDialogCancel>
-                            <AlertDialogAction onClick={() => onDeletePlan(plan)}>
+                            <AlertDialogAction 
+                              onClick={(e) => {
+                                e.stopPropagation();
+                                onDeletePlan(plan);
+                              }}
+                            >
                               Delete
                             </AlertDialogAction>
                           </AlertDialogFooter>
