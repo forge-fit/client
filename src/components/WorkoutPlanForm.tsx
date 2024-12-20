@@ -5,8 +5,8 @@ import { Textarea } from "@/components/ui/textarea";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Plus, Save, X } from "lucide-react";
 import { useState } from "react";
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { useToast } from "@/components/ui/use-toast";
+import { SavedWorkoutPlansTable } from "./SavedWorkoutPlansTable";
 
 const availableExercises = [
   {
@@ -23,14 +23,14 @@ const availableExercises = [
   }
 ];
 
-interface Exercise {
+export interface Exercise {
   name: string;
   sets: string;
   reps: string;
   notes: string;
 }
 
-interface WorkoutPlan {
+export interface WorkoutPlan {
   name: string;
   exercises: Exercise[];
 }
@@ -39,6 +39,7 @@ export function WorkoutPlanForm() {
   const [workoutName, setWorkoutName] = useState("");
   const [exercises, setExercises] = useState<Exercise[]>([]);
   const [savedPlans, setSavedPlans] = useState<WorkoutPlan[]>([]);
+  const [editingPlanIndex, setEditingPlanIndex] = useState<number | null>(null);
   const { toast } = useToast();
 
   const addExercise = () => {
@@ -60,29 +61,58 @@ export function WorkoutPlanForm() {
     setExercises(newExercises);
   };
 
+  const handleEditPlan = (plan: WorkoutPlan) => {
+    const planIndex = savedPlans.findIndex(p => p.name === plan.name);
+    setEditingPlanIndex(planIndex);
+    setWorkoutName(plan.name);
+    setExercises([...plan.exercises]);
+    toast({
+      title: "Edit Mode",
+      description: "You can now edit the workout plan.",
+      duration: 3000,
+    });
+  };
+
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     const newPlan = {
       name: workoutName,
       exercises: exercises.filter(ex => ex.name !== "")
     };
-    setSavedPlans([...savedPlans, newPlan]);
+
+    if (editingPlanIndex !== null) {
+      const updatedPlans = [...savedPlans];
+      updatedPlans[editingPlanIndex] = newPlan;
+      setSavedPlans(updatedPlans);
+      setEditingPlanIndex(null);
+      toast({
+        title: "Success",
+        description: "Workout plan has been updated!",
+        duration: 3000,
+      });
+    } else {
+      setSavedPlans([...savedPlans, newPlan]);
+      toast({
+        title: "Success",
+        description: "Workout plan has been saved!",
+        duration: 3000,
+      });
+    }
+    
     setWorkoutName("");
     setExercises([]);
-    toast({
-      title: "Success",
-      description: "Workout plan has been saved!",
-      duration: 3000,
-    });
-    console.log("Workout plan:", newPlan);
   };
 
   return (
     <div className="space-y-6">
-      <h2 className="text-3xl font-bold">Create Workout Plan</h2>
+      <h2 className="text-3xl font-bold">
+        {editingPlanIndex !== null ? "Edit Workout Plan" : "Create Workout Plan"}
+      </h2>
       <Card>
         <CardHeader>
-          <CardTitle>New Workout Plan</CardTitle>
+          <CardTitle>
+            {editingPlanIndex !== null ? "Edit Workout Plan" : "New Workout Plan"}
+          </CardTitle>
         </CardHeader>
         <CardContent>
           <form onSubmit={handleSubmit} className="space-y-6">
@@ -152,7 +182,7 @@ export function WorkoutPlanForm() {
                 <Plus className="w-4 h-4 mr-2" /> Add Exercise
               </Button>
               <Button type="submit">
-                <Save className="w-4 h-4 mr-2" /> Save Plan
+                <Save className="w-4 h-4 mr-2" /> {editingPlanIndex !== null ? "Update" : "Save"} Plan
               </Button>
             </div>
           </form>
@@ -165,42 +195,10 @@ export function WorkoutPlanForm() {
             <CardTitle>Saved Workout Plans</CardTitle>
           </CardHeader>
           <CardContent>
-            <Table>
-              <TableHeader>
-                <TableRow>
-                  <TableHead>Workout Name</TableHead>
-                  <TableHead>Exercises</TableHead>
-                  <TableHead>Sets</TableHead>
-                  <TableHead>Reps</TableHead>
-                  <TableHead>Notes</TableHead>
-                </TableRow>
-              </TableHeader>
-              <TableBody>
-                {savedPlans.map((plan, index) => (
-                  <TableRow key={index}>
-                    <TableCell className="font-medium">{plan.name}</TableCell>
-                    <TableCell>{plan.exercises.map(ex => ex.name).join(", ")}</TableCell>
-                    <TableCell>
-                      {plan.exercises.map((ex, i) => (
-                        <div key={i} className="text-sm">{ex.sets}</div>
-                      ))}
-                    </TableCell>
-                    <TableCell>
-                      {plan.exercises.map((ex, i) => (
-                        <div key={i} className="text-sm">{ex.reps}</div>
-                      ))}
-                    </TableCell>
-                    <TableCell>
-                      {plan.exercises.map((ex, i) => (
-                        ex.notes && (
-                          <div key={i} className="text-sm text-muted-foreground">{ex.notes}</div>
-                        )
-                      ))}
-                    </TableCell>
-                  </TableRow>
-                ))}
-              </TableBody>
-            </Table>
+            <SavedWorkoutPlansTable 
+              savedPlans={savedPlans} 
+              onEditPlan={handleEditPlan}
+            />
           </CardContent>
         </Card>
       )}
