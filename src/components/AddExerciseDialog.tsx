@@ -53,7 +53,7 @@ export function AddExerciseDialog({ onAddExercise }: AddExerciseDialogProps) {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     
-    // Validate required fields
+    // Only validate exercise fields
     if (!exercise.name || !exercise.sets || !exercise.reps) {
       toast({
         title: "Error",
