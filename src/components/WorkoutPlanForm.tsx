@@ -134,7 +134,7 @@ export function WorkoutPlanForm() {
             <Button 
               type="submit" 
               className="w-full" 
-              disabled={exercises.length === 0}
+              disabled={!workoutName || exercises.length === 0}
             >
               <Save className="w-4 h-4 mr-2" />
               {editingPlanIndex !== null ? "Update" : "Save"} Plan

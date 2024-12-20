@@ -53,27 +53,24 @@ export function AddExerciseDialog({ onAddExercise }: AddExerciseDialogProps) {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     
-    // Only validate exercise fields
     if (!exercise.name || !exercise.sets || !exercise.reps) {
       toast({
         title: "Error",
         description: "Please fill in all required fields (Exercise, Sets, and Reps)",
         variant: "destructive",
+        duration: 3000,
       });
       return;
     }
 
-    // Add the exercise
     onAddExercise(exercise);
-    
-    // Reset form and close dialog
     setExercise({ name: "", sets: "", reps: "", notes: "" });
     setOpen(false);
     
-    // Show success toast
     toast({
       title: "Success",
       description: "Exercise added to workout plan",
+      duration: 3000,
     });
   };
 
