@@ -73,10 +73,20 @@ export function WorkoutPlanForm() {
     });
   };
 
+  const handleDeletePlan = (plan: WorkoutPlan) => {
+    const updatedPlans = savedPlans.filter(p => p.name !== plan.name);
+    setSavedPlans(updatedPlans);
+    toast({
+      title: "Success",
+      description: "Workout plan has been deleted.",
+      duration: 3000,
+    });
+  };
+
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     const newPlan = {
-      name: workoutName,
+      name: workoutName.toUpperCase(),
       exercises: exercises.filter(ex => ex.name !== "")
     };
 
@@ -189,19 +199,21 @@ export function WorkoutPlanForm() {
         </CardContent>
       </Card>
 
-      {savedPlans.length > 0 && (
-        <Card>
-          <CardHeader>
-            <CardTitle>Saved Workout Plans</CardTitle>
-          </CardHeader>
-          <CardContent>
-            <SavedWorkoutPlansTable 
-              savedPlans={savedPlans} 
-              onEditPlan={handleEditPlan}
-            />
-          </CardContent>
-        </Card>
-      )}
+  {savedPlans.length > 0 && (
+    <Card>
+      <CardHeader>
+        <CardTitle>Saved Workout Plans</CardTitle>
+      </CardHeader>
+      <CardContent>
+        <SavedWorkoutPlansTable 
+          savedPlans={savedPlans} 
+          onEditPlan={handleEditPlan}
+          onDeletePlan={handleDeletePlan}
+        />
+      </CardContent>
+    </Card>
+  )}
+  
     </div>
   );
 }

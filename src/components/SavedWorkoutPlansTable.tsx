@@ -1,13 +1,25 @@
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
-import { Edit2 } from "lucide-react";
+import { Edit2, Trash2 } from "lucide-react";
 import { WorkoutPlan } from "./WorkoutPlanForm";
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from "@/components/ui/alert-dialog";
 
 interface SavedWorkoutPlansTableProps {
   savedPlans: WorkoutPlan[];
   onEditPlan: (plan: WorkoutPlan) => void;
+  onDeletePlan: (plan: WorkoutPlan) => void;
 }
 
-export function SavedWorkoutPlansTable({ savedPlans, onEditPlan }: SavedWorkoutPlansTableProps) {
+export function SavedWorkoutPlansTable({ savedPlans, onEditPlan, onDeletePlan }: SavedWorkoutPlansTableProps) {
   return (
     <Table>
       <TableHeader>
@@ -29,8 +41,29 @@ export function SavedWorkoutPlansTable({ savedPlans, onEditPlan }: SavedWorkoutP
               >
                 {exerciseIndex === 0 ? (
                   <div className="flex items-center justify-between">
-                    <span>{plan.name}</span>
-                    <Edit2 className="h-4 w-4 opacity-0 group-hover:opacity-100 transition-opacity" />
+                    <span className="uppercase">{plan.name}</span>
+                    <div className="flex items-center gap-2">
+                      <Edit2 className="h-4 w-4 opacity-0 group-hover:opacity-100 transition-opacity" />
+                      <AlertDialog>
+                        <AlertDialogTrigger asChild onClick={(e) => e.stopPropagation()}>
+                          <Trash2 className="h-4 w-4 text-destructive opacity-0 group-hover:opacity-100 transition-opacity cursor-pointer" />
+                        </AlertDialogTrigger>
+                        <AlertDialogContent>
+                          <AlertDialogHeader>
+                            <AlertDialogTitle>Delete Workout Plan</AlertDialogTitle>
+                            <AlertDialogDescription>
+                              Are you sure you want to delete "{plan.name}"? This action cannot be undone.
+                            </AlertDialogDescription>
+                          </AlertDialogHeader>
+                          <AlertDialogFooter>
+                            <AlertDialogCancel>Cancel</AlertDialogCancel>
+                            <AlertDialogAction onClick={() => onDeletePlan(plan)}>
+                              Delete
+                            </AlertDialogAction>
+                          </AlertDialogFooter>
+                        </AlertDialogContent>
+                      </AlertDialog>
+                    </div>
                   </div>
                 ) : ""}
               </TableCell>
