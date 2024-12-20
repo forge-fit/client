@@ -2,6 +2,7 @@ import { Button } from "@/components/ui/button";
 import {
   Dialog,
   DialogContent,
+  DialogDescription,
   DialogHeader,
   DialogTitle,
   DialogTrigger,
@@ -86,6 +87,9 @@ export function AddExerciseDialog({ onAddExercise }: AddExerciseDialogProps) {
       <DialogContent className="sm:max-w-[425px]">
         <DialogHeader>
           <DialogTitle>Add Exercise</DialogTitle>
+          <DialogDescription>
+            Add a new exercise to your workout plan. Fill in all required fields.
+          </DialogDescription>
         </DialogHeader>
         <form onSubmit={handleSubmit} className="space-y-4 mt-4">
           <Select
@@ -125,7 +129,7 @@ export function AddExerciseDialog({ onAddExercise }: AddExerciseDialogProps) {
             />
           </div>
           <Textarea
-            placeholder="Notes"
+            placeholder="Notes (optional)"
             value={exercise.notes}
             onChange={(e) =>
               setExercise((prev) => ({ ...prev, notes: e.target.value }))
