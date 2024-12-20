@@ -96,6 +96,8 @@ export function WorkoutPlanForm() {
     setExercises([]);
   };
 
+  const isSaveDisabled = !workoutName || exercises.length === 0;
+
   return (
     <div className="space-y-6">
       <h2 className="text-3xl font-bold">
@@ -123,7 +125,7 @@ export function WorkoutPlanForm() {
               <AddExerciseDialog onAddExercise={addExercise} />
             </div>
 
-            <Button type="submit" className="w-full">
+            <Button type="submit" className="w-full" disabled={isSaveDisabled}>
               <Save className="w-4 h-4 mr-2" />
               {editingPlanIndex !== null ? "Update" : "Save"} Plan
             </Button>
