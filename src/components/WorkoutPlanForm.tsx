@@ -170,7 +170,9 @@ export function WorkoutPlanForm() {
                 <TableRow>
                   <TableHead>Workout Name</TableHead>
                   <TableHead>Exercises</TableHead>
-                  <TableHead>Details</TableHead>
+                  <TableHead>Sets</TableHead>
+                  <TableHead>Reps</TableHead>
+                  <TableHead>Notes</TableHead>
                 </TableRow>
               </TableHeader>
               <TableBody>
@@ -180,9 +182,19 @@ export function WorkoutPlanForm() {
                     <TableCell>{plan.exercises.map(ex => ex.name).join(", ")}</TableCell>
                     <TableCell>
                       {plan.exercises.map((ex, i) => (
-                        <div key={i} className="text-sm text-muted-foreground">
-                          {ex.name}: {ex.sets} sets × {ex.reps} reps
-                        </div>
+                        <div key={i} className="text-sm">{ex.sets}</div>
+                      ))}
+                    </TableCell>
+                    <TableCell>
+                      {plan.exercises.map((ex, i) => (
+                        <div key={i} className="text-sm">{ex.reps}</div>
+                      ))}
+                    </TableCell>
+                    <TableCell>
+                      {plan.exercises.map((ex, i) => (
+                        ex.notes && (
+                          <div key={i} className="text-sm text-muted-foreground">{ex.notes}</div>
+                        )
                       ))}
                     </TableCell>
                   </TableRow>
