@@ -1,6 +1,8 @@
 import { Button } from "@/components/ui/button";
 import { WorkoutCard } from "@/components/WorkoutCard";
 import { Play, TrendingUp } from "lucide-react";
+import { ExerciseLibrary } from "@/components/ExerciseLibrary";
+import { WorkoutPlanForm } from "@/components/WorkoutPlanForm";
 
 const featuredWorkouts = [
   {
@@ -58,6 +60,20 @@ const Index = () => {
               <WorkoutCard key={workout.title} {...workout} />
             ))}
           </div>
+        </div>
+      </section>
+
+      {/* Exercise Library Section */}
+      <section className="py-16 px-4 bg-white">
+        <div className="container max-w-6xl mx-auto">
+          <ExerciseLibrary />
+        </div>
+      </section>
+
+      {/* Create Workout Plan Section */}
+      <section className="py-16 px-4">
+        <div className="container max-w-6xl mx-auto">
+          <WorkoutPlanForm />
         </div>
       </section>
     </div>
