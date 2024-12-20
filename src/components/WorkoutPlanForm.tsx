@@ -2,8 +2,25 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Plus, Save } from "lucide-react";
 import { useState } from "react";
+
+// Import the exercises data from ExerciseLibrary
+const availableExercises = [
+  {
+    id: "1",
+    name: "Push-ups",
+  },
+  {
+    id: "2",
+    name: "Squats",
+  },
+  {
+    id: "3",
+    name: "Pull-ups",
+  }
+];
 
 interface Exercise {
   name: string;
@@ -13,6 +30,7 @@ interface Exercise {
 }
 
 export function WorkoutPlanForm() {
+  const [workoutName, setWorkoutName] = useState("");
   const [exercises, setExercises] = useState<Exercise[]>([
     { name: "", sets: "", reps: "", notes: "" }
   ]);
@@ -33,7 +51,7 @@ export function WorkoutPlanForm() {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    console.log("Workout plan:", exercises);
+    console.log("Workout plan:", { name: workoutName, exercises });
     // Here you would typically save the workout plan
   };
 
@@ -46,13 +64,33 @@ export function WorkoutPlanForm() {
         </CardHeader>
         <CardContent>
           <form onSubmit={handleSubmit} className="space-y-6">
+            <div className="space-y-4">
+              <Input
+                placeholder="Workout Name (e.g., Leg Day, Easy Yoga)"
+                value={workoutName}
+                onChange={(e) => setWorkoutName(e.target.value)}
+              />
+            </div>
             {exercises.map((exercise, index) => (
               <div key={index} className="space-y-4 p-4 border rounded-lg">
-                <Input
-                  placeholder="Exercise name"
+                <Select
                   value={exercise.name}
-                  onChange={(e) => handleExerciseChange(index, "name", e.target.value)}
-                />
+                  onValueChange={(value) => handleExerciseChange(index, "name", value)}
+                >
+                  <SelectTrigger>
+                    <SelectValue placeholder="Select an exercise" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    {availableExercises.map((availableExercise) => (
+                      <SelectItem 
+                        key={availableExercise.id} 
+                        value={availableExercise.name}
+                      >
+                        {availableExercise.name}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
                 <div className="grid grid-cols-2 gap-4">
                   <Input
                     placeholder="Sets"
