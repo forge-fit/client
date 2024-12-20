@@ -3,7 +3,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Save } from "lucide-react";
 import { useState } from "react";
-import { useToast } from "@/components/ui/use-toast";
+import { useToast } from "@/hooks/use-toast";
 import { SavedWorkoutPlansTable } from "./SavedWorkoutPlansTable";
 import { AddExerciseDialog } from "./AddExerciseDialog";
 import { ExerciseList } from "./ExerciseList";

@@ -18,7 +18,7 @@ import {
 import { Plus } from "lucide-react";
 import { Exercise } from "./WorkoutPlanForm";
 import { useState } from "react";
-import { useToast } from "./ui/use-toast";
+import { useToast } from "@/hooks/use-toast";
 
 interface AddExerciseDialogProps {
   onAddExercise: (exercise: Exercise) => void;
