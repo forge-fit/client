@@ -89,8 +89,8 @@ export function ExerciseLibrary() {
         <CarouselContent className="-ml-2 md:-ml-4">
           {filteredExercises.map((exercise) => (
             <CarouselItem key={exercise.id} className="pl-2 md:pl-4 md:basis-1/2 lg:basis-1/3">
-              <Card className="hover:shadow-lg transition-shadow animate-fade-in">
-                <CardHeader>
+              <Card className="h-full hover:shadow-lg transition-shadow animate-fade-in">
+                <CardHeader className="flex-none">
                   <CardTitle className="flex items-center justify-between">
                     <div className="flex items-center gap-2">
                       <Dumbbell className="h-5 w-5" />
@@ -112,7 +112,7 @@ export function ExerciseLibrary() {
                   </CardTitle>
                   <CardDescription>{exercise.description}</CardDescription>
                 </CardHeader>
-                <CardContent>
+                <CardContent className="flex-grow">
                   <div className="space-y-2 text-sm">
                     <div className="flex items-center gap-2">
                       <Target className="h-4 w-4 text-primary" />
