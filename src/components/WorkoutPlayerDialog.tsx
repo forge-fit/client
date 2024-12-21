@@ -9,15 +9,9 @@ import {
 import { Button } from "@/components/ui/button";
 import { useState } from "react";
 import { WorkoutPlan } from "./WorkoutPlanForm";
-import {
-  ChevronLeft,
-  ChevronRight,
-  FastForward,
-  Pause,
-  Play,
-} from "lucide-react";
-import { Progress } from "@/components/ui/progress";
+import { ChevronLeft, ChevronRight, Play } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
+import { RestTimer } from "./RestTimer";
 
 interface WorkoutPlayerDialogProps {
   savedPlans: WorkoutPlan[];
@@ -62,10 +56,7 @@ export function WorkoutPlayerDialog({ savedPlans }: WorkoutPlayerDialogProps) {
   };
 
   const handleNextExercise = () => {
-    if (
-      selectedPlan &&
-      currentExerciseIndex < selectedPlan.exercises.length - 1
-    ) {
+    if (selectedPlan && currentExerciseIndex < selectedPlan.exercises.length - 1) {
       setCurrentExerciseIndex((prev) => prev + 1);
       setCurrentSet(1);
       setIsResting(false);
@@ -86,14 +77,6 @@ export function WorkoutPlayerDialog({ savedPlans }: WorkoutPlayerDialogProps) {
       setCurrentSet(1);
       setIsResting(false);
     }
-  };
-
-  const extendRestTime = () => {
-    setRestTimeLeft((prev) => prev + 30);
-  };
-
-  const toggleTimer = () => {
-    setIsTimerPaused((prev) => !prev);
   };
 
   return (
@@ -145,9 +128,7 @@ export function WorkoutPlayerDialog({ savedPlans }: WorkoutPlayerDialogProps) {
         ) : (
           <div className="space-y-6">
             <DialogHeader>
-              <DialogTitle className="text-white">
-                {selectedPlan.name}
-              </DialogTitle>
+              <DialogTitle className="text-white">{selectedPlan.name}</DialogTitle>
               <DialogDescription className="text-primary-100">
                 Exercise {currentExerciseIndex + 1} of{" "}
                 {selectedPlan.exercises.length}
@@ -159,46 +140,23 @@ export function WorkoutPlayerDialog({ savedPlans }: WorkoutPlayerDialogProps) {
                 {currentExercise?.name}
               </div>
               {isResting ? (
-                <div className="space-y-4">
-                  <div className="text-center">
-                    <div className="text-3xl font-bold mb-2 text-white">
-                      Rest Time: {restTimeLeft}s
-                    </div>
-                    <Progress
-                      value={(restTimeLeft / 60) * 100}
-                      className="h-2 bg-white/20"
-                    />
-                  </div>
-                  <div className="flex justify-center gap-2">
-                    <Button
-                      onClick={toggleTimer}
-                      variant="secondary"
-                      className="bg-white/10 hover:bg-white/20 text-white"
-                    >
-                      {isTimerPaused ? (
-                        <Play className="w-4 h-4" />
-                      ) : (
-                        <Pause className="w-4 h-4" />
-                      )}
-                    </Button>
-                    <Button
-                      onClick={extendRestTime}
-                      variant="secondary"
-                      className="bg-white/10 hover:bg-white/20 text-white"
-                    >
-                      <FastForward className="w-4 h-4 mr-2" />
-                      +30s
-                    </Button>
-                  </div>
-                </div>
+                <RestTimer
+                  restTimeLeft={restTimeLeft}
+                  isTimerPaused={isTimerPaused}
+                  onToggleTimer={() => setIsTimerPaused((prev) => !prev)}
+                  onExtendTime={() => setRestTimeLeft((prev) => prev + 30)}
+                  onSkipRest={() => {
+                    setIsResting(false);
+                    setCurrentSet((prev) => prev + 1);
+                  }}
+                />
               ) : (
                 <div className="space-y-4">
                   <div className="text-lg text-primary-100">
                     Set {currentSet} of {totalSets}
                   </div>
                   <div className="text-lg text-white">
-                    {currentExercise?.reps} reps at{" "}
-                    {currentExercise?.weight.value}{" "}
+                    {currentExercise?.reps} reps at {currentExercise?.weight.value}{" "}
                     {currentExercise?.weight.unit}
                   </div>
                   {currentExercise?.notes && (
@@ -220,18 +178,7 @@ export function WorkoutPlayerDialog({ savedPlans }: WorkoutPlayerDialogProps) {
                 <ChevronLeft className="w-4 h-4 mr-2" />
                 Previous
               </Button>
-              {isResting ? (
-                <Button
-                  onClick={() => {
-                    setIsResting(false);
-                    setCurrentSet((prev) => prev + 1);
-                  }}
-                  className="bg-white/10 hover:bg-white/20 text-white"
-                  variant="secondary"
-                >
-                  Skip Rest
-                </Button>
-              ) : (
+              {!isResting && (
                 <Button
                   onClick={handleNextSet}
                   className="bg-white/10 hover:bg-white/20 text-white"
