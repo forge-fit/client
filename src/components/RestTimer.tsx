@@ -28,11 +28,11 @@ export function RestTimer({
         </div>
       </div>
       
-      <div className="flex justify-center gap-2 w-full px-4 pb-4">
+      <div className="flex justify-between w-full px-4 pb-4">
         <Button
           onClick={onToggleTimer}
           variant="secondary"
-          className="bg-white/10 hover:bg-white/20 text-white flex-1 sm:flex-none h-14"
+          className="bg-white/10 hover:bg-white/20 text-white w-[30%] sm:w-32 h-14"
         >
           {isTimerPaused ? (
             <>
@@ -49,7 +49,7 @@ export function RestTimer({
         <Button
           onClick={onExtendTime}
           variant="secondary"
-          className="bg-white/10 hover:bg-white/20 text-white flex-1 sm:flex-none h-14"
+          className="bg-white/10 hover:bg-white/20 text-white w-[30%] sm:w-32 h-14"
         >
           <Timer className="mr-2" />
           +30s
@@ -57,7 +57,7 @@ export function RestTimer({
         <Button
           onClick={onSkipRest}
           variant="secondary"
-          className="bg-white/10 hover:bg-white/20 text-white flex-1 sm:flex-none h-14"
+          className="bg-white/10 hover:bg-white/20 text-white w-[30%] sm:w-32 h-14"
         >
           <SkipForward className="mr-2" />
           Skip
