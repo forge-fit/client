@@ -114,26 +114,36 @@ export function WorkoutPlayerDialog({ savedPlans }: WorkoutPlayerDialogProps) {
       </DialogTrigger>
       <DialogContent className="sm:max-w-[500px]">
         {!selectedPlan ? (
-          <>
-            <DialogHeader>
-              <DialogTitle>Choose Your Workout Plan</DialogTitle>
-              <DialogDescription>
-                Select a workout plan to begin your training session.
-              </DialogDescription>
-            </DialogHeader>
-            <div className="grid gap-4 py-4">
-              {savedPlans.map((plan) => (
-                <Button
-                  key={plan.name}
-                  variant="outline"
-                  className="w-full justify-start"
-                  onClick={() => handlePlanSelect(plan)}
-                >
-                  {plan.name}
-                </Button>
-              ))}
+          savedPlans.length === 0 ? (
+            <div className="text-center">
+              <div className="text-3xl font-bold mb-2">No workout plans</div>
+              <div className="text-muted-foreground">
+                You don't have any saved workout plans. Create a new workout
+                plan to get started.
+              </div>
             </div>
-          </>
+          ) : (
+            <>
+              <DialogHeader>
+                <DialogTitle>Choose Your Workout Plan</DialogTitle>
+                <DialogDescription>
+                  Select a workout plan to begin your training session.
+                </DialogDescription>
+              </DialogHeader>
+              <div className="grid gap-4 py-4">
+                {savedPlans.map((plan) => (
+                  <Button
+                    key={plan.name}
+                    variant="outline"
+                    className="w-full justify-start"
+                    onClick={() => handlePlanSelect(plan)}
+                  >
+                    {plan.name}
+                  </Button>
+                ))}
+              </div>
+            </>
+          )
         ) : (
           <div className="space-y-6">
             <DialogHeader>
