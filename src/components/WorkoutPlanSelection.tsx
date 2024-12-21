@@ -21,8 +21,8 @@ export function WorkoutPlanSelection({ savedPlans, onSelectPlan }: WorkoutPlanSe
   }
 
   return (
-    <div className="flex flex-col h-full sm:h-[400px] justify-center max-w-md mx-auto w-full">
-      <DialogHeader className="text-left py-4">
+    <div className="flex flex-col h-full sm:h-[350px] justify-center max-w-md mx-auto w-full">
+      <DialogHeader className="text-left py-4 px-4">
         <DialogTitle className="text-white text-2xl">
           Choose Your Workout Plan
         </DialogTitle>
