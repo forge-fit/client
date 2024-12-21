@@ -17,11 +17,15 @@ import { WorkoutPlanSelection } from "./WorkoutPlanSelection";
 import { WorkoutNavigation } from "./WorkoutNavigation";
 
 interface WorkoutPlayerDialogProps {
-  savedPlans: WorkoutPlan[];
+  savedPlans?: WorkoutPlan[];
+  initialWorkoutPlan?: WorkoutPlan;
 }
 
-export function WorkoutPlayerDialog({ savedPlans }: WorkoutPlayerDialogProps) {
-  const [selectedPlan, setSelectedPlan] = useState<WorkoutPlan | null>(null);
+export function WorkoutPlayerDialog({ 
+  savedPlans = [], 
+  initialWorkoutPlan 
+}: WorkoutPlayerDialogProps) {
+  const [selectedPlan, setSelectedPlan] = useState<WorkoutPlan | null>(initialWorkoutPlan || null);
   const [currentExerciseIndex, setCurrentExerciseIndex] = useState(0);
   const [currentSet, setCurrentSet] = useState(1);
   const [isResting, setIsResting] = useState(false);
@@ -120,7 +124,7 @@ export function WorkoutPlayerDialog({ savedPlans }: WorkoutPlayerDialogProps) {
         <Button
           variant="default"
           size="lg"
-          className="relative overflow-hidden group bg-primary text-white p-4 h-14"
+          className="relative overflow-hidden group bg-primary text-white p-4 h-14 w-full"
         >
           <Play className="w-5 h-5 mr-2" /> Start Training
           <span className="absolute inset-0 bg-gradient-to-r from-transparent via-white/40 to-transparent opacity-0 group-hover:opacity-100 group-hover:animate-lightSweep pointer-events-none"></span>
@@ -134,7 +138,7 @@ export function WorkoutPlayerDialog({ savedPlans }: WorkoutPlayerDialogProps) {
         } bg-gradient-to-br from-primary-600 via-primary-700 to-primary-800 text-white border-none`}
       >
         <DialogClose ref={closeDialogRef} className="hidden" />
-        {!selectedPlan ? (
+        {!selectedPlan && !initialWorkoutPlan ? (
           <div className="h-full flex items-center">
             <WorkoutPlanSelection
               savedPlans={savedPlans}
@@ -150,11 +154,11 @@ export function WorkoutPlayerDialog({ savedPlans }: WorkoutPlayerDialogProps) {
             {isMobile && (
               <div className="text-center pt-4">
                 <h2 className="text-2xl font-bold text-white">
-                  {selectedPlan.name}
+                  {selectedPlan?.name}
                 </h2>
                 <p className="text-primary-100">
                   Exercise {currentExerciseIndex + 1} of{" "}
-                  {selectedPlan.exercises.length}
+                  {selectedPlan?.exercises.length}
                 </p>
               </div>
             )}
@@ -171,14 +175,14 @@ export function WorkoutPlayerDialog({ savedPlans }: WorkoutPlayerDialogProps) {
                     setCurrentSet((prev) => prev + 1);
                   }}
                 />
-              ) : currentExercise ? (
+              ) : selectedPlan?.exercises[currentExerciseIndex] ? (
                 <ExerciseDisplay
-                  exerciseName={currentExercise.name}
+                  exerciseName={selectedPlan.exercises[currentExerciseIndex].name}
                   currentSet={currentSet}
-                  totalSets={parseInt(currentExercise.sets)}
-                  reps={currentExercise.reps}
-                  weight={currentExercise.weight}
-                  notes={currentExercise.notes}
+                  totalSets={parseInt(selectedPlan.exercises[currentExerciseIndex].sets)}
+                  reps={selectedPlan.exercises[currentExerciseIndex].reps}
+                  weight={selectedPlan.exercises[currentExerciseIndex].weight}
+                  notes={selectedPlan.exercises[currentExerciseIndex].notes}
                 />
               ) : null}
             </div>
@@ -190,7 +194,9 @@ export function WorkoutPlayerDialog({ savedPlans }: WorkoutPlayerDialogProps) {
                   onNext={handleNextSet}
                   isPreviousDisabled={currentExerciseIndex === 0}
                   nextButtonText={
-                    currentSet < totalSets ? "Next Set" : "Next Exercise"
+                    currentSet < (selectedPlan?.exercises[currentExerciseIndex]?.sets ? parseInt(selectedPlan.exercises[currentExerciseIndex].sets) : 0)
+                      ? "Next Set"
+                      : "Next Exercise"
                   }
                 />
                 <div className="px-4">
