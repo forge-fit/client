@@ -133,18 +133,18 @@ export function WorkoutPlanForm({ onSavePlan, initialPlans = [] }: WorkoutPlanFo
       </Card>
 
       {savedPlans.length > 0 && (
-        <Card className="overflow-hidden">
-          <CardHeader>
-            <CardTitle>Saved Workout Plans</CardTitle>
-          </CardHeader>
-          <CardContent className="p-0 sm:p-6">
+        <div className="bg-background rounded-lg border shadow-sm">
+          <div className="p-6 border-b">
+            <h3 className="text-lg font-semibold">Saved Workout Plans</h3>
+          </div>
+          <div className="p-0 sm:p-6">
             <SavedWorkoutPlansTable
               savedPlans={savedPlans}
               onEditPlan={handleEditPlan}
               onDeletePlan={handleDeletePlan}
             />
-          </CardContent>
-        </Card>
+          </div>
+        </div>
       )}
     </div>
   );
