@@ -118,12 +118,10 @@ export function WorkoutPlayerDialog({ savedPlans }: WorkoutPlayerDialogProps) {
         } bg-gradient-to-br from-primary-600 via-primary-700 to-primary-800 text-white border-none`}
       >
         {!selectedPlan ? (
-          <div className="h-full flex items-center justify-center">
-            <WorkoutPlanSelection 
-              savedPlans={savedPlans} 
-              onSelectPlan={handlePlanSelect} 
-            />
-          </div>
+          <WorkoutPlanSelection 
+            savedPlans={savedPlans} 
+            onSelectPlan={handlePlanSelect} 
+          />
         ) : (
           <div className={`space-y-6 ${isMobile ? 'h-full flex flex-col' : ''}`}>
             {isMobile && (
