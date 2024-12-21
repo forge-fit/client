@@ -18,8 +18,8 @@ export function ExerciseDisplay({
   notes,
 }: ExerciseDisplayProps) {
   return (
-    <div className="space-y-8 w-full px-4 flex flex-col items-center justify-between min-h-[400px]">
-      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 my-4 w-full max-w-lg">
+    <div className="space-y-4 w-full px-4 flex flex-col items-center justify-between min-h-[400px]">
+      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 w-full max-w-lg">
         <div className="flex items-center gap-3">
           <Dumbbell className="h-8 w-8 text-primary" />
           <h2 className="text-3xl font-bold text-white">{exerciseName}</h2>
@@ -60,7 +60,7 @@ export function ExerciseDisplay({
       </div>
 
       {notes && (
-        <div className="bg-white/5 p-4 rounded-lg w-full max-w-lg h-14 flex items-center">
+        <div className="bg-white/5 p-4 rounded-lg w-full max-w-lg h-14 flex items-center mt-auto">
           <p className="text-sm text-primary-100">{notes}</p>
         </div>
       )}
