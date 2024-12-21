@@ -1,6 +1,11 @@
 import * as React from "react";
 import { useState, useRef, useEffect } from "react";
-import { Dialog, DialogContent, DialogTrigger, DialogClose } from "@/components/ui/dialog";
+import {
+  Dialog,
+  DialogContent,
+  DialogTrigger,
+  DialogClose,
+} from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { WorkoutPlan } from "./WorkoutPlanForm";
 import { Play, StopCircle } from "lucide-react";
@@ -125,7 +130,7 @@ export function WorkoutPlayerDialog({ savedPlans }: WorkoutPlayerDialogProps) {
         className={`${
           isMobile
             ? "w-screen h-screen max-w-none m-0 rounded-none flex flex-col"
-            : "sm:max-w-[500px] h-[600px] flex flex-col"
+            : "sm:max-w-[500px] flex flex-col"
         } bg-gradient-to-br from-primary-600 via-primary-700 to-primary-800 text-white border-none`}
       >
         <DialogClose ref={closeDialogRef} className="hidden" />
@@ -137,7 +142,11 @@ export function WorkoutPlayerDialog({ savedPlans }: WorkoutPlayerDialogProps) {
             />
           </div>
         ) : (
-          <div className={`space-y-6 ${isMobile ? "h-full" : "h-full"} flex flex-col`}>
+          <div
+            className={`space-y-6 ${
+              isMobile ? "h-full" : "h-full"
+            } flex flex-col`}
+          >
             {isMobile && (
               <div className="text-center pt-4">
                 <h2 className="text-2xl font-bold text-white">

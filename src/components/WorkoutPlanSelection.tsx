@@ -1,5 +1,9 @@
 import { Button } from "@/components/ui/button";
-import { DialogHeader, DialogTitle, DialogDescription } from "@/components/ui/dialog";
+import {
+  DialogHeader,
+  DialogTitle,
+  DialogDescription,
+} from "@/components/ui/dialog";
 import { WorkoutPlan } from "./WorkoutPlanForm";
 
 interface WorkoutPlanSelectionProps {
@@ -7,14 +11,17 @@ interface WorkoutPlanSelectionProps {
   onSelectPlan: (plan: WorkoutPlan) => void;
 }
 
-export function WorkoutPlanSelection({ savedPlans, onSelectPlan }: WorkoutPlanSelectionProps) {
+export function WorkoutPlanSelection({
+  savedPlans,
+  onSelectPlan,
+}: WorkoutPlanSelectionProps) {
   if (savedPlans.length === 0) {
     return (
       <div className="text-center h-full flex flex-col items-center justify-center">
         <div className="text-3xl font-bold mb-2">No workout plans</div>
         <div className="text-primary-100">
-          You don't have any saved workout plans. Create a new workout
-          plan to get started.
+          You don't have any saved workout plans. Create a new workout plan to
+          get started.
         </div>
       </div>
     );
