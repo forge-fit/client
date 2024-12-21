@@ -125,7 +125,7 @@ export function WorkoutPlayerDialog({ savedPlans }: WorkoutPlayerDialogProps) {
             />
           </div>
         ) : (
-          <div className={`space-y-6 ${isMobile ? 'h-full flex flex-col' : ''}`}>
+          <div className={`space-y-6 ${isMobile ? 'h-full' : ''} flex flex-col`}>
             {isMobile && (
               <div className="text-center pt-4">
                 <h2 className="text-2xl font-bold text-white">{selectedPlan.name}</h2>
@@ -135,7 +135,7 @@ export function WorkoutPlayerDialog({ savedPlans }: WorkoutPlayerDialogProps) {
               </div>
             )}
 
-            <div className={`${isMobile ? 'flex-1 flex items-center' : ''}`}>
+            <div className="flex-1">
               {isResting ? (
                 <RestTimer
                   restTimeLeft={restTimeLeft}
@@ -160,7 +160,7 @@ export function WorkoutPlayerDialog({ savedPlans }: WorkoutPlayerDialogProps) {
             </div>
 
             {!isResting && (
-              <div className={`${isMobile ? 'mt-auto pb-4' : ''}`}>
+              <div className="mt-auto pb-4">
                 <WorkoutNavigation
                   onPrevious={handlePrevExercise}
                   onNext={handleNextSet}
