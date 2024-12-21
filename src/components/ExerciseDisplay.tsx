@@ -35,7 +35,7 @@ export function ExerciseDisplay({
       </div>
       
       <div className="grid gap-4 w-full max-w-lg">
-        <div className="flex items-center justify-between bg-white/10 p-4 rounded-lg w-full h-[60px]">
+        <div className="flex items-center justify-between bg-white/10 p-4 rounded-lg w-full h-14">
           <div className="flex items-center gap-2">
             <Clock className="h-6 w-6 text-primary-100" />
             <span className="text-xl font-semibold text-white">Sets Progress</span>
@@ -44,7 +44,7 @@ export function ExerciseDisplay({
         </div>
         
         {reps && (
-          <div className="flex items-center justify-between bg-white/10 p-4 rounded-lg w-full h-[60px]">
+          <div className="flex items-center justify-between bg-white/10 p-4 rounded-lg w-full h-14">
             <div className="flex items-center gap-2">
               <Repeat className="h-6 w-6 text-primary-100" />
               <span className="text-xl font-semibold text-white">Target</span>
