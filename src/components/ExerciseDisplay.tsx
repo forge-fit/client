@@ -24,6 +24,14 @@ export function ExerciseDisplay({
           <Dumbbell className="h-8 w-8 text-primary" />
           <h2 className="text-3xl font-bold text-white">{exerciseName}</h2>
         </div>
+        {weight && weight.value && (
+          <div className="flex items-center gap-2 bg-white/10 px-4 py-2 rounded-lg">
+            <Weight className="h-6 w-6 text-primary-100" />
+            <span className="text-xl font-bold text-primary-100">
+              {weight.value}{weight.unit}
+            </span>
+          </div>
+        )}
       </div>
       
       <div className="grid gap-4">
@@ -43,18 +51,6 @@ export function ExerciseDisplay({
             </div>
             <span className="text-xl text-primary-100">
               {reps} reps
-            </span>
-          </div>
-        )}
-
-        {weight && weight.value && (
-          <div className="flex items-center justify-between bg-white/10 p-4 rounded-lg">
-            <div className="flex items-center gap-2">
-              <Weight className="h-6 w-6 text-primary-100" />
-              <span className="text-xl font-semibold text-white">Weight</span>
-            </div>
-            <span className="text-xl text-primary-100">
-              {weight.value}{weight.unit}
             </span>
           </div>
         )}
