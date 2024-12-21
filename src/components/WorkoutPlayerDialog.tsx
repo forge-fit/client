@@ -19,11 +19,13 @@ import { WorkoutNavigation } from "./WorkoutNavigation";
 interface WorkoutPlayerDialogProps {
   savedPlans?: WorkoutPlan[];
   initialWorkoutPlan?: WorkoutPlan;
+  onStart?: () => void;
 }
 
 export function WorkoutPlayerDialog({ 
   savedPlans = [], 
-  initialWorkoutPlan 
+  initialWorkoutPlan,
+  onStart
 }: WorkoutPlayerDialogProps) {
   const [selectedPlan, setSelectedPlan] = useState<WorkoutPlan | null>(initialWorkoutPlan || null);
   const [currentExerciseIndex, setCurrentExerciseIndex] = useState(0);
@@ -41,6 +43,7 @@ export function WorkoutPlayerDialog({
     setCurrentExerciseIndex(0);
     setCurrentSet(1);
     setIsResting(false);
+    onStart?.();
   };
 
   const currentExercise = selectedPlan?.exercises[currentExerciseIndex];

@@ -5,10 +5,12 @@ import {
   DialogHeader,
   DialogTitle,
   DialogTrigger,
+  DialogClose,
 } from "@/components/ui/dialog";
 import { Exercise, WorkoutPlan } from "./WorkoutPlanForm";
 import { WorkoutPlayerDialog } from "./WorkoutPlayerDialog";
-import { Clock, Dumbbell } from "lucide-react";
+import { Clock, Dumbbell, Weight, Repeat } from "lucide-react";
+import { useRef } from "react";
 
 interface FeaturedWorkoutDialogProps {
   children: React.ReactNode;
@@ -32,6 +34,12 @@ export function FeaturedWorkoutDialog({
   const workoutPlan: WorkoutPlan = {
     name: title,
     exercises: exercises,
+  };
+  
+  const closeDialogRef = useRef<HTMLButtonElement>(null);
+
+  const handleStartWorkout = () => {
+    closeDialogRef.current?.click();
   };
 
   return (
@@ -61,21 +69,45 @@ export function FeaturedWorkoutDialog({
                 <span>{difficulty}</span>
               </div>
             </div>
-            <div className="space-y-2">
-              <h3 className="font-semibold">Exercises:</h3>
-              <ul className="list-disc pl-5 space-y-1">
+            <div className="space-y-4">
+              <h3 className="font-semibold text-lg">Exercises:</h3>
+              <div className="grid gap-3">
                 {exercises.map((exercise, index) => (
-                  <li key={index}>
-                    {exercise.name} - {exercise.sets} sets × {exercise.reps} reps{" "}
-                    {exercise.weight.value > 0
-                      ? `@ ${exercise.weight.value}${exercise.weight.unit}`
-                      : ""}
-                  </li>
+                  <div
+                    key={index}
+                    className="bg-accent/50 p-4 rounded-lg space-y-2 animate-fade-in"
+                  >
+                    <h4 className="font-medium text-primary flex items-center gap-2">
+                      <Dumbbell className="w-4 h-4" />
+                      {exercise.name}
+                    </h4>
+                    <div className="flex flex-wrap gap-3 text-sm text-muted-foreground">
+                      <div className="flex items-center gap-1">
+                        <Repeat className="w-4 h-4" />
+                        <span>{exercise.sets} sets × {exercise.reps} reps</span>
+                      </div>
+                      {Number(exercise.weight.value) > 0 && (
+                        <div className="flex items-center gap-1">
+                          <Weight className="w-4 h-4" />
+                          <span>{exercise.weight.value}{exercise.weight.unit}</span>
+                        </div>
+                      )}
+                    </div>
+                    {exercise.notes && (
+                      <p className="text-sm text-muted-foreground mt-1">
+                        {exercise.notes}
+                      </p>
+                    )}
+                  </div>
                 ))}
-              </ul>
+              </div>
             </div>
             <div className="pt-4">
-              <WorkoutPlayerDialog initialWorkoutPlan={workoutPlan} />
+              <DialogClose ref={closeDialogRef} className="hidden" />
+              <WorkoutPlayerDialog 
+                initialWorkoutPlan={workoutPlan} 
+                onStart={handleStartWorkout}
+              />
             </div>
           </div>
         </div>
