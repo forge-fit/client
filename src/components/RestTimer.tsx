@@ -32,7 +32,7 @@ export function RestTimer({
         <Button
           onClick={onToggleTimer}
           variant="secondary"
-          className="flex-1 sm:flex-none"
+          className="bg-white/10 hover:bg-white/20 text-white flex-1 sm:flex-none"
         >
           {isTimerPaused ? (
             <>
@@ -49,7 +49,7 @@ export function RestTimer({
         <Button
           onClick={onExtendTime}
           variant="secondary"
-          className="flex-1 sm:flex-none"
+          className="bg-white/10 hover:bg-white/20 text-white flex-1 sm:flex-none"
         >
           <Timer className="mr-2" />
           +30s
@@ -57,7 +57,7 @@ export function RestTimer({
         <Button
           onClick={onSkipRest}
           variant="secondary"
-          className="flex-1 sm:flex-none"
+          className="bg-white/10 hover:bg-white/20 text-white flex-1 sm:flex-none"
         >
           <SkipForward className="mr-2" />
           Skip
