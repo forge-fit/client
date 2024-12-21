@@ -19,7 +19,7 @@ export function ExerciseDisplay({
 }: ExerciseDisplayProps) {
   return (
     <div className="space-y-6">
-      <div className="flex items-center justify-between">
+      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
         <div className="flex items-center gap-3">
           <Dumbbell className="h-8 w-8 text-primary" />
           <h2 className="text-3xl font-bold text-white">{exerciseName}</h2>
