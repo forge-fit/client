@@ -133,8 +133,8 @@ export function WorkoutPlanForm({ onSavePlan, initialPlans = [] }: WorkoutPlanFo
       </Card>
 
       {savedPlans.length > 0 && (
-        <div className="bg-background rounded-lg border shadow-sm">
-          <div className="p-6 border-b">
+        <div className="bg-background rounded-lg">
+          <div className="p-6">
             <h3 className="text-lg font-semibold">Saved Workout Plans</h3>
           </div>
           <div className="p-0 sm:p-6">
