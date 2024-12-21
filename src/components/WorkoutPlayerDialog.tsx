@@ -7,7 +7,7 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
-import { useState } from "react";
+import { useState, useRef, useEffect } from "react";
 import { WorkoutPlan } from "./WorkoutPlanForm";
 import { ChevronLeft, ChevronRight, Play } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
@@ -24,6 +24,7 @@ export function WorkoutPlayerDialog({ savedPlans }: WorkoutPlayerDialogProps) {
   const [isResting, setIsResting] = useState(false);
   const [restTimeLeft, setRestTimeLeft] = useState(60);
   const [isTimerPaused, setIsTimerPaused] = useState(false);
+  const timerRef = useRef<NodeJS.Timeout | null>(null);
   const { toast } = useToast();
 
   const handlePlanSelect = (plan: WorkoutPlan) => {
@@ -36,20 +37,35 @@ export function WorkoutPlayerDialog({ savedPlans }: WorkoutPlayerDialogProps) {
   const currentExercise = selectedPlan?.exercises[currentExerciseIndex];
   const totalSets = currentExercise ? parseInt(currentExercise.sets) : 0;
 
+  useEffect(() => {
+    if (isResting && !isTimerPaused && restTimeLeft > 0) {
+      timerRef.current = setInterval(() => {
+        setRestTimeLeft((prev) => {
+          if (prev <= 1) {
+            if (timerRef.current) {
+              clearInterval(timerRef.current);
+            }
+            setIsResting(false);
+            setCurrentSet((prev) => prev + 1);
+            return 60;
+          }
+          return prev - 1;
+        });
+      }, 1000);
+
+      return () => {
+        if (timerRef.current) {
+          clearInterval(timerRef.current);
+        }
+      };
+    }
+  }, [isResting, isTimerPaused, restTimeLeft]);
+
   const handleNextSet = () => {
     if (currentSet < totalSets) {
       setIsResting(true);
       setRestTimeLeft(60);
       setIsTimerPaused(false);
-      const timer = setInterval(() => {
-        setRestTimeLeft((prev) => {
-          if (prev <= 1) {
-            clearInterval(timer);
-            return 0;
-          }
-          return prev - 1;
-        });
-      }, 1000);
     } else {
       handleNextExercise();
     }
