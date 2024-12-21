@@ -7,7 +7,7 @@ import {
   DialogTrigger,
   DialogClose,
 } from "@/components/ui/dialog";
-import { ScrollArea } from "@/components/ui/scroll-area";  // Add ScrollArea import
+import { ScrollArea } from "@/components/ui/scroll-area";
 import { Exercise, WorkoutPlan } from "./WorkoutPlanForm";
 import { WorkoutPlayerDialog } from "./WorkoutPlayerDialog";
 import { Clock, Dumbbell, Weight, Repeat } from "lucide-react";
@@ -49,7 +49,7 @@ export function FeaturedWorkoutDialog({
         <DialogHeader>
           <DialogTitle className="text-2xl font-bold">{title}</DialogTitle>
         </DialogHeader>
-        <ScrollArea className="h-[500px] pr-4">  {/* Add ScrollArea with fixed height */}
+        <ScrollArea className="h-[500px] pr-4">
           <div className="space-y-6">
             <div className="space-y-4">
               <p className="text-gray-600">{description}</p>
