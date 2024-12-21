@@ -8,6 +8,12 @@ import { SavedWorkoutPlansTable } from "./SavedWorkoutPlansTable";
 import { AddExerciseDialog } from "./AddExerciseDialog";
 import { ExerciseList } from "./ExerciseList";
 import { useIsMobile } from "@/hooks/use-mobile";
+import { useAppDispatch, useAppSelector } from "@/store/hooks";
+import {
+  addWorkoutPlan,
+  updateWorkoutPlan,
+  deleteWorkoutPlan,
+} from "@/store/workoutPlanSlice";
 
 export interface Exercise {
   name: string;
@@ -22,18 +28,15 @@ export interface WorkoutPlan {
   exercises: Exercise[];
 }
 
-interface WorkoutPlanFormProps {
-  onSavePlan?: (plan: WorkoutPlan) => void;
-  initialPlans?: WorkoutPlan[];
-}
-
-export function WorkoutPlanForm({ onSavePlan, initialPlans = [] }: WorkoutPlanFormProps) {
+export function WorkoutPlanForm() {
   const [workoutName, setWorkoutName] = useState("");
   const [exercises, setExercises] = useState<Exercise[]>([]);
-  const [savedPlans, setSavedPlans] = useState<WorkoutPlan[]>(initialPlans);
   const [editingPlanIndex, setEditingPlanIndex] = useState<number | null>(null);
   const { toast } = useToast();
   const isMobile = useIsMobile();
+
+  const dispatch = useAppDispatch();
+  const savedPlans = useAppSelector((state) => state.workoutPlan.plans);
 
   const addExercise = (exercise: Exercise) => {
     setExercises([...exercises, exercise]);
@@ -52,8 +55,7 @@ export function WorkoutPlanForm({ onSavePlan, initialPlans = [] }: WorkoutPlanFo
   };
 
   const handleDeletePlan = (plan: WorkoutPlan) => {
-    const updatedPlans = savedPlans.filter((p) => p.name !== plan.name);
-    setSavedPlans(updatedPlans);
+    dispatch(deleteWorkoutPlan(plan.name));
     toast({
       title: "Success",
       description: "Workout plan has been deleted.",
@@ -70,9 +72,7 @@ export function WorkoutPlanForm({ onSavePlan, initialPlans = [] }: WorkoutPlanFo
     };
 
     if (editingPlanIndex !== null) {
-      const updatedPlans = [...savedPlans];
-      updatedPlans[editingPlanIndex] = newPlan;
-      setSavedPlans(updatedPlans);
+      dispatch(updateWorkoutPlan(newPlan));
       setEditingPlanIndex(null);
       toast({
         title: "Success",
@@ -80,8 +80,7 @@ export function WorkoutPlanForm({ onSavePlan, initialPlans = [] }: WorkoutPlanFo
         duration: 3000,
       });
     } else {
-      setSavedPlans([...savedPlans, newPlan]);
-      onSavePlan?.(newPlan);
+      dispatch(addWorkoutPlan(newPlan));
       toast({
         title: "Success",
         description: "Workout plan has been saved!",
@@ -96,18 +95,26 @@ export function WorkoutPlanForm({ onSavePlan, initialPlans = [] }: WorkoutPlanFo
   return (
     <div className="space-y-6">
       <h2 className="text-3xl font-bold">
-        {editingPlanIndex !== null ? "Edit Workout Plan" : "Create Workout Plan"}
+        {editingPlanIndex !== null
+          ? "Edit Workout Plan"
+          : "Create Workout Plan"}
       </h2>
       <Card>
         <CardHeader>
           <CardTitle>
-            {editingPlanIndex !== null ? "Edit Workout Plan" : "New Workout Plan"}
+            {editingPlanIndex !== null
+              ? "Edit Workout Plan"
+              : "New Workout Plan"}
           </CardTitle>
         </CardHeader>
         <CardContent>
           <form onSubmit={handleSubmit} className="space-y-6">
             <Input
-              placeholder={isMobile ? "Plan Name" : "Workout Name (e.g., Leg Day, Easy Yoga)"}
+              placeholder={
+                isMobile
+                  ? "Plan Name"
+                  : "Workout Name (e.g., Leg Day, Easy Yoga)"
+              }
               value={workoutName}
               onChange={(e) => setWorkoutName(e.target.value)}
             />

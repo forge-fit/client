@@ -7,7 +7,7 @@ interface MobileWorkoutPlanProps {
   initialWorkoutPlans: WorkoutPlan[];
 }
 
-const MobileWorkoutPlan = ({ initialWorkoutPlans }: MobileWorkoutPlanProps) => {
+const MobileWorkoutPlan = () => {
   const navigate = useNavigate();
 
   return (
@@ -18,7 +18,7 @@ const MobileWorkoutPlan = ({ initialWorkoutPlans }: MobileWorkoutPlanProps) => {
             variant="ghost"
             size="icon"
             className="mr-2"
-            onClick={() => navigate('/')}
+            onClick={() => navigate("/")}
           >
             <ArrowLeft className="h-4 w-4" />
           </Button>
@@ -26,7 +26,7 @@ const MobileWorkoutPlan = ({ initialWorkoutPlans }: MobileWorkoutPlanProps) => {
         </div>
       </div>
       <div className="container py-4">
-        <WorkoutPlanForm initialPlans={initialWorkoutPlans} />
+        <WorkoutPlanForm />
       </div>
     </div>
   );

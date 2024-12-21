@@ -18,7 +18,7 @@ export function RestTimer({
   onSkipRest,
 }: RestTimerProps) {
   return (
-    <div className="flex flex-col items-center w-full h-full min-h-[calc(100vh-120px)] sm:min-h-[400px]">
+    <div className="flex flex-col items-center justify-between w-full h-full min-h-[400px]">
       <div className="flex-1 flex items-center justify-center w-full">
         <div className="flex flex-col items-center space-y-4">
           <div className="scale-150">
@@ -27,8 +27,8 @@ export function RestTimer({
           <div className="text-lg text-white/80">Rest Time</div>
         </div>
       </div>
-      
-      <div className="flex justify-between w-full px-4 pb-4">
+
+      <div className="flex justify-between w-full px-4">
         <Button
           onClick={onToggleTimer}
           variant="secondary"

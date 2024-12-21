@@ -13,38 +13,66 @@ import { useToast } from "@/hooks/use-toast";
 import { RestTimer } from "./RestTimer";
 import { ExerciseDisplay } from "./ExerciseDisplay";
 import { useIsMobile } from "@/hooks/use-mobile";
-import { WorkoutPlanSelection } from "./WorkoutPlanSelection";
 import { WorkoutNavigation } from "./WorkoutNavigation";
+import { useAppDispatch, useAppSelector } from "@/store/hooks";
+import { setSelectedPlan } from "@/store/workoutPlanSlice";
+import { useDialog } from "@/hooks/use-dialog";
+import { WorkoutCompletionDialog } from "./WorkoutCompletionDialog";
+import {
+  startWorkout,
+  updateActiveWorkout,
+  completeWorkout,
+  updateWorkoutState,
+} from "@/store/workoutProgressSlice";
+import { WorkoutProgressBar } from "./WorkoutProgressBar";
+import { setWorkoutVisibility } from "@/store/workoutPlanSlice";
 
 interface WorkoutPlayerDialogProps {
-  savedPlans?: WorkoutPlan[];
-  initialWorkoutPlan?: WorkoutPlan;
-  onStart?: () => void;
+  dialog: ReturnType<typeof useDialog>;
 }
 
-export function WorkoutPlayerDialog({ 
-  savedPlans = [], 
-  initialWorkoutPlan,
-  onStart
-}: WorkoutPlayerDialogProps) {
-  const [selectedPlan, setSelectedPlan] = useState<WorkoutPlan | null>(initialWorkoutPlan || null);
-  const [currentExerciseIndex, setCurrentExerciseIndex] = useState(0);
-  const [currentSet, setCurrentSet] = useState(1);
-  const [isResting, setIsResting] = useState(false);
-  const [restTimeLeft, setRestTimeLeft] = useState(60);
+export function WorkoutPlayerDialog({ dialog }: WorkoutPlayerDialogProps) {
+  const dispatch = useAppDispatch();
+  const savedPlans = useAppSelector((state) => state.workoutPlan.plans);
+  const selectedPlan = useAppSelector(
+    (state) => state.workoutPlan.selectedPlan
+  );
+  const workoutState = useAppSelector(
+    (state) => state.workoutProgress.workoutState
+  );
+  const [currentExerciseIndex, setCurrentExerciseIndex] = useState(
+    workoutState?.currentExerciseIndex ?? 0
+  );
+  const [currentSet, setCurrentSet] = useState(workoutState?.currentSet ?? 1);
+  const [isResting, setIsResting] = useState(workoutState?.isResting ?? false);
+  const [restTimeLeft, setRestTimeLeft] = useState(
+    workoutState?.restTimeLeft ?? 60
+  );
   const [isTimerPaused, setIsTimerPaused] = useState(false);
   const timerRef = useRef<NodeJS.Timeout | null>(null);
   const { toast } = useToast();
   const isMobile = useIsMobile();
-  const closeDialogRef = useRef<HTMLButtonElement>(null);
+  const [showCompletion, setShowCompletion] = useState(false);
+  const [workoutDuration, setWorkoutDuration] = useState(0);
+  const startTime = useRef<Date | null>(null);
+  const activeWorkout = useAppSelector(
+    (state) => state.workoutProgress.activeWorkout
+  );
+  const isWorkoutVisible = useAppSelector(
+    (state) => state.workoutPlan.isWorkoutVisible
+  );
 
-  const handlePlanSelect = (plan: WorkoutPlan) => {
-    setSelectedPlan(plan);
-    setCurrentExerciseIndex(0);
-    setCurrentSet(1);
-    setIsResting(false);
-    onStart?.();
-  };
+  useEffect(() => {
+    if (activeWorkout && !selectedPlan) {
+      const matchingPlan = savedPlans.find(
+        (plan) => plan.name === activeWorkout.workoutId
+      );
+      if (matchingPlan) {
+        dispatch(setSelectedPlan(matchingPlan));
+        dispatch(setWorkoutVisibility(true));
+      }
+    }
+  }, [activeWorkout, selectedPlan, savedPlans, dispatch]);
 
   const currentExercise = selectedPlan?.exercises[currentExerciseIndex];
   const totalSets = currentExercise ? parseInt(currentExercise.sets) : 0;
@@ -73,6 +101,25 @@ export function WorkoutPlayerDialog({
     }
   }, [isResting, isTimerPaused, restTimeLeft]);
 
+  useEffect(() => {
+    if (selectedPlan && startTime.current) {
+      const interval = setInterval(() => {
+        const duration = Math.round(
+          (new Date().getTime() - startTime.current!.getTime()) / 1000
+        );
+        dispatch(
+          updateActiveWorkout({
+            duration,
+            exercisesCompleted: currentExerciseIndex + 1,
+            totalExercises: selectedPlan.exercises.length,
+          })
+        );
+      }, 1000);
+
+      return () => clearInterval(interval);
+    }
+  }, [selectedPlan, currentExerciseIndex, dispatch]);
+
   const handleNextSet = () => {
     if (currentSet < totalSets) {
       setIsResting(true);
@@ -92,13 +139,13 @@ export function WorkoutPlayerDialog({
       setCurrentSet(1);
       setIsResting(false);
     } else {
-      toast({
-        title: "Workout Complete! 🎉",
-        description: "Great job on completing your workout!",
-      });
-      setSelectedPlan(null);
-      setCurrentExerciseIndex(0);
-      setCurrentSet(1);
+      if (startTime.current) {
+        const duration = Math.round(
+          (new Date().getTime() - startTime.current.getTime()) / 1000
+        );
+        setWorkoutDuration(duration);
+      }
+      setShowCompletion(true);
     }
   };
 
@@ -111,110 +158,171 @@ export function WorkoutPlayerDialog({
   };
 
   const handleEndWorkout = () => {
-    toast({
-      title: "Workout Ended",
-      description: "Your workout has been ended early.",
-    });
-    setSelectedPlan(null);
-    setCurrentExerciseIndex(0);
-    setCurrentSet(1);
-    closeDialogRef.current?.click();
+    if (!selectedPlan) return;
+
+    // Calculate final duration
+    if (startTime.current) {
+      const duration = Math.round(
+        (new Date().getTime() - startTime.current.getTime()) / 1000
+      );
+      setWorkoutDuration(duration);
+    }
+
+    // Show completion dialog to get user feedback
+    setShowCompletion(true);
   };
 
+  useEffect(() => {
+    if (activeWorkout) {
+      dispatch(
+        updateWorkoutState({
+          currentExerciseIndex,
+          currentSet,
+          isResting,
+          restTimeLeft,
+        })
+      );
+    }
+  }, [
+    currentExerciseIndex,
+    currentSet,
+    isResting,
+    restTimeLeft,
+    activeWorkout,
+    dispatch,
+  ]);
+
   return (
-    <Dialog>
-      <DialogTrigger asChild>
-        <Button
-          variant="default"
-          size="lg"
-          className="relative overflow-hidden group bg-primary text-white p-4 h-14 w-full"
-        >
-          <Play className="w-5 h-5 mr-2" /> Start Training
-          <span className="absolute inset-0 bg-gradient-to-r from-transparent via-white/40 to-transparent opacity-0 group-hover:opacity-100 group-hover:animate-lightSweep pointer-events-none"></span>
-        </Button>
-      </DialogTrigger>
+    <Dialog
+      open={isWorkoutVisible && dialog.isOpen}
+      onOpenChange={(open) => {
+        if (!open) {
+          dispatch(setWorkoutVisibility(false));
+          dialog.onClose();
+        } else {
+          dispatch(setWorkoutVisibility(true));
+          dialog.onOpen();
+        }
+      }}
+    >
       <DialogContent
         className={`${
           isMobile
             ? "w-screen h-screen max-w-none m-0 rounded-none flex flex-col"
             : "sm:max-w-[500px] flex flex-col"
         } bg-gradient-to-br from-primary-600 via-primary-700 to-primary-800 text-white border-none`}
+        onInteractOutside={() => {
+          dialog.onClose();
+        }}
+        onEscapeKeyDown={() => {
+          dialog.onClose();
+        }}
       >
-        <DialogClose ref={closeDialogRef} className="hidden" />
-        {!selectedPlan && !initialWorkoutPlan ? (
-          <div className="h-full flex items-center">
-            <WorkoutPlanSelection
-              savedPlans={savedPlans}
-              onSelectPlan={handlePlanSelect}
-            />
-          </div>
-        ) : (
-          <div
-            className={`space-y-6 ${
-              isMobile ? "h-full" : "h-full"
-            } flex flex-col`}
-          >
-            {isMobile && (
-              <div className="text-center pt-4">
-                <h2 className="text-2xl font-bold text-white">
-                  {selectedPlan?.name}
-                </h2>
-                <p className="text-primary-100">
-                  Exercise {currentExerciseIndex + 1} of{" "}
-                  {selectedPlan?.exercises.length}
-                </p>
-              </div>
-            )}
-
-            <div className="flex-1">
-              {isResting ? (
-                <RestTimer
-                  restTimeLeft={restTimeLeft}
-                  isTimerPaused={isTimerPaused}
-                  onToggleTimer={() => setIsTimerPaused((prev) => !prev)}
-                  onExtendTime={() => setRestTimeLeft((prev) => prev + 30)}
-                  onSkipRest={() => {
-                    setIsResting(false);
-                    setCurrentSet((prev) => prev + 1);
-                  }}
-                />
-              ) : selectedPlan?.exercises[currentExerciseIndex] ? (
-                <ExerciseDisplay
-                  exerciseName={selectedPlan.exercises[currentExerciseIndex].name}
-                  currentSet={currentSet}
-                  totalSets={parseInt(selectedPlan.exercises[currentExerciseIndex].sets)}
-                  reps={selectedPlan.exercises[currentExerciseIndex].reps}
-                  weight={selectedPlan.exercises[currentExerciseIndex].weight}
-                  notes={selectedPlan.exercises[currentExerciseIndex].notes}
-                />
-              ) : null}
+        <div className={`space-y-6 h-full flex flex-col`}>
+          {isMobile && (
+            <div className="text-center pt-4">
+              <h2 className="text-2xl font-bold text-white">
+                {selectedPlan?.name}
+              </h2>
+              <p className="text-primary-100">
+                Exercise {currentExerciseIndex + 1} of{" "}
+                {selectedPlan?.exercises.length}
+              </p>
             </div>
+          )}
 
-            {!isResting && (
-              <div className="mt-auto pb-4 space-y-4">
-                <WorkoutNavigation
-                  onPrevious={handlePrevExercise}
-                  onNext={handleNextSet}
-                  isPreviousDisabled={currentExerciseIndex === 0}
-                  nextButtonText={
-                    currentSet < (selectedPlan?.exercises[currentExerciseIndex]?.sets ? parseInt(selectedPlan.exercises[currentExerciseIndex].sets) : 0)
-                      ? "Next Set"
-                      : "Next Exercise"
-                  }
-                />
-                <div className="px-4">
-                  <Button
-                    onClick={handleEndWorkout}
-                    variant="secondary"
-                    className="w-full bg-white/10 hover:bg-white/20 text-white h-14"
-                  >
-                    <StopCircle className="mr-2 h-5 w-5" /> End Workout
-                  </Button>
-                </div>
+          {selectedPlan && (
+            <div className="px-4 space-y-2">
+              <WorkoutProgressBar
+                currentExercise={currentExerciseIndex}
+                totalExercises={selectedPlan.exercises.length}
+              />
+              <div className="flex justify-between text-xs text-primary-100">
+                <span>
+                  Exercise {currentExerciseIndex + 1} of{" "}
+                  {selectedPlan.exercises.length}
+                </span>
+                <span>
+                  {selectedPlan.exercises[currentExerciseIndex]?.name}
+                </span>
               </div>
-            )}
+            </div>
+          )}
+
+          <div className="flex-1">
+            {isResting ? (
+              <RestTimer
+                restTimeLeft={restTimeLeft}
+                isTimerPaused={isTimerPaused}
+                onToggleTimer={() => setIsTimerPaused((prev) => !prev)}
+                onExtendTime={() => setRestTimeLeft((prev) => prev + 30)}
+                onSkipRest={() => {
+                  setIsResting(false);
+                  setCurrentSet((prev) => prev + 1);
+                }}
+              />
+            ) : selectedPlan?.exercises[currentExerciseIndex] ? (
+              <ExerciseDisplay
+                exerciseName={selectedPlan.exercises[currentExerciseIndex].name}
+                currentSet={currentSet}
+                totalSets={parseInt(
+                  selectedPlan.exercises[currentExerciseIndex].sets
+                )}
+                reps={selectedPlan.exercises[currentExerciseIndex].reps}
+                weight={selectedPlan.exercises[currentExerciseIndex].weight}
+                notes={selectedPlan.exercises[currentExerciseIndex].notes}
+              />
+            ) : null}
           </div>
-        )}
+
+          {!isResting && (
+            <div className="mt-auto pb-4 space-y-4">
+              <WorkoutNavigation
+                onPrevious={handlePrevExercise}
+                onNext={handleNextSet}
+                isPreviousDisabled={currentExerciseIndex === 0}
+                nextButtonText={
+                  currentSet <
+                  (selectedPlan?.exercises[currentExerciseIndex]?.sets
+                    ? parseInt(
+                        selectedPlan.exercises[currentExerciseIndex].sets
+                      )
+                    : 0)
+                    ? "Next Set"
+                    : "Next Exercise"
+                }
+              />
+              <div className="px-4">
+                <Button
+                  onClick={handleEndWorkout}
+                  variant="secondary"
+                  className="w-full bg-white/10 hover:bg-white/20 text-white h-14"
+                >
+                  <StopCircle className="mr-2 h-5 w-5" /> End Workout
+                </Button>
+              </div>
+            </div>
+          )}
+
+          {showCompletion && selectedPlan && (
+            <WorkoutCompletionDialog
+              open={showCompletion}
+              onClose={() => {
+                setShowCompletion(false);
+                setCurrentExerciseIndex(0);
+                setCurrentSet(1);
+                startTime.current = null;
+                dialog.onClose();
+              }}
+              workout={selectedPlan}
+              duration={workoutDuration}
+              currentExerciseIndex={currentExerciseIndex}
+              isEarlyEnd={
+                currentExerciseIndex < selectedPlan.exercises.length - 1
+              }
+            />
+          )}
+        </div>
       </DialogContent>
     </Dialog>
   );
