@@ -18,7 +18,7 @@ export function RestTimer({
   onSkipRest,
 }: RestTimerProps) {
   return (
-    <div className="flex flex-col items-center justify-center w-full space-y-6">
+    <div className="flex flex-col items-center justify-center w-full min-h-[400px] space-y-6">
       <div className="flex flex-col items-center space-y-4">
         <CircularTimer value={restTimeLeft} maxValue={60} />
         <div className="text-lg text-white/80">Rest Time</div>
