@@ -12,26 +12,26 @@ export function WorkoutNavigation({
   onPrevious,
   onNext,
   isPreviousDisabled,
-  nextButtonText
+  nextButtonText,
 }: WorkoutNavigationProps) {
   return (
-    <div className="flex justify-between w-full">
+    <div className="flex gap-2 w-full px-4">
       <Button
-        variant="secondary"
         onClick={onPrevious}
         disabled={isPreviousDisabled}
-        className="bg-white/10 hover:bg-white/20 text-white disabled:bg-white/5 disabled:text-white/50"
+        variant="secondary"
+        className="bg-white/10 hover:bg-white/20 text-white flex-1 sm:flex-none h-14"
       >
-        <ChevronLeft className="w-4 h-4 mr-2" />
+        <ChevronLeft className="mr-2" />
         Previous
       </Button>
       <Button
         onClick={onNext}
-        className="bg-white/10 hover:bg-white/20 text-white"
         variant="secondary"
+        className="bg-white/10 hover:bg-white/20 text-white flex-1 sm:flex-none h-14"
       >
         {nextButtonText}
-        <ChevronRight className="w-4 h-4 ml-2" />
+        <ChevronRight className="ml-2" />
       </Button>
     </div>
   );
