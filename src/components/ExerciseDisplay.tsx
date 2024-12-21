@@ -18,7 +18,7 @@ export function ExerciseDisplay({
   notes
 }: ExerciseDisplayProps) {
   return (
-    <div className="space-y-6">
+    <div className="space-y-6 w-full px-4">
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
         <div className="flex items-center gap-3">
           <Dumbbell className="h-8 w-8 text-primary" />
@@ -34,8 +34,8 @@ export function ExerciseDisplay({
         )}
       </div>
       
-      <div className="grid gap-4">
-        <div className="flex items-center justify-between bg-white/10 p-4 rounded-lg">
+      <div className="grid gap-4 w-full">
+        <div className="flex items-center justify-between bg-white/10 p-4 rounded-lg w-full">
           <div className="flex items-center gap-2">
             <Clock className="h-6 w-6 text-primary-100" />
             <span className="text-xl font-semibold text-white">Sets Progress</span>
@@ -44,7 +44,7 @@ export function ExerciseDisplay({
         </div>
         
         {reps && (
-          <div className="flex items-center justify-between bg-white/10 p-4 rounded-lg">
+          <div className="flex items-center justify-between bg-white/10 p-4 rounded-lg w-full">
             <div className="flex items-center gap-2">
               <Repeat className="h-6 w-6 text-primary-100" />
               <span className="text-xl font-semibold text-white">Target</span>
@@ -57,7 +57,7 @@ export function ExerciseDisplay({
       </div>
 
       {notes && (
-        <div className="bg-white/5 p-4 rounded-lg">
+        <div className="bg-white/5 p-4 rounded-lg w-full">
           <p className="text-sm text-primary-100">{notes}</p>
         </div>
       )}
