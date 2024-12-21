@@ -18,12 +18,16 @@ export function RestTimer({
   onSkipRest,
 }: RestTimerProps) {
   return (
-    <div className="flex flex-col items-center justify-center w-full min-h-[400px] space-y-4">
-      <div className="flex flex-col items-center space-y-4">
-        <CircularTimer value={restTimeLeft} maxValue={60} />
-        <div className="text-lg text-white/80">Rest Time</div>
+    <div className="flex flex-col items-center w-full min-h-[400px]">
+      <div className="flex-1 flex flex-col items-center justify-center">
+        <div className="flex flex-col items-center space-y-4">
+          <div className="scale-125">
+            <CircularTimer value={restTimeLeft} maxValue={60} />
+          </div>
+          <div className="text-lg text-white/80">Rest Time</div>
+        </div>
       </div>
-      <div className="flex justify-center gap-2 w-full px-4">
+      <div className="flex justify-center gap-2 w-full px-4 mt-auto pb-4">
         <Button
           onClick={onToggleTimer}
           variant="secondary"
