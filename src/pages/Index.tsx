@@ -49,7 +49,10 @@ const Index = () => {
           <p className="text-xl mb-8 text-primary-100 max-w-2xl animate-fade-in">
             Get fit with personalized workouts and expert guidance, anywhere, anytime.
           </p>
-          <WorkoutPlayerDialog savedPlans={savedPlans} />
+          <div className="relative overflow-hidden group">
+            <WorkoutPlayerDialog savedPlans={savedPlans} />
+            <div className="absolute inset-0 bg-gradient-to-br from-gray-200/20 via-transparent to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-300 ease-out pointer-events-none"></div>
+          </div>
         </div>
       </section>
 
