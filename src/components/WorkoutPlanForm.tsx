@@ -56,26 +56,6 @@ export function WorkoutPlanForm() {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
 
-    if (!workoutName) {
-      toast({
-        title: "Error",
-        description: "Please enter a workout name",
-        variant: "destructive",
-        duration: 3000,
-      });
-      return;
-    }
-
-    if (exercises.length === 0) {
-      toast({
-        title: "Error",
-        description: "Please add at least one exercise",
-        variant: "destructive",
-        duration: 3000,
-      });
-      return;
-    }
-
     const newPlan = {
       name: workoutName,
       exercises: exercises,
@@ -107,12 +87,16 @@ export function WorkoutPlanForm() {
   return (
     <div className="space-y-6">
       <h2 className="text-3xl font-bold">
-        {editingPlanIndex !== null ? "Edit Workout Plan" : "Create Workout Plan"}
+        {editingPlanIndex !== null
+          ? "Edit Workout Plan"
+          : "Create Workout Plan"}
       </h2>
       <Card>
         <CardHeader>
           <CardTitle>
-            {editingPlanIndex !== null ? "Edit Workout Plan" : "New Workout Plan"}
+            {editingPlanIndex !== null
+              ? "Edit Workout Plan"
+              : "New Workout Plan"}
           </CardTitle>
         </CardHeader>
         <CardContent>
@@ -131,9 +115,9 @@ export function WorkoutPlanForm() {
               <AddExerciseDialog onAddExercise={addExercise} />
             </div>
 
-            <Button 
-              type="submit" 
-              className="w-full" 
+            <Button
+              type="submit"
+              className="w-full"
               disabled={!workoutName || exercises.length === 0}
             >
               <Save className="w-4 h-4 mr-2" />
