@@ -18,7 +18,7 @@ export function WorkoutNavigation({
   const isMobile = useIsMobile();
 
   return (
-    <div className={`flex ${isMobile ? 'flex-col space-y-4' : 'justify-between'} w-full px-4`}>
+    <div className={`flex ${isMobile ? 'space-x-4' : 'justify-between'} w-full px-4`}>
       <Button
         onClick={onPrevious}
         disabled={isPreviousDisabled}
