@@ -105,19 +105,15 @@ export function WorkoutPlayerDialog({ savedPlans }: WorkoutPlayerDialogProps) {
           className="relative overflow-hidden group bg-primary text-white p-4"
         >
           <Play className="w-5 h-5 mr-2" /> Start Training
-          <span
-            className="absolute inset-0 bg-gradient-to-r from-transparent via-white/40 to-transparent
-                opacity-0 group-hover:opacity-100
-                group-hover:animate-lightSweep pointer-events-none"
-          ></span>
+          <span className="absolute inset-0 bg-gradient-to-r from-transparent via-white/40 to-transparent opacity-0 group-hover:opacity-100 group-hover:animate-lightSweep pointer-events-none"></span>
         </Button>
       </DialogTrigger>
-      <DialogContent className="sm:max-w-[500px]">
+      <DialogContent className="sm:max-w-[500px] bg-gradient-to-br from-primary-600 via-primary-700 to-primary-800 text-white border-none">
         {!selectedPlan ? (
           savedPlans.length === 0 ? (
             <div className="text-center">
               <div className="text-3xl font-bold mb-2">No workout plans</div>
-              <div className="text-muted-foreground">
+              <div className="text-primary-100">
                 You don't have any saved workout plans. Create a new workout
                 plan to get started.
               </div>
@@ -125,8 +121,8 @@ export function WorkoutPlayerDialog({ savedPlans }: WorkoutPlayerDialogProps) {
           ) : (
             <>
               <DialogHeader>
-                <DialogTitle>Choose Your Workout Plan</DialogTitle>
-                <DialogDescription>
+                <DialogTitle className="text-white">Choose Your Workout Plan</DialogTitle>
+                <DialogDescription className="text-primary-100">
                   Select a workout plan to begin your training session.
                 </DialogDescription>
               </DialogHeader>
@@ -134,8 +130,8 @@ export function WorkoutPlayerDialog({ savedPlans }: WorkoutPlayerDialogProps) {
                 {savedPlans.map((plan) => (
                   <Button
                     key={plan.name}
-                    variant="outline"
-                    className="w-full justify-start"
+                    variant="secondary"
+                    className="w-full justify-start bg-white/10 hover:bg-white/20 text-white transition-colors"
                     onClick={() => handlePlanSelect(plan)}
                   >
                     {plan.name}
@@ -147,32 +143,44 @@ export function WorkoutPlayerDialog({ savedPlans }: WorkoutPlayerDialogProps) {
         ) : (
           <div className="space-y-6">
             <DialogHeader>
-              <DialogTitle>{selectedPlan.name}</DialogTitle>
-              <DialogDescription>
+              <DialogTitle className="text-white">{selectedPlan.name}</DialogTitle>
+              <DialogDescription className="text-primary-100">
                 Exercise {currentExerciseIndex + 1} of{" "}
                 {selectedPlan.exercises.length}
               </DialogDescription>
             </DialogHeader>
 
             <div className="space-y-4">
-              <div className="text-2xl font-bold">{currentExercise?.name}</div>
+              <div className="text-2xl font-bold text-white">{currentExercise?.name}</div>
               {isResting ? (
                 <div className="space-y-4">
                   <div className="text-center">
-                    <div className="text-3xl font-bold mb-2">
+                    <div className="text-3xl font-bold mb-2 text-white">
                       Rest Time: {restTimeLeft}s
                     </div>
-                    <Progress value={(restTimeLeft / 60) * 100} />
+                    <Progress 
+                      value={(restTimeLeft / 60) * 100} 
+                      className="bg-white/20"
+                      indicatorClassName="bg-white"
+                    />
                   </div>
                   <div className="flex justify-center gap-2">
-                    <Button onClick={toggleTimer}>
+                    <Button 
+                      onClick={toggleTimer}
+                      variant="secondary"
+                      className="bg-white/10 hover:bg-white/20 text-white"
+                    >
                       {isTimerPaused ? (
                         <Play className="w-4 h-4" />
                       ) : (
                         <Pause className="w-4 h-4" />
                       )}
                     </Button>
-                    <Button onClick={extendRestTime}>
+                    <Button 
+                      onClick={extendRestTime}
+                      variant="secondary"
+                      className="bg-white/10 hover:bg-white/20 text-white"
+                    >
                       <FastForward className="w-4 h-4 mr-2" />
                       +30s
                     </Button>
@@ -180,16 +188,16 @@ export function WorkoutPlayerDialog({ savedPlans }: WorkoutPlayerDialogProps) {
                 </div>
               ) : (
                 <div className="space-y-4">
-                  <div className="text-lg">
+                  <div className="text-lg text-primary-100">
                     Set {currentSet} of {totalSets}
                   </div>
-                  <div className="text-lg">
+                  <div className="text-lg text-white">
                     {currentExercise?.reps} reps at{" "}
                     {currentExercise?.weight.value}{" "}
                     {currentExercise?.weight.unit}
                   </div>
                   {currentExercise?.notes && (
-                    <div className="text-sm text-muted-foreground">
+                    <div className="text-sm text-primary-100">
                       Note: {currentExercise.notes}
                     </div>
                   )}
@@ -199,9 +207,10 @@ export function WorkoutPlayerDialog({ savedPlans }: WorkoutPlayerDialogProps) {
 
             <div className="flex justify-between">
               <Button
-                variant="outline"
+                variant="secondary"
                 onClick={handlePrevExercise}
                 disabled={currentExerciseIndex === 0}
+                className="bg-white/10 hover:bg-white/20 text-white disabled:bg-white/5 disabled:text-white/50"
               >
                 <ChevronLeft className="w-4 h-4 mr-2" />
                 Previous
@@ -212,11 +221,17 @@ export function WorkoutPlayerDialog({ savedPlans }: WorkoutPlayerDialogProps) {
                     setIsResting(false);
                     setCurrentSet((prev) => prev + 1);
                   }}
+                  className="bg-white/10 hover:bg-white/20 text-white"
+                  variant="secondary"
                 >
                   Skip Rest
                 </Button>
               ) : (
-                <Button onClick={handleNextSet}>
+                <Button
+                  onClick={handleNextSet}
+                  className="bg-white/10 hover:bg-white/20 text-white"
+                  variant="secondary"
+                >
                   {currentSet < totalSets ? "Next Set" : "Next Exercise"}
                   <ChevronRight className="w-4 h-4 ml-2" />
                 </Button>
