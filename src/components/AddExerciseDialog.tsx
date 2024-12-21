@@ -50,9 +50,7 @@ export function AddExerciseDialog({ onAddExercise }: AddExerciseDialogProps) {
     notes: "",
   });
 
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    
+  const handleAddExercise = () => {
     if (!exercise.name || !exercise.sets || !exercise.reps) {
       toast({
         title: "Error",
@@ -88,7 +86,7 @@ export function AddExerciseDialog({ onAddExercise }: AddExerciseDialogProps) {
             Add a new exercise to your workout plan. Fill in all required fields.
           </DialogDescription>
         </DialogHeader>
-        <form onSubmit={handleSubmit} className="space-y-4 mt-4">
+        <div className="space-y-4 mt-4">
           <Select
             value={exercise.name}
             onValueChange={(value) =>
@@ -132,10 +130,10 @@ export function AddExerciseDialog({ onAddExercise }: AddExerciseDialogProps) {
               setExercise((prev) => ({ ...prev, notes: e.target.value }))
             }
           />
-          <Button type="submit" className="w-full">
+          <Button onClick={handleAddExercise} className="w-full">
             Add to Workout
           </Button>
-        </form>
+        </div>
       </DialogContent>
     </Dialog>
   );
