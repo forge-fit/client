@@ -2,6 +2,29 @@
 @tailwind components;
 @tailwind utilities;
 
+* {
+  scrollbar-width: thin; /* For Firefox */
+  scrollbar-color: #6d28d9 transparent; /* Purple color for scrollbar thumb */
+}
+
+*::-webkit-scrollbar {
+  width: 8px;
+}
+
+*::-webkit-scrollbar-thumb {
+  background-color: #6d28d9; /* Purple thumb */
+  border-radius: 4px;
+  transition: background-color 0.3s ease; /* Smooth hover effect */
+}
+
+*::-webkit-scrollbar-thumb:hover {
+  background-color: #8b5cf6; /* Lighter purple on hover */
+}
+
+*::-webkit-scrollbar-track {
+  background-color: transparent;
+}
+
 @layer base {
   :root {
     --background: 0 0% 100%;

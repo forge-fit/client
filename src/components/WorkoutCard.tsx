@@ -1,9 +1,15 @@
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
 import { Clock, Dumbbell } from "lucide-react";
 import { FeaturedWorkoutDialog } from "./FeaturedWorkoutDialog";
 import { Exercise } from "./WorkoutPlanForm";
 
-interface WorkoutCardProps {
+export interface WorkoutCardProps {
   title: string;
   description: string;
   duration: string;
@@ -12,14 +18,20 @@ interface WorkoutCardProps {
   exercises: Exercise[];
 }
 
-export function WorkoutCard({ title, description, duration, difficulty, image, exercises }: WorkoutCardProps) {
+export function WorkoutCard({
+  title,
+  description,
+  duration,
+  difficulty,
+  image,
+  exercises,
+}: WorkoutCardProps) {
   return (
     <FeaturedWorkoutDialog
       title={title}
       description={description}
       duration={duration}
       difficulty={difficulty}
-      image={image}
       exercises={exercises}
     >
       <Card className="overflow-hidden transition-all hover:shadow-lg animate-fade-in relative cursor-pointer">

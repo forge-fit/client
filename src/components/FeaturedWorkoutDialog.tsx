@@ -1,4 +1,3 @@
-import { Button } from "@/components/ui/button";
 import {
   Dialog,
   DialogContent,
@@ -7,7 +6,6 @@ import {
   DialogTrigger,
   DialogClose,
 } from "@/components/ui/dialog";
-import { ScrollArea } from "@/components/ui/scroll-area";
 import { Exercise, WorkoutPlan } from "./WorkoutPlanForm";
 import { WorkoutPlayerDialog } from "./WorkoutPlayerDialog";
 import { Clock, Dumbbell, Weight, Repeat } from "lucide-react";
@@ -19,7 +17,6 @@ interface FeaturedWorkoutDialogProps {
   description: string;
   duration: string;
   difficulty: string;
-  image: string;
   exercises: Exercise[];
 }
 
@@ -35,7 +32,7 @@ export function FeaturedWorkoutDialog({
     name: title,
     exercises: exercises,
   };
-  
+
   const closeDialogRef = useRef<HTMLButtonElement>(null);
 
   const handleStartWorkout = () => {
@@ -49,7 +46,7 @@ export function FeaturedWorkoutDialog({
         <DialogHeader>
           <DialogTitle className="text-2xl font-bold">{title}</DialogTitle>
         </DialogHeader>
-        <ScrollArea className="h-[500px] pr-4">
+        <div className="h-[500px] pr-4 overflow-y-auto">
           <div className="space-y-6">
             <div className="space-y-4">
               <p className="text-gray-600">{description}</p>
@@ -78,12 +75,17 @@ export function FeaturedWorkoutDialog({
                       <div className="flex flex-wrap gap-3 text-sm text-muted-foreground">
                         <div className="flex items-center gap-1">
                           <Repeat className="w-4 h-4" />
-                          <span>{exercise.sets} sets × {exercise.reps} reps</span>
+                          <span>
+                            {exercise.sets} sets × {exercise.reps} reps
+                          </span>
                         </div>
                         {Number(exercise.weight.value) > 0 && (
                           <div className="flex items-center gap-1">
                             <Weight className="w-4 h-4" />
-                            <span>{exercise.weight.value}{exercise.weight.unit}</span>
+                            <span>
+                              {exercise.weight.value}
+                              {exercise.weight.unit}
+                            </span>
                           </div>
                         )}
                       </div>
@@ -98,11 +100,12 @@ export function FeaturedWorkoutDialog({
               </div>
             </div>
           </div>
-        </ScrollArea>
+        </div>
+
         <div className="border-t pt-4">
           <DialogClose ref={closeDialogRef} className="hidden" />
-          <WorkoutPlayerDialog 
-            initialWorkoutPlan={workoutPlan} 
+          <WorkoutPlayerDialog
+            initialWorkoutPlan={workoutPlan}
             onStart={handleStartWorkout}
           />
         </div>

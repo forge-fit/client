@@ -1,16 +1,11 @@
-import { Button } from "@/components/ui/button";
-import { WorkoutCard } from "@/components/WorkoutCard";
 import { ExerciseLibrary } from "@/components/ExerciseLibrary";
-import { WorkoutPlanForm, WorkoutPlan } from "@/components/WorkoutPlanForm";
-import { WorkoutPlayerDialog } from "@/components/WorkoutPlayerDialog";
 import { useState } from "react";
-import { TrendingUp, ClipboardList } from "lucide-react";
 import { useIsMobile } from "@/hooks/use-mobile";
-import { useNavigate } from "react-router-dom";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { HeroSection } from "@/components/sections/HeroSection";
 import { FeaturedWorkoutsSection } from "@/components/sections/FeaturedWorkoutsSection";
 import { WorkoutPlannerSection } from "@/components/sections/WorkoutPlannerSection";
+import { WorkoutPlan } from "@/components/WorkoutPlanForm";
 
 const featuredWorkouts = [
   {
@@ -26,37 +21,37 @@ const featuredWorkouts = [
         sets: "3",
         reps: "12",
         notes: "Keep core tight",
-        weight: { value: "0", unit: "kg" }
+        weight: { value: "0", unit: "kg" },
       },
       {
         name: "Squats",
         sets: "4",
         reps: "15",
         notes: "Go deep",
-        weight: { value: "0", unit: "kg" }
+        weight: { value: "0", unit: "kg" },
       },
       {
         name: "Dumbbell Rows",
         sets: "3",
         reps: "12",
         notes: "Each arm",
-        weight: { value: "10", unit: "kg" }
+        weight: { value: "10", unit: "kg" },
       },
       {
         name: "Shoulder Press",
         sets: "3",
         reps: "10",
         notes: "Control the movement",
-        weight: { value: "15", unit: "kg" }
+        weight: { value: "15", unit: "kg" },
       },
       {
         name: "Lunges",
         sets: "3",
         reps: "12",
         notes: "Each leg",
-        weight: { value: "0", unit: "kg" }
-      }
-    ]
+        weight: { value: "0", unit: "kg" },
+      },
+    ],
   },
   {
     title: "HIIT Cardio Blast",
@@ -71,37 +66,37 @@ const featuredWorkouts = [
         sets: "4",
         reps: "20",
         notes: "Full range of motion",
-        weight: { value: "0", unit: "kg" }
+        weight: { value: "0", unit: "kg" },
       },
       {
         name: "Mountain Climbers",
         sets: "3",
         reps: "30",
         notes: "Fast pace",
-        weight: { value: "0", unit: "kg" }
+        weight: { value: "0", unit: "kg" },
       },
       {
         name: "Jump Rope",
         sets: "4",
         reps: "50",
         notes: "Double unders",
-        weight: { value: "0", unit: "kg" }
+        weight: { value: "0", unit: "kg" },
       },
       {
         name: "High Knees",
         sets: "3",
         reps: "40",
         notes: "Keep pace high",
-        weight: { value: "0", unit: "kg" }
+        weight: { value: "0", unit: "kg" },
       },
       {
         name: "Box Jumps",
         sets: "3",
         reps: "15",
         notes: "Land softly",
-        weight: { value: "0", unit: "kg" }
-      }
-    ]
+        weight: { value: "0", unit: "kg" },
+      },
+    ],
   },
   {
     title: "Yoga Flow",
@@ -116,38 +111,38 @@ const featuredWorkouts = [
         sets: "3",
         reps: "5",
         notes: "Flow with breath",
-        weight: { value: "0", unit: "kg" }
+        weight: { value: "0", unit: "kg" },
       },
       {
         name: "Warrior Sequence",
         sets: "2",
         reps: "10",
         notes: "Hold each pose",
-        weight: { value: "0", unit: "kg" }
+        weight: { value: "0", unit: "kg" },
       },
       {
         name: "Balance Series",
         sets: "2",
         reps: "8",
         notes: "Each side",
-        weight: { value: "0", unit: "kg" }
+        weight: { value: "0", unit: "kg" },
       },
       {
         name: "Core Flow",
         sets: "2",
         reps: "12",
         notes: "Engage core throughout",
-        weight: { value: "0", unit: "kg" }
+        weight: { value: "0", unit: "kg" },
       },
       {
         name: "Final Relaxation",
         sets: "1",
         reps: "1",
         notes: "5 minutes of deep relaxation",
-        weight: { value: "0", unit: "kg" }
-      }
-    ]
-  }
+        weight: { value: "0", unit: "kg" },
+      },
+    ],
+  },
 ];
 
 interface IndexProps {
@@ -155,7 +150,8 @@ interface IndexProps {
 }
 
 const Index = ({ initialWorkoutPlans }: IndexProps) => {
-  const [savedPlans, setSavedPlans] = useState<WorkoutPlan[]>(initialWorkoutPlans);
+  const [savedPlans, setSavedPlans] =
+    useState<WorkoutPlan[]>(initialWorkoutPlans);
   const isMobile = useIsMobile();
 
   const handleSavePlan = (plan: WorkoutPlan) => {
@@ -163,7 +159,7 @@ const Index = ({ initialWorkoutPlans }: IndexProps) => {
   };
 
   return (
-    <ScrollArea className="min-h-screen bg-gray-50 [&_[data-radix-scroll-area-thumb]]:bg-primary-500 [&_[data-radix-scroll-area-thumb]]:hover:bg-primary-600">
+    <ScrollArea className="scroll-area">
       <HeroSection savedPlans={savedPlans} />
       <FeaturedWorkoutsSection featuredWorkouts={featuredWorkouts} />
       <section className="py-16 px-4 bg-white">
@@ -171,7 +167,7 @@ const Index = ({ initialWorkoutPlans }: IndexProps) => {
           <ExerciseLibrary />
         </div>
       </section>
-      <WorkoutPlannerSection 
+      <WorkoutPlannerSection
         isMobile={isMobile}
         onSavePlan={handleSavePlan}
         initialPlans={initialWorkoutPlans}
