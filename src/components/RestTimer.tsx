@@ -21,7 +21,7 @@ export function RestTimer({
     <div className="flex flex-col items-center w-full h-full min-h-[calc(100vh-120px)] sm:min-h-[400px]">
       <div className="flex-1 flex items-center justify-center w-full">
         <div className="flex flex-col items-center space-y-4">
-          <div className="scale-125">
+          <div className="scale-150">
             <CircularTimer value={restTimeLeft} maxValue={60} />
           </div>
           <div className="text-lg text-white/80">Rest Time</div>
@@ -32,7 +32,7 @@ export function RestTimer({
         <Button
           onClick={onToggleTimer}
           variant="secondary"
-          className="bg-white/10 hover:bg-white/20 text-white flex-1 sm:flex-none"
+          className="bg-white/10 hover:bg-white/20 text-white flex-1 sm:flex-none h-[60px]"
         >
           {isTimerPaused ? (
             <>
@@ -49,7 +49,7 @@ export function RestTimer({
         <Button
           onClick={onExtendTime}
           variant="secondary"
-          className="bg-white/10 hover:bg-white/20 text-white flex-1 sm:flex-none"
+          className="bg-white/10 hover:bg-white/20 text-white flex-1 sm:flex-none h-[60px]"
         >
           <Timer className="mr-2" />
           +30s
@@ -57,7 +57,7 @@ export function RestTimer({
         <Button
           onClick={onSkipRest}
           variant="secondary"
-          className="bg-white/10 hover:bg-white/20 text-white flex-1 sm:flex-none"
+          className="bg-white/10 hover:bg-white/20 text-white flex-1 sm:flex-none h-[60px]"
         >
           <SkipForward className="mr-2" />
           Skip
