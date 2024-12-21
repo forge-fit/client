@@ -3,18 +3,17 @@ import { useState, useRef, useEffect } from "react";
 import {
   Dialog,
   DialogContent,
-  DialogDescription,
-  DialogHeader,
-  DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { WorkoutPlan } from "./WorkoutPlanForm";
-import { ChevronLeft, ChevronRight, Play } from "lucide-react";
+import { Play } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { RestTimer } from "./RestTimer";
 import { ExerciseDisplay } from "./ExerciseDisplay";
 import { useIsMobile } from "@/hooks/use-mobile";
+import { WorkoutPlanSelection } from "./WorkoutPlanSelection";
+import { WorkoutNavigation } from "./WorkoutNavigation";
 
 interface WorkoutPlayerDialogProps {
   savedPlans: WorkoutPlan[];
@@ -111,92 +110,63 @@ export function WorkoutPlayerDialog({ savedPlans }: WorkoutPlayerDialogProps) {
           <span className="absolute inset-0 bg-gradient-to-r from-transparent via-white/40 to-transparent opacity-0 group-hover:opacity-100 group-hover:animate-lightSweep pointer-events-none"></span>
         </Button>
       </DialogTrigger>
-      <DialogContent className={`${isMobile ? 'w-screen h-screen max-w-none m-0 rounded-none flex flex-col justify-center items-center' : 'sm:max-w-[500px]'} bg-gradient-to-br from-primary-600 via-primary-700 to-primary-800 text-white border-none`}>
+      <DialogContent 
+        className={`${
+          isMobile 
+            ? 'w-screen h-screen max-w-none m-0 rounded-none flex flex-col' 
+            : 'sm:max-w-[500px]'
+        } bg-gradient-to-br from-primary-600 via-primary-700 to-primary-800 text-white border-none`}
+      >
         {!selectedPlan ? (
-          savedPlans.length === 0 ? (
-            <div className="text-center">
-              <div className="text-3xl font-bold mb-2">No workout plans</div>
-              <div className="text-primary-100">
-                You don't have any saved workout plans. Create a new workout
-                plan to get started.
-              </div>
-            </div>
-          ) : (
-            <>
-              <DialogHeader>
-                <DialogTitle className="text-white">
-                  Choose Your Workout Plan
-                </DialogTitle>
-                <DialogDescription className="text-primary-100">
-                  Select a workout plan to begin your training session.
-                </DialogDescription>
-              </DialogHeader>
-              <div className="grid gap-4 py-4">
-                {savedPlans.map((plan) => (
-                  <Button
-                    key={plan.name}
-                    variant="secondary"
-                    className="w-full justify-start bg-white/10 hover:bg-white/20 text-white transition-colors"
-                    onClick={() => handlePlanSelect(plan)}
-                  >
-                    {plan.name}
-                  </Button>
-                ))}
-              </div>
-            </>
-          )
+          <WorkoutPlanSelection 
+            savedPlans={savedPlans} 
+            onSelectPlan={handlePlanSelect} 
+          />
         ) : (
-          <div className="space-y-6">
-            <DialogHeader>
-              <DialogTitle className="text-white">{selectedPlan.name}</DialogTitle>
-              <DialogDescription className="text-primary-100">
-                Exercise {currentExerciseIndex + 1} of {selectedPlan.exercises.length}
-              </DialogDescription>
-            </DialogHeader>
+          <div className={`space-y-6 ${isMobile ? 'h-full flex flex-col' : ''}`}>
+            {isMobile && (
+              <div className="text-center pt-4">
+                <h2 className="text-2xl font-bold text-white">{selectedPlan.name}</h2>
+                <p className="text-primary-100">
+                  Exercise {currentExerciseIndex + 1} of {selectedPlan.exercises.length}
+                </p>
+              </div>
+            )}
 
-            {isResting ? (
-              <RestTimer
-                restTimeLeft={restTimeLeft}
-                isTimerPaused={isTimerPaused}
-                onToggleTimer={() => setIsTimerPaused((prev) => !prev)}
-                onExtendTime={() => setRestTimeLeft((prev) => prev + 30)}
-                onSkipRest={() => {
-                  setIsResting(false);
-                  setCurrentSet((prev) => prev + 1);
-                }}
-              />
-            ) : currentExercise ? (
-              <ExerciseDisplay
-                exerciseName={currentExercise.name}
-                currentSet={currentSet}
-                totalSets={totalSets}
-                reps={currentExercise.reps}
-                weight={currentExercise.weight}
-                notes={currentExercise.notes}
-              />
-            ) : null}
-
-            <div className="flex justify-between">
-              <Button
-                variant="secondary"
-                onClick={handlePrevExercise}
-                disabled={currentExerciseIndex === 0}
-                className="bg-white/10 hover:bg-white/20 text-white disabled:bg-white/5 disabled:text-white/50"
-              >
-                <ChevronLeft className="w-4 h-4 mr-2" />
-                Previous
-              </Button>
-              {!isResting && (
-                <Button
-                  onClick={handleNextSet}
-                  className="bg-white/10 hover:bg-white/20 text-white"
-                  variant="secondary"
-                >
-                  {currentSet < totalSets ? "Next Set" : "Next Exercise"}
-                  <ChevronRight className="w-4 h-4 ml-2" />
-                </Button>
-              )}
+            <div className={`${isMobile ? 'flex-1 flex items-center' : ''}`}>
+              {isResting ? (
+                <RestTimer
+                  restTimeLeft={restTimeLeft}
+                  isTimerPaused={isTimerPaused}
+                  onToggleTimer={() => setIsTimerPaused((prev) => !prev)}
+                  onExtendTime={() => setRestTimeLeft((prev) => prev + 30)}
+                  onSkipRest={() => {
+                    setIsResting(false);
+                    setCurrentSet((prev) => prev + 1);
+                  }}
+                />
+              ) : currentExercise ? (
+                <ExerciseDisplay
+                  exerciseName={currentExercise.name}
+                  currentSet={currentSet}
+                  totalSets={parseInt(currentExercise.sets)}
+                  reps={currentExercise.reps}
+                  weight={currentExercise.weight}
+                  notes={currentExercise.notes}
+                />
+              ) : null}
             </div>
+
+            {!isResting && (
+              <div className={`${isMobile ? 'mt-auto pb-4' : ''}`}>
+                <WorkoutNavigation
+                  onPrevious={handlePrevExercise}
+                  onNext={handleNextSet}
+                  isPreviousDisabled={currentExerciseIndex === 0}
+                  nextButtonText={currentSet < totalSets ? "Next Set" : "Next Exercise"}
+                />
+              </div>
+            )}
           </div>
         )}
       </DialogContent>
