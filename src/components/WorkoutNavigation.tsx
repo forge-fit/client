@@ -15,7 +15,7 @@ export function WorkoutNavigation({
   nextButtonText,
 }: WorkoutNavigationProps) {
   return (
-    <div className="flex gap-2 w-full px-4">
+    <div className="flex justify-between w-full px-4">
       <Button
         onClick={onPrevious}
         disabled={isPreviousDisabled}

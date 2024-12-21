@@ -1,10 +1,6 @@
-import * as React from "react"
+import * as React from "react";
 import { useState, useRef, useEffect } from "react";
-import {
-  Dialog,
-  DialogContent,
-  DialogTrigger,
-} from "@/components/ui/dialog";
+import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { WorkoutPlan } from "./WorkoutPlanForm";
 import { Play } from "lucide-react";
@@ -75,7 +71,10 @@ export function WorkoutPlayerDialog({ savedPlans }: WorkoutPlayerDialogProps) {
   };
 
   const handleNextExercise = () => {
-    if (selectedPlan && currentExerciseIndex < selectedPlan.exercises.length - 1) {
+    if (
+      selectedPlan &&
+      currentExerciseIndex < selectedPlan.exercises.length - 1
+    ) {
       setCurrentExerciseIndex((prev) => prev + 1);
       setCurrentSet(1);
       setIsResting(false);
@@ -110,27 +109,32 @@ export function WorkoutPlayerDialog({ savedPlans }: WorkoutPlayerDialogProps) {
           <span className="absolute inset-0 bg-gradient-to-r from-transparent via-white/40 to-transparent opacity-0 group-hover:opacity-100 group-hover:animate-lightSweep pointer-events-none"></span>
         </Button>
       </DialogTrigger>
-      <DialogContent 
+      <DialogContent
         className={`${
-          isMobile 
-            ? 'w-screen h-screen max-w-none m-0 rounded-none flex flex-col' 
-            : 'sm:max-w-[500px] min-h-[500px]'
+          isMobile
+            ? "w-screen h-screen max-w-none m-0 rounded-none flex flex-col"
+            : "sm:max-w-[500px] min-h-[500px]"
         } bg-gradient-to-br from-primary-600 via-primary-700 to-primary-800 text-white border-none`}
       >
         {!selectedPlan ? (
           <div className="h-full flex items-center">
-            <WorkoutPlanSelection 
-              savedPlans={savedPlans} 
-              onSelectPlan={handlePlanSelect} 
+            <WorkoutPlanSelection
+              savedPlans={savedPlans}
+              onSelectPlan={handlePlanSelect}
             />
           </div>
         ) : (
-          <div className={`space-y-6 ${isMobile ? 'h-full' : ''} flex flex-col`}>
+          <div
+            className={`space-y-6 ${isMobile ? "h-full" : ""} flex flex-col`}
+          >
             {isMobile && (
               <div className="text-center pt-4">
-                <h2 className="text-2xl font-bold text-white">{selectedPlan.name}</h2>
+                <h2 className="text-2xl font-bold text-white">
+                  {selectedPlan.name}
+                </h2>
                 <p className="text-primary-100">
-                  Exercise {currentExerciseIndex + 1} of {selectedPlan.exercises.length}
+                  Exercise {currentExerciseIndex + 1} of{" "}
+                  {selectedPlan.exercises.length}
                 </p>
               </div>
             )}
@@ -165,7 +169,9 @@ export function WorkoutPlayerDialog({ savedPlans }: WorkoutPlayerDialogProps) {
                   onPrevious={handlePrevExercise}
                   onNext={handleNextSet}
                   isPreviousDisabled={currentExerciseIndex === 0}
-                  nextButtonText={currentSet < totalSets ? "Next Set" : "Next Exercise"}
+                  nextButtonText={
+                    currentSet < totalSets ? "Next Set" : "Next Exercise"
+                  }
                 />
               </div>
             )}

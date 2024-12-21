@@ -15,11 +15,11 @@ export function ExerciseDisplay({
   totalSets,
   reps,
   weight,
-  notes
+  notes,
 }: ExerciseDisplayProps) {
   return (
     <div className="space-y-8 w-full px-4 flex flex-col items-center justify-between min-h-[400px]">
-      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 w-full max-w-lg">
+      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 my-4 w-full max-w-lg">
         <div className="flex items-center gap-3">
           <Dumbbell className="h-8 w-8 text-primary" />
           <h2 className="text-3xl font-bold text-white">{exerciseName}</h2>
@@ -28,30 +28,33 @@ export function ExerciseDisplay({
           <div className="flex items-center gap-2 bg-white/10 px-4 py-2 rounded-lg h-14">
             <Weight className="h-6 w-6 text-primary-100" />
             <span className="text-xl font-bold text-primary-100">
-              {weight.value}{weight.unit}
+              {weight.value}
+              {weight.unit}
             </span>
           </div>
         )}
       </div>
-      
+
       <div className="grid gap-4 w-full max-w-lg">
         <div className="flex items-center justify-between bg-white/10 px-4 rounded-lg w-full h-14">
           <div className="flex items-center gap-2">
             <Clock className="h-6 w-6 text-primary-100" />
-            <span className="text-xl font-semibold text-white">Sets Progress</span>
+            <span className="text-xl font-semibold text-white">
+              Sets Progress
+            </span>
           </div>
-          <span className="text-2xl font-bold text-primary-100">{currentSet}/{totalSets}</span>
+          <span className="text-2xl font-bold text-primary-100">
+            {currentSet}/{totalSets}
+          </span>
         </div>
-        
+
         {reps && (
           <div className="flex items-center justify-between bg-white/10 px-4 rounded-lg w-full h-14">
             <div className="flex items-center gap-2">
               <Repeat className="h-6 w-6 text-primary-100" />
               <span className="text-xl font-semibold text-white">Target</span>
             </div>
-            <span className="text-xl text-primary-100">
-              {reps} reps
-            </span>
+            <span className="text-xl text-primary-100">{reps} reps</span>
           </div>
         )}
       </div>
