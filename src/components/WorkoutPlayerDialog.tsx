@@ -166,7 +166,7 @@ export function WorkoutPlayerDialog({ savedPlans }: WorkoutPlayerDialogProps) {
                     </div>
                     <Progress
                       value={(restTimeLeft / 60) * 100}
-                      className="bg-white"
+                      className="h-2 bg-white/20"
                     />
                   </div>
                   <div className="flex justify-center gap-2">
