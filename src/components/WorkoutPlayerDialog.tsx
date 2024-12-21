@@ -162,7 +162,7 @@ export function WorkoutPlayerDialog({ savedPlans }: WorkoutPlayerDialogProps) {
             </div>
 
             {!isResting && (
-              <div className="mt-auto pb-4">
+              <div className="mt-auto pb-4 space-y-4">
                 <WorkoutNavigation
                   onPrevious={handlePrevExercise}
                   onNext={handleNextSet}
