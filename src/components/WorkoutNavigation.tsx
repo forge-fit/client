@@ -1,5 +1,6 @@
 import { Button } from "@/components/ui/button";
 import { ChevronLeft, ChevronRight } from "lucide-react";
+import { useIsMobile } from "@/hooks/use-mobile";
 
 interface WorkoutNavigationProps {
   onPrevious: () => void;
@@ -14,8 +15,10 @@ export function WorkoutNavigation({
   isPreviousDisabled,
   nextButtonText,
 }: WorkoutNavigationProps) {
+  const isMobile = useIsMobile();
+
   return (
-    <div className="flex justify-between w-full px-4">
+    <div className={`flex ${isMobile ? 'flex-col space-y-4' : 'justify-between'} w-full px-4`}>
       <Button
         onClick={onPrevious}
         disabled={isPreviousDisabled}
