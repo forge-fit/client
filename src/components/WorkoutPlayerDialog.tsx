@@ -1,6 +1,6 @@
 import * as React from "react";
 import { useState, useRef, useEffect } from "react";
-import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog";
+import { Dialog, DialogContent, DialogTrigger, DialogClose } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { WorkoutPlan } from "./WorkoutPlanForm";
 import { Play, StopCircle } from "lucide-react";
@@ -25,6 +25,7 @@ export function WorkoutPlayerDialog({ savedPlans }: WorkoutPlayerDialogProps) {
   const timerRef = useRef<NodeJS.Timeout | null>(null);
   const { toast } = useToast();
   const isMobile = useIsMobile();
+  const closeDialogRef = useRef<HTMLButtonElement>(null);
 
   const handlePlanSelect = (plan: WorkoutPlan) => {
     setSelectedPlan(plan);
@@ -105,6 +106,7 @@ export function WorkoutPlayerDialog({ savedPlans }: WorkoutPlayerDialogProps) {
     setSelectedPlan(null);
     setCurrentExerciseIndex(0);
     setCurrentSet(1);
+    closeDialogRef.current?.click();
   };
 
   return (
@@ -126,6 +128,7 @@ export function WorkoutPlayerDialog({ savedPlans }: WorkoutPlayerDialogProps) {
             : "sm:max-w-[500px] h-[600px] flex flex-col"
         } bg-gradient-to-br from-primary-600 via-primary-700 to-primary-800 text-white border-none`}
       >
+        <DialogClose ref={closeDialogRef} className="hidden" />
         {!selectedPlan ? (
           <div className="h-full flex items-center">
             <WorkoutPlanSelection
