@@ -13,6 +13,7 @@ export interface Exercise {
   sets: string;
   reps: string;
   notes: string;
+  weight: { value: string; unit: string };
 }
 
 export interface WorkoutPlan {

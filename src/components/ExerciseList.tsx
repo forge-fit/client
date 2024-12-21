@@ -7,7 +7,10 @@ interface ExerciseListProps {
   onRemoveExercise: (index: number) => void;
 }
 
-export function ExerciseList({ exercises, onRemoveExercise }: ExerciseListProps) {
+export function ExerciseList({
+  exercises,
+  onRemoveExercise,
+}: ExerciseListProps) {
   if (exercises.length === 0) {
     return (
       <div className="text-center p-8 text-muted-foreground">
@@ -26,7 +29,8 @@ export function ExerciseList({ exercises, onRemoveExercise }: ExerciseListProps)
           <div className="space-y-1">
             <h4 className="font-medium">{exercise.name}</h4>
             <div className="text-sm text-muted-foreground">
-              {exercise.sets} sets × {exercise.reps} reps
+              {exercise.sets} sets × {exercise.reps} reps ,{" "}
+              {exercise.weight.value} {exercise.weight.unit}
             </div>
             {exercise.notes && (
               <p className="text-sm text-muted-foreground">{exercise.notes}</p>

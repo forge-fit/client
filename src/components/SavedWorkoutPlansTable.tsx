@@ -1,4 +1,11 @@
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@/components/ui/table";
 import { Edit2, Trash2 } from "lucide-react";
 import { WorkoutPlan } from "./WorkoutPlanForm";
 import {
@@ -19,7 +26,11 @@ interface SavedWorkoutPlansTableProps {
   onDeletePlan: (plan: WorkoutPlan) => void;
 }
 
-export function SavedWorkoutPlansTable({ savedPlans, onEditPlan, onDeletePlan }: SavedWorkoutPlansTableProps) {
+export function SavedWorkoutPlansTable({
+  savedPlans,
+  onEditPlan,
+  onDeletePlan,
+}: SavedWorkoutPlansTableProps) {
   return (
     <Table>
       <TableHeader>
@@ -28,6 +39,7 @@ export function SavedWorkoutPlansTable({ savedPlans, onEditPlan, onDeletePlan }:
           <TableHead>Exercise</TableHead>
           <TableHead>Sets</TableHead>
           <TableHead>Reps</TableHead>
+          <TableHead>Weight</TableHead>
           <TableHead>Notes</TableHead>
         </TableRow>
       </TableHeader>
@@ -35,12 +47,14 @@ export function SavedWorkoutPlansTable({ savedPlans, onEditPlan, onDeletePlan }:
         {savedPlans.flatMap((plan, planIndex) =>
           plan.exercises.map((exercise, exerciseIndex) => (
             <TableRow key={`${planIndex}-${exerciseIndex}`}>
-              <TableCell 
-                className={`font-medium ${exerciseIndex === 0 ? "capitalize group" : ""}`}
+              <TableCell
+                className={`font-medium ${
+                  exerciseIndex === 0 ? "capitalize group" : ""
+                }`}
               >
                 {exerciseIndex === 0 ? (
                   <div className="flex items-center justify-between">
-                    <span 
+                    <span
                       className="cursor-pointer hover:text-primary"
                       onClick={(e) => {
                         e.stopPropagation();
@@ -50,7 +64,7 @@ export function SavedWorkoutPlansTable({ savedPlans, onEditPlan, onDeletePlan }:
                       {plan.name}
                     </span>
                     <div className="flex items-center gap-2">
-                      <Edit2 
+                      <Edit2
                         className="h-4 w-4 opacity-0 group-hover:opacity-100 transition-opacity cursor-pointer"
                         onClick={(e) => {
                           e.stopPropagation();
@@ -59,21 +73,24 @@ export function SavedWorkoutPlansTable({ savedPlans, onEditPlan, onDeletePlan }:
                       />
                       <AlertDialog>
                         <AlertDialogTrigger asChild>
-                          <Trash2 
+                          <Trash2
                             className="h-4 w-4 text-destructive opacity-0 group-hover:opacity-100 transition-opacity cursor-pointer"
                             onClick={(e) => e.stopPropagation()}
                           />
                         </AlertDialogTrigger>
                         <AlertDialogContent>
                           <AlertDialogHeader>
-                            <AlertDialogTitle>Delete Workout Plan</AlertDialogTitle>
+                            <AlertDialogTitle>
+                              Delete Workout Plan
+                            </AlertDialogTitle>
                             <AlertDialogDescription>
-                              Are you sure you want to delete "{plan.name}"? This action cannot be undone.
+                              Are you sure you want to delete "{plan.name}"?
+                              This action cannot be undone.
                             </AlertDialogDescription>
                           </AlertDialogHeader>
                           <AlertDialogFooter>
                             <AlertDialogCancel>Cancel</AlertDialogCancel>
-                            <AlertDialogAction 
+                            <AlertDialogAction
                               onClick={(e) => {
                                 e.stopPropagation();
                                 onDeletePlan(plan);
@@ -86,11 +103,16 @@ export function SavedWorkoutPlansTable({ savedPlans, onEditPlan, onDeletePlan }:
                       </AlertDialog>
                     </div>
                   </div>
-                ) : ""}
+                ) : (
+                  ""
+                )}
               </TableCell>
               <TableCell>{exercise.name}</TableCell>
               <TableCell>{exercise.sets}</TableCell>
               <TableCell>{exercise.reps}</TableCell>
+              <TableCell>
+                {exercise.weight.value} {exercise.weight.unit}
+              </TableCell>
               <TableCell className="text-sm text-muted-foreground">
                 {exercise.notes}
               </TableCell>

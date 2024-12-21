@@ -48,13 +48,15 @@ export function AddExerciseDialog({ onAddExercise }: AddExerciseDialogProps) {
     sets: "",
     reps: "",
     notes: "",
+    weight: { value: "", unit: "kg" },
   });
 
   const handleAddExercise = () => {
     if (!exercise.name || !exercise.sets || !exercise.reps) {
       toast({
         title: "Error",
-        description: "Please fill in all required fields (Exercise, Sets, and Reps)",
+        description:
+          "Please fill in all required fields (Exercise, Sets, and Reps)",
         variant: "destructive",
         duration: 3000,
       });
@@ -62,9 +64,15 @@ export function AddExerciseDialog({ onAddExercise }: AddExerciseDialogProps) {
     }
 
     onAddExercise(exercise);
-    setExercise({ name: "", sets: "", reps: "", notes: "" });
+    setExercise({
+      name: "",
+      sets: "",
+      reps: "",
+      notes: "",
+      weight: { value: "", unit: "kg" },
+    });
     setOpen(false);
-    
+
     toast({
       title: "Success",
       description: "Exercise added to workout plan",
@@ -83,7 +91,8 @@ export function AddExerciseDialog({ onAddExercise }: AddExerciseDialogProps) {
         <DialogHeader>
           <DialogTitle>Add Exercise</DialogTitle>
           <DialogDescription>
-            Add a new exercise to your workout plan. Fill in all required fields.
+            Add a new exercise to your workout plan. Fill in all required
+            fields.
           </DialogDescription>
         </DialogHeader>
         <div className="space-y-4 mt-4">
@@ -107,9 +116,11 @@ export function AddExerciseDialog({ onAddExercise }: AddExerciseDialogProps) {
               ))}
             </SelectContent>
           </Select>
-          <div className="grid grid-cols-2 gap-4">
+          <div className="grid grid-cols-3 gap-4">
             <Input
               placeholder="Sets"
+              className="no-arrows"
+              type="number"
               value={exercise.sets}
               onChange={(e) =>
                 setExercise((prev) => ({ ...prev, sets: e.target.value }))
@@ -117,9 +128,24 @@ export function AddExerciseDialog({ onAddExercise }: AddExerciseDialogProps) {
             />
             <Input
               placeholder="Reps"
+              className="no-arrows"
+              type="number"
               value={exercise.reps}
               onChange={(e) =>
                 setExercise((prev) => ({ ...prev, reps: e.target.value }))
+              }
+            />
+
+            <Input
+              placeholder="Weight"
+              type="number"
+              className="no-arrows"
+              value={exercise.weight.value}
+              onChange={(e) =>
+                setExercise((prev) => ({
+                  ...prev,
+                  weight: { value: e.target.value, unit: "kg" },
+                }))
               }
             />
           </div>
