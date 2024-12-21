@@ -12,6 +12,7 @@ import { WorkoutPlan } from "./WorkoutPlanForm";
 import { ChevronLeft, ChevronRight, Play } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { RestTimer } from "./RestTimer";
+import { ExerciseDisplay } from "./ExerciseDisplay";
 
 interface WorkoutPlayerDialogProps {
   savedPlans: WorkoutPlan[];
@@ -146,43 +147,31 @@ export function WorkoutPlayerDialog({ savedPlans }: WorkoutPlayerDialogProps) {
             <DialogHeader>
               <DialogTitle className="text-white">{selectedPlan.name}</DialogTitle>
               <DialogDescription className="text-primary-100">
-                Exercise {currentExerciseIndex + 1} of{" "}
-                {selectedPlan.exercises.length}
+                Exercise {currentExerciseIndex + 1} of {selectedPlan.exercises.length}
               </DialogDescription>
             </DialogHeader>
 
-            <div className="space-y-4">
-              <div className="text-2xl font-bold text-white">
-                {currentExercise?.name}
-              </div>
-              {isResting ? (
-                <RestTimer
-                  restTimeLeft={restTimeLeft}
-                  isTimerPaused={isTimerPaused}
-                  onToggleTimer={() => setIsTimerPaused((prev) => !prev)}
-                  onExtendTime={() => setRestTimeLeft((prev) => prev + 30)}
-                  onSkipRest={() => {
-                    setIsResting(false);
-                    setCurrentSet((prev) => prev + 1);
-                  }}
-                />
-              ) : (
-                <div className="space-y-4">
-                  <div className="text-lg text-primary-100">
-                    Set {currentSet} of {totalSets}
-                  </div>
-                  <div className="text-lg text-white">
-                    {currentExercise?.reps} reps at {currentExercise?.weight.value}{" "}
-                    {currentExercise?.weight.unit}
-                  </div>
-                  {currentExercise?.notes && (
-                    <div className="text-sm text-primary-100">
-                      Note: {currentExercise.notes}
-                    </div>
-                  )}
-                </div>
-              )}
-            </div>
+            {isResting ? (
+              <RestTimer
+                restTimeLeft={restTimeLeft}
+                isTimerPaused={isTimerPaused}
+                onToggleTimer={() => setIsTimerPaused((prev) => !prev)}
+                onExtendTime={() => setRestTimeLeft((prev) => prev + 30)}
+                onSkipRest={() => {
+                  setIsResting(false);
+                  setCurrentSet((prev) => prev + 1);
+                }}
+              />
+            ) : currentExercise ? (
+              <ExerciseDisplay
+                exerciseName={currentExercise.name}
+                currentSet={currentSet}
+                totalSets={totalSets}
+                reps={currentExercise.reps}
+                weight={currentExercise.weight}
+                notes={currentExercise.notes}
+              />
+            ) : null}
 
             <div className="flex justify-between">
               <Button
