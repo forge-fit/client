@@ -21,8 +21,8 @@ export function WorkoutPlanSelection({ savedPlans, onSelectPlan }: WorkoutPlanSe
   }
 
   return (
-    <div className="flex flex-col h-full justify-center">
-      <DialogHeader className="text-center py-6">
+    <div className="flex flex-col h-full justify-center max-w-md mx-auto w-full">
+      <DialogHeader className="text-center py-4">
         <DialogTitle className="text-white text-2xl">
           Choose Your Workout Plan
         </DialogTitle>
@@ -30,8 +30,8 @@ export function WorkoutPlanSelection({ savedPlans, onSelectPlan }: WorkoutPlanSe
           Select a workout plan to begin your training session.
         </DialogDescription>
       </DialogHeader>
-      <div className="flex-1 flex items-center px-6">
-        <div className="w-full space-y-4">
+      <div className="px-4">
+        <div className="w-full space-y-3">
           {savedPlans.map((plan) => (
             <Button
               key={plan.name}
