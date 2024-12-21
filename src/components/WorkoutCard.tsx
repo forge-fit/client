@@ -31,12 +31,15 @@ export function WorkoutCard({ title, description, duration, difficulty, image }:
           </div>
         </div>
       </CardContent>
-      <button 
-        className="absolute bottom-4 right-4 p-2 rounded-full bg-transparent hover:bg-primary-100 transition-colors"
-        aria-label="Start workout"
-      >
-        <Play className="w-5 h-5 text-primary-700 fill-primary-700" />
-      </button>
+      <div className="absolute bottom-4 right-4 overflow-hidden group">
+        <button 
+          className="p-2 rounded-full bg-transparent hover:bg-primary-100 transition-colors relative"
+          aria-label="Start workout"
+        >
+          <Play className="w-5 h-5 text-primary-700 fill-primary-700" />
+          <div className="absolute inset-0 bg-gradient-to-br from-gray-200/20 via-transparent to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-300 ease-out pointer-events-none"></div>
+        </button>
+      </div>
     </Card>
   );
 }
