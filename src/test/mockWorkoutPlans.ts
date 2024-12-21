@@ -25,6 +25,13 @@ export const mockWorkoutPlans: WorkoutPlan[] = [
         weight: { value: "65", unit: "lbs" },
         notes: "Keep core tight",
       },
+      {
+        name: "Tricep Dips",
+        sets: "3",
+        reps: "12-15",
+        weight: { value: "0", unit: "lbs" },
+        notes: "Use bodyweight or assisted machine",
+      }
     ],
   },
   {
@@ -51,6 +58,13 @@ export const mockWorkoutPlans: WorkoutPlan[] = [
         weight: { value: "0", unit: "lbs" },
         notes: "Use ab wheel",
       },
+      {
+        name: "Leg Raises",
+        sets: "3",
+        reps: "15-20",
+        weight: { value: "0", unit: "lbs" },
+        notes: "Keep lower back pressed against the ground",
+      }
     ],
   },
 ];
