@@ -37,6 +37,20 @@ const featuredWorkouts = [
         reps: "12",
         notes: "Each arm",
         weight: { value: "10", unit: "kg" }
+      },
+      {
+        name: "Shoulder Press",
+        sets: "3",
+        reps: "10",
+        notes: "Control the movement",
+        weight: { value: "15", unit: "kg" }
+      },
+      {
+        name: "Lunges",
+        sets: "3",
+        reps: "12",
+        notes: "Each leg",
+        weight: { value: "0", unit: "kg" }
       }
     ]
   },
@@ -68,6 +82,20 @@ const featuredWorkouts = [
         reps: "50",
         notes: "Double unders",
         weight: { value: "0", unit: "kg" }
+      },
+      {
+        name: "High Knees",
+        sets: "3",
+        reps: "40",
+        notes: "Keep pace high",
+        weight: { value: "0", unit: "kg" }
+      },
+      {
+        name: "Box Jumps",
+        sets: "3",
+        reps: "15",
+        notes: "Land softly",
+        weight: { value: "0", unit: "kg" }
       }
     ]
   },
@@ -98,6 +126,20 @@ const featuredWorkouts = [
         sets: "2",
         reps: "8",
         notes: "Each side",
+        weight: { value: "0", unit: "kg" }
+      },
+      {
+        name: "Core Flow",
+        sets: "2",
+        reps: "12",
+        notes: "Engage core throughout",
+        weight: { value: "0", unit: "kg" }
+      },
+      {
+        name: "Final Relaxation",
+        sets: "1",
+        reps: "1",
+        notes: "5 minutes of deep relaxation",
         weight: { value: "0", unit: "kg" }
       }
     ]
