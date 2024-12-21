@@ -163,7 +163,7 @@ const Index = ({ initialWorkoutPlans }: IndexProps) => {
   };
 
   return (
-    <ScrollArea className="min-h-screen bg-gray-50 [&_[data-radix-scroll-area-thumb]]:bg-primary-700 [&_[data-radix-scroll-area-thumb]]:hover:bg-primary-800">
+    <ScrollArea className="min-h-screen bg-gray-50 [&_[data-radix-scroll-area-thumb]]:bg-primary-500 [&_[data-radix-scroll-area-thumb]]:hover:bg-primary-600">
       <HeroSection savedPlans={savedPlans} />
       <FeaturedWorkoutsSection featuredWorkouts={featuredWorkouts} />
       <section className="py-16 px-4 bg-white">
