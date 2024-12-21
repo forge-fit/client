@@ -1,6 +1,6 @@
 import { Button } from "@/components/ui/button";
-import { FastForward, Pause, Play } from "lucide-react";
 import { CircularTimer } from "./CircularTimer";
+import { Pause, Play, SkipForward, Timer } from "lucide-react";
 
 interface RestTimerProps {
   restTimeLeft: number;
@@ -18,8 +18,8 @@ export function RestTimer({
   onSkipRest,
 }: RestTimerProps) {
   return (
-    <div className="flex flex-col items-center w-full min-h-[400px]">
-      <div className="flex-1 flex flex-col items-center justify-center">
+    <div className="flex flex-col items-center w-full h-full min-h-[calc(100vh-120px)] sm:min-h-[400px]">
+      <div className="flex-1 flex items-center justify-center w-full">
         <div className="flex flex-col items-center space-y-4">
           <div className="scale-125">
             <CircularTimer value={restTimeLeft} maxValue={60} />
@@ -27,28 +27,40 @@ export function RestTimer({
           <div className="text-lg text-white/80">Rest Time</div>
         </div>
       </div>
-      <div className="flex justify-center gap-2 w-full px-4 mt-auto pb-4">
+      
+      <div className="flex justify-center gap-2 w-full px-4 pb-4">
         <Button
           onClick={onToggleTimer}
           variant="secondary"
-          className="bg-white/10 hover:bg-white/20 text-white flex-1 sm:flex-none"
+          className="flex-1 sm:flex-none"
         >
-          {isTimerPaused ? <Play className="w-4 h-4" /> : <Pause className="w-4 h-4" />}
+          {isTimerPaused ? (
+            <>
+              <Play className="mr-2" />
+              Resume
+            </>
+          ) : (
+            <>
+              <Pause className="mr-2" />
+              Pause
+            </>
+          )}
         </Button>
         <Button
           onClick={onExtendTime}
           variant="secondary"
-          className="bg-white/10 hover:bg-white/20 text-white flex-1 sm:flex-none"
+          className="flex-1 sm:flex-none"
         >
-          <FastForward className="w-4 h-4 mr-2" />
+          <Timer className="mr-2" />
           +30s
         </Button>
         <Button
           onClick={onSkipRest}
           variant="secondary"
-          className="bg-white/10 hover:bg-white/20 text-white flex-1 sm:flex-none"
+          className="flex-1 sm:flex-none"
         >
-          Skip Rest
+          <SkipForward className="mr-2" />
+          Skip
         </Button>
       </div>
     </div>
