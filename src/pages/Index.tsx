@@ -1,11 +1,11 @@
 import { Button } from "@/components/ui/button";
 import { WorkoutCard } from "@/components/WorkoutCard";
-import { Play, TrendingUp } from "lucide-react";
 import { ExerciseLibrary } from "@/components/ExerciseLibrary";
 import { WorkoutPlanForm } from "@/components/WorkoutPlanForm";
 import { WorkoutPlayerDialog } from "@/components/WorkoutPlayerDialog";
 import { useState } from "react";
 import { WorkoutPlan } from "@/components/WorkoutPlanForm";
+import { TrendingUp } from "lucide-react";
 
 const featuredWorkouts = [
   {
@@ -92,7 +92,7 @@ const Index = ({ initialWorkoutPlans }: IndexProps) => {
       {/* Create Workout Plan Section */}
       <section className="py-16 px-4">
         <div className="container max-w-6xl mx-auto">
-          <WorkoutPlanForm onSavePlan={handleSavePlan} />
+          <WorkoutPlanForm onSavePlan={handleSavePlan} initialPlans={initialWorkoutPlans} />
         </div>
       </section>
     </div>

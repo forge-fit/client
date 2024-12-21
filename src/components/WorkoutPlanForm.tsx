@@ -23,12 +23,13 @@ export interface WorkoutPlan {
 
 interface WorkoutPlanFormProps {
   onSavePlan?: (plan: WorkoutPlan) => void;
+  initialPlans?: WorkoutPlan[];
 }
 
-export function WorkoutPlanForm({ onSavePlan }: WorkoutPlanFormProps) {
+export function WorkoutPlanForm({ onSavePlan, initialPlans = [] }: WorkoutPlanFormProps) {
   const [workoutName, setWorkoutName] = useState("");
   const [exercises, setExercises] = useState<Exercise[]>([]);
-  const [savedPlans, setSavedPlans] = useState<WorkoutPlan[]>([]);
+  const [savedPlans, setSavedPlans] = useState<WorkoutPlan[]>(initialPlans);
   const [editingPlanIndex, setEditingPlanIndex] = useState<number | null>(null);
   const { toast } = useToast();
 
