@@ -16,6 +16,29 @@ const featuredWorkouts = [
     difficulty: "Intermediate",
     image:
       "https://images.unsplash.com/photo-1517836357463-d25dfeac3438?w=800&auto=format&fit=crop",
+    exercises: [
+      {
+        name: "Push-ups",
+        sets: "3",
+        reps: "12",
+        notes: "Keep core tight",
+        weight: { value: "0", unit: "kg" }
+      },
+      {
+        name: "Squats",
+        sets: "4",
+        reps: "15",
+        notes: "Go deep",
+        weight: { value: "0", unit: "kg" }
+      },
+      {
+        name: "Dumbbell Rows",
+        sets: "3",
+        reps: "12",
+        notes: "Each arm",
+        weight: { value: "10", unit: "kg" }
+      }
+    ]
   },
   {
     title: "HIIT Cardio Blast",
@@ -24,6 +47,29 @@ const featuredWorkouts = [
     difficulty: "Advanced",
     image:
       "https://images.unsplash.com/photo-1434608519344-49d77a699e1d?w=800&auto=format&fit=crop",
+    exercises: [
+      {
+        name: "Burpees",
+        sets: "4",
+        reps: "20",
+        notes: "Full range of motion",
+        weight: { value: "0", unit: "kg" }
+      },
+      {
+        name: "Mountain Climbers",
+        sets: "3",
+        reps: "30",
+        notes: "Fast pace",
+        weight: { value: "0", unit: "kg" }
+      },
+      {
+        name: "Jump Rope",
+        sets: "4",
+        reps: "50",
+        notes: "Double unders",
+        weight: { value: "0", unit: "kg" }
+      }
+    ]
   },
   {
     title: "Yoga Flow",
@@ -32,7 +78,30 @@ const featuredWorkouts = [
     difficulty: "Beginner",
     image:
       "https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?w=800&auto=format&fit=crop",
-  },
+    exercises: [
+      {
+        name: "Sun Salutation A",
+        sets: "3",
+        reps: "5",
+        notes: "Flow with breath",
+        weight: { value: "0", unit: "kg" }
+      },
+      {
+        name: "Warrior Sequence",
+        sets: "2",
+        reps: "10",
+        notes: "Hold each pose",
+        weight: { value: "0", unit: "kg" }
+      },
+      {
+        name: "Balance Series",
+        sets: "2",
+        reps: "8",
+        notes: "Each side",
+        weight: { value: "0", unit: "kg" }
+      }
+    ]
+  }
 ];
 
 interface IndexProps {
