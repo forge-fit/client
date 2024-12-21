@@ -1,11 +1,12 @@
 import { Button } from "@/components/ui/button";
 import { WorkoutCard } from "@/components/WorkoutCard";
 import { ExerciseLibrary } from "@/components/ExerciseLibrary";
-import { WorkoutPlanForm } from "@/components/WorkoutPlanForm";
+import { WorkoutPlanForm, WorkoutPlan } from "@/components/WorkoutPlanForm";
 import { WorkoutPlayerDialog } from "@/components/WorkoutPlayerDialog";
 import { useState } from "react";
-import { WorkoutPlan } from "@/components/WorkoutPlanForm";
-import { TrendingUp } from "lucide-react";
+import { TrendingUp, ClipboardList } from "lucide-react";
+import { useIsMobile } from "@/hooks/use-mobile";
+import { useNavigate } from "react-router-dom";
 
 const featuredWorkouts = [
   {
@@ -40,6 +41,8 @@ interface IndexProps {
 
 const Index = ({ initialWorkoutPlans }: IndexProps) => {
   const [savedPlans, setSavedPlans] = useState<WorkoutPlan[]>(initialWorkoutPlans);
+  const isMobile = useIsMobile();
+  const navigate = useNavigate();
 
   const handleSavePlan = (plan: WorkoutPlan) => {
     setSavedPlans((prev) => [...prev, plan]);
@@ -92,7 +95,21 @@ const Index = ({ initialWorkoutPlans }: IndexProps) => {
       {/* Create Workout Plan Section */}
       <section className="py-16 px-4">
         <div className="container max-w-6xl mx-auto">
-          <WorkoutPlanForm onSavePlan={handleSavePlan} initialPlans={initialWorkoutPlans} />
+          {isMobile ? (
+            <div className="text-center">
+              <h2 className="text-3xl font-bold mb-6">Create Your Workout Plan</h2>
+              <Button 
+                size="lg"
+                onClick={() => navigate('/workout-plan')}
+                className="w-full max-w-sm"
+              >
+                <ClipboardList className="mr-2 h-4 w-4" />
+                Open Workout Planner
+              </Button>
+            </div>
+          ) : (
+            <WorkoutPlanForm onSavePlan={handleSavePlan} initialPlans={initialWorkoutPlans} />
+          )}
         </div>
       </section>
     </div>

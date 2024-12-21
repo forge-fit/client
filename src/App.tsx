@@ -4,6 +4,7 @@ import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Index from "./pages/Index";
+import MobileWorkoutPlan from "./pages/MobileWorkoutPlan";
 import { mockWorkoutPlans } from "./test/mockWorkoutPlans";
 
 const queryClient = new QueryClient();
@@ -16,6 +17,7 @@ const App = () => (
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<Index initialWorkoutPlans={mockWorkoutPlans} />} />
+          <Route path="/workout-plan" element={<MobileWorkoutPlan initialWorkoutPlans={mockWorkoutPlans} />} />
         </Routes>
       </BrowserRouter>
     </TooltipProvider>
