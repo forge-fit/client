@@ -18,7 +18,7 @@ export function ExerciseDisplay({
   notes,
 }: ExerciseDisplayProps) {
   return (
-    <div className="w-full px-4 flex flex-col items-center min-h-[400px]">
+    <div className="w-full px-4 flex flex-col items-center min-h-[400px] pt-12">
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 w-full max-w-lg">
         <div className="flex items-center gap-3">
           <Dumbbell className="h-8 w-8 text-primary" />
