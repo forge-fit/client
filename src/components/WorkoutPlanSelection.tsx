@@ -30,7 +30,7 @@ export function WorkoutPlanSelection({ savedPlans, onSelectPlan }: WorkoutPlanSe
           Select a workout plan to begin your training session.
         </DialogDescription>
       </DialogHeader>
-      <div className="px-4">
+      <div className="px-4 mt-6">  {/* Added mt-6 to create gap */}
         <div className="w-full space-y-3">
           {savedPlans.map((plan) => (
             <Button
