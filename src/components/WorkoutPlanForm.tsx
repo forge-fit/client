@@ -7,6 +7,7 @@ import { useToast } from "@/hooks/use-toast";
 import { SavedWorkoutPlansTable } from "./SavedWorkoutPlansTable";
 import { AddExerciseDialog } from "./AddExerciseDialog";
 import { ExerciseList } from "./ExerciseList";
+import { useIsMobile } from "@/hooks/use-mobile";
 
 export interface Exercise {
   name: string;
@@ -32,6 +33,7 @@ export function WorkoutPlanForm({ onSavePlan, initialPlans = [] }: WorkoutPlanFo
   const [savedPlans, setSavedPlans] = useState<WorkoutPlan[]>(initialPlans);
   const [editingPlanIndex, setEditingPlanIndex] = useState<number | null>(null);
   const { toast } = useToast();
+  const isMobile = useIsMobile();
 
   const addExercise = (exercise: Exercise) => {
     setExercises([...exercises, exercise]);
@@ -105,7 +107,7 @@ export function WorkoutPlanForm({ onSavePlan, initialPlans = [] }: WorkoutPlanFo
         <CardContent>
           <form onSubmit={handleSubmit} className="space-y-6">
             <Input
-              placeholder="Workout Name (e.g., Leg Day, Easy Yoga)"
+              placeholder={isMobile ? "Plan Name" : "Workout Name (e.g., Leg Day, Easy Yoga)"}
               value={workoutName}
               onChange={(e) => setWorkoutName(e.target.value)}
             />
@@ -131,11 +133,11 @@ export function WorkoutPlanForm({ onSavePlan, initialPlans = [] }: WorkoutPlanFo
       </Card>
 
       {savedPlans.length > 0 && (
-        <Card>
+        <Card className="overflow-hidden">
           <CardHeader>
             <CardTitle>Saved Workout Plans</CardTitle>
           </CardHeader>
-          <CardContent>
+          <CardContent className="p-0 sm:p-6">
             <SavedWorkoutPlansTable
               savedPlans={savedPlans}
               onEditPlan={handleEditPlan}

@@ -19,6 +19,7 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
+import { useIsMobile } from "@/hooks/use-mobile";
 
 interface SavedWorkoutPlansTableProps {
   savedPlans: WorkoutPlan[];
@@ -31,13 +32,15 @@ export function SavedWorkoutPlansTable({
   onEditPlan,
   onDeletePlan,
 }: SavedWorkoutPlansTableProps) {
+  const isMobile = useIsMobile();
+
   return (
     <div className="w-full overflow-x-auto">
-      <div className="min-w-[800px]">
+      <div className={isMobile ? "min-w-[600px]" : "min-w-[800px]"}>
         <Table>
           <TableHeader>
             <TableRow>
-              <TableHead>Workout Name</TableHead>
+              <TableHead>Name</TableHead>
               <TableHead>Exercise</TableHead>
               <TableHead>Sets</TableHead>
               <TableHead>Reps</TableHead>
