@@ -3,6 +3,9 @@ import { WorkoutCard } from "@/components/WorkoutCard";
 import { Play, TrendingUp } from "lucide-react";
 import { ExerciseLibrary } from "@/components/ExerciseLibrary";
 import { WorkoutPlanForm } from "@/components/WorkoutPlanForm";
+import { WorkoutPlayerDialog } from "@/components/WorkoutPlayerDialog";
+import { useState } from "react";
+import { WorkoutPlan } from "@/components/WorkoutPlanForm";
 
 const featuredWorkouts = [
   {
@@ -29,6 +32,12 @@ const featuredWorkouts = [
 ];
 
 const Index = () => {
+  const [savedPlans, setSavedPlans] = useState<WorkoutPlan[]>([]);
+
+  const handleSavePlan = (plan: WorkoutPlan) => {
+    setSavedPlans((prev) => [...prev, plan]);
+  };
+
   return (
     <div className="min-h-screen bg-gray-50">
       {/* Hero Section */}
@@ -40,9 +49,7 @@ const Index = () => {
           <p className="text-xl mb-8 text-primary-100 max-w-2xl animate-fade-in">
             Get fit with personalized workouts and expert guidance, anywhere, anytime.
           </p>
-          <Button size="lg" className="bg-white text-primary-700 hover:bg-primary-100">
-            <Play className="mr-2 h-5 w-5" /> Start Training
-          </Button>
+          <WorkoutPlayerDialog savedPlans={savedPlans} />
         </div>
       </section>
 
@@ -73,7 +80,7 @@ const Index = () => {
       {/* Create Workout Plan Section */}
       <section className="py-16 px-4">
         <div className="container max-w-6xl mx-auto">
-          <WorkoutPlanForm />
+          <WorkoutPlanForm onSavePlan={handleSavePlan} />
         </div>
       </section>
     </div>

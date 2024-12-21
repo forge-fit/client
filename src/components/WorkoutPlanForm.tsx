@@ -21,7 +21,11 @@ export interface WorkoutPlan {
   exercises: Exercise[];
 }
 
-export function WorkoutPlanForm() {
+interface WorkoutPlanFormProps {
+  onSavePlan?: (plan: WorkoutPlan) => void;
+}
+
+export function WorkoutPlanForm({ onSavePlan }: WorkoutPlanFormProps) {
   const [workoutName, setWorkoutName] = useState("");
   const [exercises, setExercises] = useState<Exercise[]>([]);
   const [savedPlans, setSavedPlans] = useState<WorkoutPlan[]>([]);
@@ -74,6 +78,7 @@ export function WorkoutPlanForm() {
       });
     } else {
       setSavedPlans([...savedPlans, newPlan]);
+      onSavePlan?.(newPlan);
       toast({
         title: "Success",
         description: "Workout plan has been saved!",
@@ -88,16 +93,12 @@ export function WorkoutPlanForm() {
   return (
     <div className="space-y-6">
       <h2 className="text-3xl font-bold">
-        {editingPlanIndex !== null
-          ? "Edit Workout Plan"
-          : "Create Workout Plan"}
+        {editingPlanIndex !== null ? "Edit Workout Plan" : "Create Workout Plan"}
       </h2>
       <Card>
         <CardHeader>
           <CardTitle>
-            {editingPlanIndex !== null
-              ? "Edit Workout Plan"
-              : "New Workout Plan"}
+            {editingPlanIndex !== null ? "Edit Workout Plan" : "New Workout Plan"}
           </CardTitle>
         </CardHeader>
         <CardContent>
