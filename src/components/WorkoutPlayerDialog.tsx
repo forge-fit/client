@@ -13,6 +13,7 @@ import { ChevronLeft, ChevronRight, Play } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { RestTimer } from "./RestTimer";
 import { ExerciseDisplay } from "./ExerciseDisplay";
+import { useIsMobile } from "@/hooks/use-mobile";
 
 interface WorkoutPlayerDialogProps {
   savedPlans: WorkoutPlan[];
@@ -27,6 +28,7 @@ export function WorkoutPlayerDialog({ savedPlans }: WorkoutPlayerDialogProps) {
   const [isTimerPaused, setIsTimerPaused] = useState(false);
   const timerRef = useRef<NodeJS.Timeout | null>(null);
   const { toast } = useToast();
+  const isMobile = useIsMobile();
 
   const handlePlanSelect = (plan: WorkoutPlan) => {
     setSelectedPlan(plan);
@@ -108,7 +110,7 @@ export function WorkoutPlayerDialog({ savedPlans }: WorkoutPlayerDialogProps) {
           <span className="absolute inset-0 bg-gradient-to-r from-transparent via-white/40 to-transparent opacity-0 group-hover:opacity-100 group-hover:animate-lightSweep pointer-events-none"></span>
         </Button>
       </DialogTrigger>
-      <DialogContent className="sm:max-w-[500px] bg-gradient-to-br from-primary-600 via-primary-700 to-primary-800 text-white border-none">
+      <DialogContent className={`${isMobile ? 'w-screen h-screen max-w-none m-0 rounded-none' : 'sm:max-w-[500px]'} bg-gradient-to-br from-primary-600 via-primary-700 to-primary-800 text-white border-none`}>
         {!selectedPlan ? (
           savedPlans.length === 0 ? (
             <div className="text-center">
