@@ -13,21 +13,24 @@ const featuredWorkouts = [
     description: "Build strength and endurance with this comprehensive workout",
     duration: "45 min",
     difficulty: "Intermediate",
-    image: "https://images.unsplash.com/photo-1517836357463-d25dfeac3438?w=800&auto=format&fit=crop",
+    image:
+      "https://images.unsplash.com/photo-1517836357463-d25dfeac3438?w=800&auto=format&fit=crop",
   },
   {
     title: "HIIT Cardio Blast",
     description: "Intense cardio intervals to boost your metabolism",
     duration: "30 min",
     difficulty: "Advanced",
-    image: "https://images.unsplash.com/photo-1434608519344-49d77a699e1d?w=800&auto=format&fit=crop",
+    image:
+      "https://images.unsplash.com/photo-1434608519344-49d77a699e1d?w=800&auto=format&fit=crop",
   },
   {
     title: "Yoga Flow",
     description: "Improve flexibility and mindfulness",
     duration: "60 min",
     difficulty: "Beginner",
-    image: "https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?w=800&auto=format&fit=crop",
+    image:
+      "https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?w=800&auto=format&fit=crop",
   },
 ];
 
@@ -44,14 +47,16 @@ const Index = () => {
       <section className="bg-gradient-to-r from-primary-700 to-primary-900 text-white py-20 px-4">
         <div className="container max-w-6xl mx-auto">
           <h1 className="text-4xl md:text-6xl font-bold mb-4 animate-fade-in">
-            Transform Your Body,<br />Transform Your Life
+            Transform Your Body,
+            <br />
+            Transform Your Life
           </h1>
           <p className="text-xl mb-8 text-primary-100 max-w-2xl animate-fade-in">
-            Get fit with personalized workouts and expert guidance, anywhere, anytime.
+            Get fit with personalized workouts and expert guidance, anywhere,
+            anytime.
           </p>
           <div className="relative overflow-hidden group">
             <WorkoutPlayerDialog savedPlans={savedPlans} />
-            <div className="absolute inset-0 bg-gradient-to-br from-gray-200/20 via-transparent to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-300 ease-out pointer-events-none"></div>
           </div>
         </div>
       </section>

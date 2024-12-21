@@ -63,6 +63,14 @@ export default {
         },
       },
       keyframes: {
+        lightSweep: {
+          "0%": {
+            transform: "translateX(-100%) skewX(-30deg)",
+            opacity: "0.2",
+          },
+          "50%": { opacity: "0.5" },
+          "100%": { transform: "translateX(200%) skewX(-30deg)", opacity: "0" },
+        },
         "accordion-down": {
           from: { height: "0" },
           to: { height: "var(--radix-accordion-content-height)" },
@@ -77,6 +85,7 @@ export default {
         },
       },
       animation: {
+        lightSweep: "lightSweep 1s ease-in-out forwards", // 'forwards' ensures it resets
         "accordion-down": "accordion-down 0.2s ease-out",
         "accordion-up": "accordion-up 0.2s ease-out",
         "fade-in": "fade-in 0.5s ease-out",

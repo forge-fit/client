@@ -9,7 +9,13 @@ import {
 import { Button } from "@/components/ui/button";
 import { useState } from "react";
 import { WorkoutPlan } from "./WorkoutPlanForm";
-import { ChevronLeft, ChevronRight, FastForward, Pause, Play } from "lucide-react";
+import {
+  ChevronLeft,
+  ChevronRight,
+  FastForward,
+  Pause,
+  Play,
+} from "lucide-react";
 import { Progress } from "@/components/ui/progress";
 import { useToast } from "@/hooks/use-toast";
 
@@ -56,7 +62,10 @@ export function WorkoutPlayerDialog({ savedPlans }: WorkoutPlayerDialogProps) {
   };
 
   const handleNextExercise = () => {
-    if (selectedPlan && currentExerciseIndex < selectedPlan.exercises.length - 1) {
+    if (
+      selectedPlan &&
+      currentExerciseIndex < selectedPlan.exercises.length - 1
+    ) {
       setCurrentExerciseIndex((prev) => prev + 1);
       setCurrentSet(1);
       setIsResting(false);
@@ -90,8 +99,17 @@ export function WorkoutPlayerDialog({ savedPlans }: WorkoutPlayerDialogProps) {
   return (
     <Dialog>
       <DialogTrigger asChild>
-        <Button variant="default" size="lg" className="bg-primary text-white">
+        <Button
+          variant="default"
+          size="lg"
+          className="relative overflow-hidden group bg-primary text-white p-4"
+        >
           <Play className="w-5 h-5 mr-2" /> Start Training
+          <span
+            className="absolute inset-0 bg-gradient-to-r from-transparent via-white/40 to-transparent
+                opacity-0 group-hover:opacity-100
+                group-hover:animate-lightSweep pointer-events-none"
+          ></span>
         </Button>
       </DialogTrigger>
       <DialogContent className="sm:max-w-[500px]">
@@ -127,9 +145,7 @@ export function WorkoutPlayerDialog({ savedPlans }: WorkoutPlayerDialogProps) {
             </DialogHeader>
 
             <div className="space-y-4">
-              <div className="text-2xl font-bold">
-                {currentExercise?.name}
-              </div>
+              <div className="text-2xl font-bold">{currentExercise?.name}</div>
               {isResting ? (
                 <div className="space-y-4">
                   <div className="text-center">
@@ -140,7 +156,11 @@ export function WorkoutPlayerDialog({ savedPlans }: WorkoutPlayerDialogProps) {
                   </div>
                   <div className="flex justify-center gap-2">
                     <Button onClick={toggleTimer}>
-                      {isTimerPaused ? <Play className="w-4 h-4" /> : <Pause className="w-4 h-4" />}
+                      {isTimerPaused ? (
+                        <Play className="w-4 h-4" />
+                      ) : (
+                        <Pause className="w-4 h-4" />
+                      )}
                     </Button>
                     <Button onClick={extendRestTime}>
                       <FastForward className="w-4 h-4 mr-2" />
@@ -177,10 +197,12 @@ export function WorkoutPlayerDialog({ savedPlans }: WorkoutPlayerDialogProps) {
                 Previous
               </Button>
               {isResting ? (
-                <Button onClick={() => {
-                  setIsResting(false);
-                  setCurrentSet((prev) => prev + 1);
-                }}>
+                <Button
+                  onClick={() => {
+                    setIsResting(false);
+                    setCurrentSet((prev) => prev + 1);
+                  }}
+                >
                   Skip Rest
                 </Button>
               ) : (
