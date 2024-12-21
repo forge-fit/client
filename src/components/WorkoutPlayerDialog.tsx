@@ -1,3 +1,5 @@
+import * as React from "react"
+import { useState, useRef, useEffect } from "react";
 import {
   Dialog,
   DialogContent,
@@ -7,7 +9,6 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
-import { useState, useRef, useEffect } from "react";
 import { WorkoutPlan } from "./WorkoutPlanForm";
 import { ChevronLeft, ChevronRight, Play } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
@@ -110,7 +111,7 @@ export function WorkoutPlayerDialog({ savedPlans }: WorkoutPlayerDialogProps) {
           <span className="absolute inset-0 bg-gradient-to-r from-transparent via-white/40 to-transparent opacity-0 group-hover:opacity-100 group-hover:animate-lightSweep pointer-events-none"></span>
         </Button>
       </DialogTrigger>
-      <DialogContent className={`${isMobile ? 'w-screen h-screen max-w-none m-0 rounded-none' : 'sm:max-w-[500px]'} bg-gradient-to-br from-primary-600 via-primary-700 to-primary-800 text-white border-none`}>
+      <DialogContent className={`${isMobile ? 'w-screen h-screen max-w-none m-0 rounded-none flex flex-col justify-center items-center' : 'sm:max-w-[500px]'} bg-gradient-to-br from-primary-600 via-primary-700 to-primary-800 text-white border-none`}>
         {!selectedPlan ? (
           savedPlans.length === 0 ? (
             <div className="text-center">
