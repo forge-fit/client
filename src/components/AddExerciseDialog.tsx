@@ -20,6 +20,7 @@ import { Plus } from "lucide-react";
 import { Exercise } from "./WorkoutPlanForm";
 import { useState } from "react";
 import { useToast } from "@/hooks/use-toast";
+import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group";
 
 interface AddExerciseDialogProps {
   onAddExercise: (exercise: Exercise) => void;
@@ -91,8 +92,7 @@ export function AddExerciseDialog({ onAddExercise }: AddExerciseDialogProps) {
         <DialogHeader>
           <DialogTitle>Add Exercise</DialogTitle>
           <DialogDescription>
-            Add a new exercise to your workout plan. Fill in all required
-            fields.
+            Add a new exercise to your workout plan. Fill in all required fields.
           </DialogDescription>
         </DialogHeader>
         <div className="space-y-4 mt-4">
@@ -135,20 +135,41 @@ export function AddExerciseDialog({ onAddExercise }: AddExerciseDialogProps) {
                 setExercise((prev) => ({ ...prev, reps: e.target.value }))
               }
             />
-
-            <Input
-              placeholder="Weight"
-              type="number"
-              className="no-arrows"
-              value={exercise.weight.value}
-              onChange={(e) =>
+            <div className="flex gap-2">
+              <Input
+                placeholder="Weight"
+                type="number"
+                className="no-arrows"
+                value={exercise.weight.value}
+                onChange={(e) =>
+                  setExercise((prev) => ({
+                    ...prev,
+                    weight: { ...prev.weight, value: e.target.value },
+                  }))
+                }
+              />
+            </div>
+          </div>
+          <ToggleGroup
+            type="single"
+            value={exercise.weight.unit}
+            onValueChange={(value) => {
+              if (value) {
                 setExercise((prev) => ({
                   ...prev,
-                  weight: { value: e.target.value, unit: "kg" },
-                }))
+                  weight: { ...prev.weight, unit: value },
+                }));
               }
-            />
-          </div>
+            }}
+            className="justify-start"
+          >
+            <ToggleGroupItem value="kg" aria-label="Toggle kg">
+              kg
+            </ToggleGroupItem>
+            <ToggleGroupItem value="lbs" aria-label="Toggle lbs">
+              lbs
+            </ToggleGroupItem>
+          </ToggleGroup>
           <Textarea
             placeholder="Notes (optional)"
             value={exercise.notes}
