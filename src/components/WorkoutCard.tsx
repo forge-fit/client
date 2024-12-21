@@ -1,5 +1,5 @@
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { Clock, Dumbbell } from "lucide-react";
+import { Clock, Dumbbell, Play } from "lucide-react";
 
 interface WorkoutCardProps {
   title: string;
@@ -11,7 +11,7 @@ interface WorkoutCardProps {
 
 export function WorkoutCard({ title, description, duration, difficulty, image }: WorkoutCardProps) {
   return (
-    <Card className="overflow-hidden transition-all hover:shadow-lg animate-fade-in">
+    <Card className="overflow-hidden transition-all hover:shadow-lg animate-fade-in relative">
       <div className="aspect-video w-full overflow-hidden">
         <img src={image} alt={title} className="w-full h-full object-cover" />
       </div>
@@ -31,6 +31,12 @@ export function WorkoutCard({ title, description, duration, difficulty, image }:
           </div>
         </div>
       </CardContent>
+      <button 
+        className="absolute bottom-4 right-4 p-2 rounded-full bg-primary hover:bg-primary-600 transition-colors"
+        aria-label="Start workout"
+      >
+        <Play className="w-5 h-5 text-white fill-current" />
+      </button>
     </Card>
   );
 }
