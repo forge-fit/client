@@ -21,16 +21,16 @@ export function WorkoutPlanSelection({ savedPlans, onSelectPlan }: WorkoutPlanSe
   }
 
   return (
-    <>
-      <DialogHeader>
-        <DialogTitle className="text-white">
+    <div className="flex flex-col h-full">
+      <DialogHeader className="text-center">
+        <DialogTitle className="text-white text-2xl">
           Choose Your Workout Plan
         </DialogTitle>
         <DialogDescription className="text-primary-100">
           Select a workout plan to begin your training session.
         </DialogDescription>
       </DialogHeader>
-      <div className="grid gap-4 py-4">
+      <div className="grid gap-4 py-8">
         {savedPlans.map((plan) => (
           <Button
             key={plan.name}
@@ -42,6 +42,6 @@ export function WorkoutPlanSelection({ savedPlans, onSelectPlan }: WorkoutPlanSe
           </Button>
         ))}
       </div>
-    </>
+    </div>
   );
 }
