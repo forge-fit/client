@@ -121,7 +121,9 @@ export function WorkoutPlayerDialog({ savedPlans }: WorkoutPlayerDialogProps) {
           ) : (
             <>
               <DialogHeader>
-                <DialogTitle className="text-white">Choose Your Workout Plan</DialogTitle>
+                <DialogTitle className="text-white">
+                  Choose Your Workout Plan
+                </DialogTitle>
                 <DialogDescription className="text-primary-100">
                   Select a workout plan to begin your training session.
                 </DialogDescription>
@@ -143,7 +145,9 @@ export function WorkoutPlayerDialog({ savedPlans }: WorkoutPlayerDialogProps) {
         ) : (
           <div className="space-y-6">
             <DialogHeader>
-              <DialogTitle className="text-white">{selectedPlan.name}</DialogTitle>
+              <DialogTitle className="text-white">
+                {selectedPlan.name}
+              </DialogTitle>
               <DialogDescription className="text-primary-100">
                 Exercise {currentExerciseIndex + 1} of{" "}
                 {selectedPlan.exercises.length}
@@ -151,21 +155,22 @@ export function WorkoutPlayerDialog({ savedPlans }: WorkoutPlayerDialogProps) {
             </DialogHeader>
 
             <div className="space-y-4">
-              <div className="text-2xl font-bold text-white">{currentExercise?.name}</div>
+              <div className="text-2xl font-bold text-white">
+                {currentExercise?.name}
+              </div>
               {isResting ? (
                 <div className="space-y-4">
                   <div className="text-center">
                     <div className="text-3xl font-bold mb-2 text-white">
                       Rest Time: {restTimeLeft}s
                     </div>
-                    <Progress 
-                      value={(restTimeLeft / 60) * 100} 
-                      className="bg-white/20"
-                      indicatorClassName="bg-white"
+                    <Progress
+                      value={(restTimeLeft / 60) * 100}
+                      className="bg-white"
                     />
                   </div>
                   <div className="flex justify-center gap-2">
-                    <Button 
+                    <Button
                       onClick={toggleTimer}
                       variant="secondary"
                       className="bg-white/10 hover:bg-white/20 text-white"
@@ -176,7 +181,7 @@ export function WorkoutPlayerDialog({ savedPlans }: WorkoutPlayerDialogProps) {
                         <Pause className="w-4 h-4" />
                       )}
                     </Button>
-                    <Button 
+                    <Button
                       onClick={extendRestTime}
                       variant="secondary"
                       className="bg-white/10 hover:bg-white/20 text-white"
