@@ -114,7 +114,7 @@ export function WorkoutPlayerDialog({ savedPlans }: WorkoutPlayerDialogProps) {
         className={`${
           isMobile 
             ? 'w-screen h-screen max-w-none m-0 rounded-none flex flex-col' 
-            : 'sm:max-w-[500px] min-h-[600px]'
+            : 'sm:max-w-[500px] min-h-[500px]'
         } bg-gradient-to-br from-primary-600 via-primary-700 to-primary-800 text-white border-none`}
       >
         {!selectedPlan ? (
