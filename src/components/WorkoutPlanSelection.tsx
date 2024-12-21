@@ -10,7 +10,7 @@ interface WorkoutPlanSelectionProps {
 export function WorkoutPlanSelection({ savedPlans, onSelectPlan }: WorkoutPlanSelectionProps) {
   if (savedPlans.length === 0) {
     return (
-      <div className="text-center">
+      <div className="text-center h-full flex flex-col items-center justify-center">
         <div className="text-3xl font-bold mb-2">No workout plans</div>
         <div className="text-primary-100">
           You don't have any saved workout plans. Create a new workout
@@ -21,8 +21,8 @@ export function WorkoutPlanSelection({ savedPlans, onSelectPlan }: WorkoutPlanSe
   }
 
   return (
-    <div className="flex flex-col justify-center h-full">
-      <DialogHeader className="text-center">
+    <div className="flex flex-col h-full">
+      <DialogHeader className="text-center py-6">
         <DialogTitle className="text-white text-2xl">
           Choose Your Workout Plan
         </DialogTitle>
@@ -30,17 +30,19 @@ export function WorkoutPlanSelection({ savedPlans, onSelectPlan }: WorkoutPlanSe
           Select a workout plan to begin your training session.
         </DialogDescription>
       </DialogHeader>
-      <div className="grid gap-4 py-8">
-        {savedPlans.map((plan) => (
-          <Button
-            key={plan.name}
-            variant="secondary"
-            className="w-full justify-start bg-white/10 hover:bg-white/20 text-white transition-colors"
-            onClick={() => onSelectPlan(plan)}
-          >
-            {plan.name}
-          </Button>
-        ))}
+      <div className="flex-1 overflow-y-auto px-6 py-4">
+        <div className="grid gap-4">
+          {savedPlans.map((plan) => (
+            <Button
+              key={plan.name}
+              variant="secondary"
+              className="w-full justify-start bg-white/10 hover:bg-white/20 text-white transition-colors h-14"
+              onClick={() => onSelectPlan(plan)}
+            >
+              {plan.name}
+            </Button>
+          ))}
+        </div>
       </div>
     </div>
   );
