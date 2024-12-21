@@ -6,7 +6,7 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { Edit2, Trash2, Info } from "lucide-react";
+import { Edit2, Trash2 } from "lucide-react";
 import { WorkoutPlan } from "./WorkoutPlanForm";
 import {
   AlertDialog,
@@ -19,15 +19,8 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
-import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from "@/components/ui/dialog";
 import { useIsMobile } from "@/hooks/use-mobile";
+import { MobileExerciseList } from "./MobileExerciseList";
 
 interface SavedWorkoutPlansTableProps {
   savedPlans: WorkoutPlan[];
@@ -41,39 +34,6 @@ export function SavedWorkoutPlansTable({
   onDeletePlan,
 }: SavedWorkoutPlansTableProps) {
   const isMobile = useIsMobile();
-
-  const ExerciseDetailsDialog = ({ exercise }) => (
-    <Dialog>
-      <DialogTrigger className="text-left w-full hover:bg-accent/50 p-2 rounded-md transition-colors">
-        <div className="flex items-center justify-between">
-          <span>{exercise.name}</span>
-          <Info className="h-4 w-4 text-muted-foreground" />
-        </div>
-      </DialogTrigger>
-      <DialogContent>
-        <DialogHeader>
-          <DialogTitle>{exercise.name}</DialogTitle>
-          <DialogDescription>Exercise Details</DialogDescription>
-        </DialogHeader>
-        <div className="space-y-4">
-          <div className="grid grid-cols-2 gap-2">
-            <div className="text-sm text-muted-foreground">Sets</div>
-            <div>{exercise.sets}</div>
-            <div className="text-sm text-muted-foreground">Reps</div>
-            <div>{exercise.reps}</div>
-            <div className="text-sm text-muted-foreground">Weight</div>
-            <div>{exercise.weight.value} {exercise.weight.unit}</div>
-          </div>
-          {exercise.notes && (
-            <div>
-              <div className="text-sm text-muted-foreground mb-1">Notes</div>
-              <div className="text-sm">{exercise.notes}</div>
-            </div>
-          )}
-        </div>
-      </DialogContent>
-    </Dialog>
-  );
 
   if (isMobile) {
     return (
@@ -109,11 +69,7 @@ export function SavedWorkoutPlansTable({
                 </AlertDialog>
               </div>
             </div>
-            <div className="divide-y">
-              {plan.exercises.map((exercise, exerciseIndex) => (
-                <ExerciseDetailsDialog key={exerciseIndex} exercise={exercise} />
-              ))}
-            </div>
+            <MobileExerciseList exercises={plan.exercises} />
           </div>
         ))}
       </div>
