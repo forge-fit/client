@@ -3,7 +3,7 @@ import { useState, useRef, useEffect } from "react";
 import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { WorkoutPlan } from "./WorkoutPlanForm";
-import { Play } from "lucide-react";
+import { Play, StopCircle } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { RestTimer } from "./RestTimer";
 import { ExerciseDisplay } from "./ExerciseDisplay";
@@ -97,6 +97,16 @@ export function WorkoutPlayerDialog({ savedPlans }: WorkoutPlayerDialogProps) {
     }
   };
 
+  const handleEndWorkout = () => {
+    toast({
+      title: "Workout Ended",
+      description: "Your workout has been ended early.",
+    });
+    setSelectedPlan(null);
+    setCurrentExerciseIndex(0);
+    setCurrentSet(1);
+  };
+
   return (
     <Dialog>
       <DialogTrigger asChild>
@@ -171,6 +181,15 @@ export function WorkoutPlayerDialog({ savedPlans }: WorkoutPlayerDialogProps) {
                     currentSet < totalSets ? "Next Set" : "Next Exercise"
                   }
                 />
+                <div className="px-4">
+                  <Button
+                    onClick={handleEndWorkout}
+                    variant="secondary"
+                    className="w-full bg-white/10 hover:bg-white/20 text-white h-14"
+                  >
+                    <StopCircle className="mr-2 h-5 w-5" /> End Workout
+                  </Button>
+                </div>
               </div>
             )}
           </div>
