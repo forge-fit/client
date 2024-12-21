@@ -18,7 +18,7 @@ export function ExerciseDisplay({
   notes,
 }: ExerciseDisplayProps) {
   return (
-    <div className="space-y-4 w-full px-4 flex flex-col items-center justify-between min-h-[400px]">
+    <div className="w-full px-4 flex flex-col items-center min-h-[400px]">
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 w-full max-w-lg">
         <div className="flex items-center gap-3">
           <Dumbbell className="h-8 w-8 text-primary" />
@@ -35,7 +35,7 @@ export function ExerciseDisplay({
         )}
       </div>
 
-      <div className="grid gap-4 w-full max-w-lg">
+      <div className="grid gap-4 w-full max-w-lg mt-4">
         <div className="flex items-center justify-between bg-white/10 px-4 rounded-lg w-full h-14">
           <div className="flex items-center gap-2">
             <Clock className="h-6 w-6 text-primary-100" />
