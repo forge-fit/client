@@ -103,7 +103,7 @@ export function WorkoutPlayerDialog({ savedPlans }: WorkoutPlayerDialogProps) {
         <Button
           variant="default"
           size="lg"
-          className="relative overflow-hidden group bg-primary text-white p-4"
+          className="relative overflow-hidden group bg-primary text-white p-4 h-14"
         >
           <Play className="w-5 h-5 mr-2" /> Start Training
           <span className="absolute inset-0 bg-gradient-to-r from-transparent via-white/40 to-transparent opacity-0 group-hover:opacity-100 group-hover:animate-lightSweep pointer-events-none"></span>
@@ -113,7 +113,7 @@ export function WorkoutPlayerDialog({ savedPlans }: WorkoutPlayerDialogProps) {
         className={`${
           isMobile
             ? "w-screen h-screen max-w-none m-0 rounded-none flex flex-col"
-            : "sm:max-w-[500px] min-h-[500px]"
+            : "sm:max-w-[500px] h-[600px] flex flex-col"
         } bg-gradient-to-br from-primary-600 via-primary-700 to-primary-800 text-white border-none`}
       >
         {!selectedPlan ? (
@@ -124,9 +124,7 @@ export function WorkoutPlayerDialog({ savedPlans }: WorkoutPlayerDialogProps) {
             />
           </div>
         ) : (
-          <div
-            className={`space-y-6 ${isMobile ? "h-full" : ""} flex flex-col`}
-          >
+          <div className={`space-y-6 ${isMobile ? "h-full" : "h-full"} flex flex-col`}>
             {isMobile && (
               <div className="text-center pt-4">
                 <h2 className="text-2xl font-bold text-white">
