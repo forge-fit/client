@@ -7,6 +7,33 @@ import { WorkoutPlayerDialog } from "@/components/WorkoutPlayerDialog";
 import { useState } from "react";
 import { WorkoutPlan } from "@/components/WorkoutPlanForm";
 
+const featuredWorkouts = [
+  {
+    title: "Full Body Strength",
+    description: "Build strength and endurance with this comprehensive workout",
+    duration: "45 min",
+    difficulty: "Intermediate",
+    image:
+      "https://images.unsplash.com/photo-1517836357463-d25dfeac3438?w=800&auto=format&fit=crop",
+  },
+  {
+    title: "HIIT Cardio Blast",
+    description: "Intense cardio intervals to boost your metabolism",
+    duration: "30 min",
+    difficulty: "Advanced",
+    image:
+      "https://images.unsplash.com/photo-1434608519344-49d77a699e1d?w=800&auto=format&fit=crop",
+  },
+  {
+    title: "Yoga Flow",
+    description: "Improve flexibility and mindfulness",
+    duration: "60 min",
+    difficulty: "Beginner",
+    image:
+      "https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?w=800&auto=format&fit=crop",
+  },
+];
+
 interface IndexProps {
   initialWorkoutPlans: WorkoutPlan[];
 }
@@ -34,6 +61,23 @@ const Index = ({ initialWorkoutPlans }: IndexProps) => {
           </p>
           <div className="relative overflow-hidden group">
             <WorkoutPlayerDialog savedPlans={savedPlans} />
+          </div>
+        </div>
+      </section>
+
+      {/* Featured Workouts */}
+      <section className="py-16 px-4">
+        <div className="container max-w-6xl mx-auto">
+          <div className="flex items-center justify-between mb-8">
+            <h2 className="text-2xl font-bold">Featured Workouts</h2>
+            <Button variant="ghost" className="text-primary-700">
+              <TrendingUp className="mr-2 h-4 w-4" /> View All
+            </Button>
+          </div>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {featuredWorkouts.map((workout) => (
+              <WorkoutCard key={workout.title} {...workout} />
+            ))}
           </div>
         </div>
       </section>
