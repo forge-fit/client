@@ -49,6 +49,18 @@ export function WorkoutCompletionDialog({
     onClose();
   };
 
+  const handleSliderChange = (
+    e: React.MouseEvent<HTMLDivElement>,
+    setValue: (value: number) => void,
+    min: number,
+    max: number
+  ) => {
+    const rect = e.currentTarget.getBoundingClientRect();
+    const percent = (e.clientX - rect.left) / rect.width;
+    const value = Math.round(min + percent * (max - min));
+    setValue(Math.min(Math.max(value, min), max));
+  };
+
   return (
     <Dialog open={open} onOpenChange={onClose}>
       <DialogContent>
@@ -58,13 +70,18 @@ export function WorkoutCompletionDialog({
         <div className="space-y-6 py-4">
           <div className="space-y-2">
             <label className="text-sm font-medium">How difficult was it?</label>
-            <Slider
-              min={1}
-              max={5}
-              step={1}
-              value={[difficulty]}
-              onValueChange={([value]) => setDifficulty(value)}
-            />
+            <div
+              className="relative cursor-pointer"
+              onClick={(e) => handleSliderChange(e, setDifficulty, 1, 5)}
+            >
+              <Slider
+                min={1}
+                max={5}
+                step={1}
+                value={[difficulty]}
+                onValueChange={([value]) => setDifficulty(value)}
+              />
+            </div>
             <div className="flex justify-between text-xs text-muted-foreground">
               <span>Easy</span>
               <span>Hard</span>
@@ -73,13 +90,18 @@ export function WorkoutCompletionDialog({
 
           <div className="space-y-2">
             <label className="text-sm font-medium">Energy Level</label>
-            <Slider
-              min={1}
-              max={5}
-              step={1}
-              value={[energy]}
-              onValueChange={([value]) => setEnergy(value)}
-            />
+            <div
+              className="relative cursor-pointer"
+              onClick={(e) => handleSliderChange(e, setEnergy, 1, 5)}
+            >
+              <Slider
+                min={1}
+                max={5}
+                step={1}
+                value={[energy]}
+                onValueChange={([value]) => setEnergy(value)}
+              />
+            </div>
             <div className="flex justify-between text-xs text-muted-foreground">
               <span>Low</span>
               <span>High</span>
