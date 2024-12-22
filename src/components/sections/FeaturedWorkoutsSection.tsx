@@ -3,6 +3,10 @@ import { WorkoutLibraryDialog } from "@/components/WorkoutLibraryDialog";
 
 import { FeaturedWorkoutDialog } from "@/components/FeaturedWorkoutDialog";
 import { useDialog } from "@/hooks/use-dialog";
+import { Button } from "@/components/ui/button";
+import { ChevronRight } from "lucide-react";
+import { useNavigate } from "react-router-dom";
+import { ArrowRight } from "lucide-react";
 
 interface FeaturedWorkoutsSectionProps {
   featuredWorkouts: WorkoutCardProps[];
@@ -12,6 +16,7 @@ export const FeaturedWorkoutsSection = ({
   featuredWorkouts,
 }: FeaturedWorkoutsSectionProps) => {
   const workoutDialog = useDialog();
+  const navigate = useNavigate();
 
   return (
     <section className="py-16 px-4">

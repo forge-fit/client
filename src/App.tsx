@@ -9,27 +9,36 @@ import MobileWorkoutPlan from "./pages/MobileWorkoutPlan";
 import WorkoutLibrary from "./pages/WorkoutLibrary";
 import { featuredWorkouts } from "./data/workouts";
 import Progress from "./pages/Progress";
+import MobileExercises from "./pages/MobileExercises";
+import { useIsMobile } from "@/hooks/use-mobile";
 
 const queryClient = new QueryClient();
 
-const App = () => (
-  <QueryClientProvider client={queryClient}>
-    <TooltipProvider>
-      <Toaster />
-      <Sonner />
-      <BrowserRouter basename="/fit-track">
-        <Routes>
-          <Route path="/" element={<Index />} />
-          <Route path="/workout-plan" element={<MobileWorkoutPlan />} />
-          <Route
-            path="/workout-library"
-            element={<WorkoutLibrary workouts={featuredWorkouts} />}
-          />
-          <Route path="/progress" element={<Progress />} />
-        </Routes>
-      </BrowserRouter>
-    </TooltipProvider>
-  </QueryClientProvider>
-);
+const App = () => {
+  const isMobile = useIsMobile();
+
+  return (
+    <QueryClientProvider client={queryClient}>
+      <TooltipProvider>
+        <Toaster />
+        <Sonner />
+        <BrowserRouter basename="/fit-track">
+          <Routes>
+            <Route path="/" element={<Index />} />
+            <Route path="/workout-plan" element={<MobileWorkoutPlan />} />
+            <Route
+              path="/workout-library"
+              element={<WorkoutLibrary workouts={featuredWorkouts} />}
+            />
+            <Route path="/progress" element={<Progress />} />
+            {isMobile && (
+              <Route path="/exercises" element={<MobileExercises />} />
+            )}
+          </Routes>
+        </BrowserRouter>
+      </TooltipProvider>
+    </QueryClientProvider>
+  );
+};
 
 export default App;
