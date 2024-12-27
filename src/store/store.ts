@@ -1,8 +1,8 @@
 import { configureStore, combineReducers } from "@reduxjs/toolkit";
+import notificationReducer from "./notificationSlice";
 import workoutPlanReducer from "./workoutPlanSlice";
 import workoutProgressReducer from "./workoutProgressSlice";
 import workoutHistoryReducer from "./workoutHistorySlice";
-import { RootState } from "@/types/store";
 
 // Load state from localStorage
 const loadState = () => {
@@ -30,6 +30,7 @@ const saveState = (state: RootState) => {
 const preloadedState = loadState();
 
 const rootReducer = combineReducers({
+  notification: notificationReducer,
   workoutPlan: workoutPlanReducer,
   workoutProgress: workoutProgressReducer,
   workoutHistory: workoutHistoryReducer,
@@ -46,3 +47,4 @@ store.subscribe(() => {
 });
 
 export type AppDispatch = typeof store.dispatch;
+export type RootState = ReturnType<typeof rootReducer>;

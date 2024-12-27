@@ -10,6 +10,7 @@ import { Slider } from "@/components/ui/slider";
 import { Textarea } from "@/components/ui/textarea";
 import { useAppDispatch } from "@/store/hooks";
 import { completeWorkoutAndResetState } from "@/store/workoutProgressSlice";
+import { sendNotification } from "@/store/notificationSlice";
 import { WorkoutPlan } from "./WorkoutPlanForm";
 interface WorkoutCompletionDialogProps {
   open: boolean;
@@ -33,7 +34,7 @@ export function WorkoutCompletionDialog({
   const [energy, setEnergy] = useState(3);
   const [notes, setNotes] = useState("");
 
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
     const workoutData = {
       feedback: { difficulty, energy, notes },
       progress: {
@@ -46,6 +47,23 @@ export function WorkoutCompletionDialog({
     };
 
     dispatch(completeWorkoutAndResetState(workoutData));
+
+    await dispatch(
+      sendNotification({
+        title: "Workout Complete! 💪",
+        options: {
+          body: `Great job! You completed ${
+            workoutData.progress.exercisesCompleted
+          } exercises in ${Math.floor(duration / 60)} minutes.`,
+          tag: "workout-completion",
+          data: {
+            workoutName: workout.name,
+            timestamp: new Date().toISOString(),
+          },
+        },
+      })
+    ).unwrap();
+
     onClose();
   };
 

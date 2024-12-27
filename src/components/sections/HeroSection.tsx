@@ -1,6 +1,7 @@
+import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { useDialog } from "@/hooks/use-dialog";
-import { BarChart, Play } from "lucide-react";
+import { BarChart, Play, Settings } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "@/store/hooks";
 import {
@@ -10,12 +11,14 @@ import {
 import { WorkoutPlanSelectionDialog } from "@/components/WorkoutPlanSelection";
 import { WorkoutPlayerDialog } from "@/components/WorkoutPlayerDialog";
 import { useEffect } from "react";
+import SettingsModal from "@/components/SettingsModal";
 
 export const HeroSection = () => {
   const navigate = useNavigate();
   const planDialog = useDialog();
   const workoutDialog = useDialog();
   const dispatch = useAppDispatch();
+  const [isSettingsOpen, setIsSettingsOpen] = useState(false);
 
   const activeWorkout = useAppSelector(
     (state) => state.workoutProgress.activeWorkout
@@ -47,6 +50,15 @@ export const HeroSection = () => {
 
   return (
     <section className="bg-gradient-to-r from-primary-700 to-primary-900 text-white py-20 px-4">
+      <Button
+        variant="ghost"
+        size="icon"
+        className="absolute top-4 right-4"
+        onClick={() => setIsSettingsOpen(true)}
+      >
+        <Settings className="h-6 w-6" />
+      </Button>
+
       <div className="container max-w-6xl mx-auto">
         <h1 className="text-4xl md:text-6xl font-bold mb-4 animate-fade-in">
           Transform Your Body,
@@ -90,6 +102,15 @@ export const HeroSection = () => {
           </Button>
         </div>
       </div>
+
+      {isSettingsOpen && (
+        <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
+          <div className="bg-white p-6 rounded-lg max-w-md w-full mx-4">
+            <SettingsModal onClose={() => setIsSettingsOpen(false)} />
+          </div>
+        </div>
+      )}
+
       {activeWorkout && <WorkoutPlayerDialog dialog={workoutDialog} />}
     </section>
   );

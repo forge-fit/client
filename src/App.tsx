@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
@@ -10,6 +10,7 @@ import WorkoutLibrary from "./pages/WorkoutLibrary";
 import { featuredWorkouts } from "./data/workouts";
 import Progress from "./pages/Progress";
 import MobileExercises from "./pages/MobileExercises";
+import SettingsPage from "./pages/SettingsPage";
 import { useIsMobile } from "@/hooks/use-mobile";
 
 const queryClient = new QueryClient();
@@ -34,6 +35,7 @@ const App = () => {
             {isMobile && (
               <Route path="/exercises" element={<MobileExercises />} />
             )}
+            <Route path="/settings" element={<SettingsPage />} />
           </Routes>
         </BrowserRouter>
       </TooltipProvider>
