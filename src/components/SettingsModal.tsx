@@ -4,6 +4,8 @@ import { setReminderTime } from "@/store/notificationSlice";
 import { Button } from "@/components/ui/button";
 import { Settings, X } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
+import { useAppSelector } from "@/store/hooks";
+import { RootState } from "@/store/store";
 
 interface SettingsModalProps {
   onClose: () => void;
@@ -12,7 +14,11 @@ interface SettingsModalProps {
 const SettingsModal = ({ onClose }: SettingsModalProps) => {
   const dispatch = useDispatch();
   const { toast } = useToast();
-  const [reminderTime, setReminderTimeState] = useState("12:00");
+  const selectedReminderTime = useAppSelector(
+    (state: RootState) => state.notification.reminderTime
+  );
+
+  const [reminderTime, setReminderTimeState] = useState(selectedReminderTime);
 
   const handleSave = () => {
     dispatch(setReminderTime(reminderTime));
