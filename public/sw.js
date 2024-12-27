@@ -1,4 +1,4 @@
-const CACHE_NAME = "fitness-app-v1";
+const CACHE_NAME = "fitness-app-v2";
 const urlsToCache = [
   "/fit-track/",
   "/fit-track/index.html",
