@@ -1,8 +1,9 @@
 import { Dialog, DialogContent } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { Bell } from "lucide-react";
-import { useAppDispatch } from "@/store/hooks";
+import { useAppDispatch, useAppSelector } from "@/store/hooks";
 import { requestNotificationPermission } from "@/store/notificationSlice";
+import { RootState } from "@/store/store";
 
 interface NotificationPromptDialogProps {
   open: boolean;
@@ -14,13 +15,22 @@ export function NotificationPromptDialog({
   onClose,
 }: NotificationPromptDialogProps) {
   const dispatch = useAppDispatch();
+  const permission = useAppSelector(
+    (state: RootState) => state.notification.permission
+  );
 
   const handleEnable = async () => {
     const result = await dispatch(requestNotificationPermission()).unwrap();
-    if (result) {
+    if (result || permission === "granted") {
       onClose();
     }
   };
+
+  // Close dialog if permission is already granted
+  if (permission === "granted" && open) {
+    onClose();
+    return null;
+  }
 
   return (
     <Dialog open={open} onOpenChange={onClose}>
