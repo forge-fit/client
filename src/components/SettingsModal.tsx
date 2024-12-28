@@ -6,6 +6,7 @@ import { Settings, X } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { useAppSelector } from "@/store/hooks";
 import { RootState } from "@/store/store";
+import { requestNotificationPermission } from "@/store/notificationSlice";
 
 interface SettingsModalProps {
   onClose: () => void;
@@ -17,10 +18,25 @@ const SettingsModal = ({ onClose }: SettingsModalProps) => {
   const selectedReminderTime = useAppSelector(
     (state: RootState) => state.notification.reminderTime
   );
+  const permission = useAppSelector(
+    (state: RootState) => state.notification.permission
+  );
 
   const [reminderTime, setReminderTimeState] = useState(selectedReminderTime);
 
   const handleSave = async () => {
+    if (permission !== "granted") {
+      const result = await dispatch(requestNotificationPermission()).unwrap();
+      if (!result) {
+        toast({
+          title: "Notification Permission Required",
+          description: "Please enable notifications to receive reminders",
+          variant: "destructive",
+        });
+        return;
+      }
+    }
+
     dispatch(setReminderTime(reminderTime));
     toast({
       title: "Daily reminder set",

@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
@@ -12,14 +12,20 @@ import MobileExercises from "./pages/MobileExercises";
 import { useIsMobile } from "@/hooks/use-mobile";
 import { useAppDispatch } from "@/store/hooks";
 import { requestNotificationPermission } from "@/store/notificationSlice";
+import { NotificationPromptDialog } from "@/components/NotificationPromptDialog";
 
 const App = () => {
-  const dispatch = useAppDispatch();
+  const [showNotificationPrompt, setShowNotificationPrompt] = useState(false);
   const isMobile = useIsMobile();
 
   useEffect(() => {
-    dispatch(requestNotificationPermission());
-  }, [dispatch]);
+    // Check if we've shown the prompt before
+    const hasPrompted = localStorage.getItem("notification_prompted");
+    if (!hasPrompted && "Notification" in window) {
+      setShowNotificationPrompt(true);
+      localStorage.setItem("notification_prompted", "true");
+    }
+  }, []);
 
   return (
     <TooltipProvider>
@@ -39,6 +45,10 @@ const App = () => {
           )}
         </Routes>
       </BrowserRouter>
+      <NotificationPromptDialog
+        open={showNotificationPrompt}
+        onClose={() => setShowNotificationPrompt(false)}
+      />
     </TooltipProvider>
   );
 };
