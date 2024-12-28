@@ -1,12 +1,12 @@
 const CACHE_NAME = "fitness-app-v2";
 const urlsToCache = [
-  "/fit-track/",
-  "/fit-track/index.html",
-  "/fit-track/manifest.json",
-  "/fit-track/favicon.ico",
-  "/fit-track/apple-touch-icon.png",
-  "/fit-track/icons/icon-192x192.png",
-  "/fit-track/icons/icon-512x512.png",
+  // "/fit-track/",
+  // "/fit-track/index.html",
+  // "/fit-track/manifest.json",
+  // "/fit-track/favicon.ico",
+  // "/fit-track/apple-touch-icon.png",
+  // "/fit-track/icons/icon-192x192.png",
+  // "/fit-track/icons/icon-512x512.png",
   // Add other static assets
 ];
 
