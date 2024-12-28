@@ -1,9 +1,6 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { useAppDispatch } from "@/store/hooks";
-import {
-  setReminderTime,
-  requestNotificationPermission,
-} from "@/store/notificationSlice";
+import { setReminderTime } from "@/store/notificationSlice";
 import { Button } from "@/components/ui/button";
 import { Settings, X } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
@@ -23,24 +20,7 @@ const SettingsModal = ({ onClose }: SettingsModalProps) => {
 
   const [reminderTime, setReminderTimeState] = useState(selectedReminderTime);
 
-  useEffect(() => {
-    dispatch(requestNotificationPermission());
-  }, [dispatch]);
-
   const handleSave = async () => {
-    const permissionResult = await dispatch(
-      requestNotificationPermission()
-    ).unwrap();
-    if (!permissionResult) {
-      toast({
-        title: "Notification Permission Required",
-        description:
-          "Please enable notifications in your device settings to receive reminders.",
-        variant: "destructive",
-      });
-      return;
-    }
-
     dispatch(setReminderTime(reminderTime));
     toast({
       title: "Daily reminder set",

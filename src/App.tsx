@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
@@ -11,11 +11,18 @@ import { featuredWorkouts } from "./data/workouts";
 import Progress from "./pages/Progress";
 import MobileExercises from "./pages/MobileExercises";
 import { useIsMobile } from "@/hooks/use-mobile";
+import { useAppDispatch } from "@/store/hooks";
+import { requestNotificationPermission } from "@/store/notificationSlice";
 
 const queryClient = new QueryClient();
 
 const App = () => {
+  const dispatch = useAppDispatch();
   const isMobile = useIsMobile();
+
+  useEffect(() => {
+    dispatch(requestNotificationPermission());
+  }, [dispatch]);
 
   return (
     <QueryClientProvider client={queryClient}>

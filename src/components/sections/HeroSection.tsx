@@ -18,7 +18,7 @@ export const HeroSection = () => {
   const planDialog = useDialog();
   const workoutDialog = useDialog();
   const dispatch = useAppDispatch();
-  const [isSettingsOpen, setIsSettingsOpen] = useState(false);
+  const { isOpen, onOpen, onClose, onToggle, setIsOpen } = useDialog();
 
   const activeWorkout = useAppSelector(
     (state) => state.workoutProgress.activeWorkout
@@ -54,7 +54,7 @@ export const HeroSection = () => {
         variant="ghost"
         size="icon"
         className="absolute top-4 right-4"
-        onClick={() => setIsSettingsOpen(true)}
+        onClick={() => onOpen()}
       >
         <Settings className="h-6 w-6" />
       </Button>
@@ -103,10 +103,10 @@ export const HeroSection = () => {
         </div>
       </div>
 
-      {isSettingsOpen && (
+      {isOpen && (
         <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
           <div className="bg-white p-6 rounded-lg max-w-md w-full mx-4">
-            <SettingsModal onClose={() => setIsSettingsOpen(false)} />
+            <SettingsModal onClose={onClose} />
           </div>
         </div>
       )}
