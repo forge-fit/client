@@ -23,6 +23,7 @@ export const exerciseGuides: ExerciseGuide[] = [
       "Unrack the bar and lower it to your chest",
       "Press the bar back up to the starting position",
     ],
+    alternatives: [],
     tips: [
       "Keep your wrists straight",
       "Drive your feet into the ground",
@@ -40,6 +41,7 @@ export const exerciseGuides: ExerciseGuide[] = [
     name: "Pull-ups",
     muscleGroups: ["Back", "Biceps"],
     difficulty: "advanced",
+    alternatives: [],
     videoUrl: "https://www.youtube.com/embed/eGo4IYlbE5g",
     steps: [
       "Grip the pull-up bar with hands wider than shoulders",
@@ -62,6 +64,7 @@ export const exerciseGuides: ExerciseGuide[] = [
   {
     id: "squats",
     name: "Barbell Squats",
+    alternatives: [],
     muscleGroups: ["Legs"],
     difficulty: "intermediate",
     videoUrl: "https://www.youtube.com/embed/ultWZbUMPL8",
@@ -85,6 +88,7 @@ export const exerciseGuides: ExerciseGuide[] = [
     name: "Deadlift",
     muscleGroups: ["Back", "Legs"],
     difficulty: "advanced",
+    alternatives: ["Barbell Deadlift"],
     videoUrl: "https://www.youtube.com/embed/op9kVnSso6Q",
     steps: [
       "Stand with feet hip-width apart",

@@ -3,20 +3,17 @@ import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { ChevronLeft, Filter, Search } from "lucide-react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { Dialog, DialogContent } from "@/components/ui/dialog";
-import { ExerciseGuide } from "@/components/ExerciseGuide";
 import { cn } from "@/lib/utils";
-import type { ExerciseGuide as ExerciseGuideType } from "@/types/exercise";
 
 export default function MobileExercises() {
   const navigate = useNavigate();
   const [selectedMuscle, setSelectedMuscle] = useState<string | null>(null);
   const [showFilters, setShowFilters] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
-  const [selectedExercise, setSelectedExercise] =
-    useState<ExerciseGuideType | null>(null);
-
+  const { exerciseId } = useParams();
+  const exercise = exerciseGuides.find((e) => e.id === exerciseId);
   const filteredExercises = exerciseGuides
     .filter((ex) => !selectedMuscle || ex.muscleGroups.includes(selectedMuscle))
     .filter(
@@ -68,7 +65,7 @@ export default function MobileExercises() {
           <button
             key={exercise.id}
             className="w-full p-4 text-left hover:bg-accent/50 active:bg-accent transition-colors"
-            onClick={() => setSelectedExercise(exercise)}
+            onClick={() => navigate(`/exercises/${exercise.id}`)}
           >
             <div className="flex flex-col gap-1">
               <div className="flex items-center justify-between">
@@ -152,8 +149,8 @@ export default function MobileExercises() {
 
       {/* Mobile-Friendly Exercise Details Dialog */}
       <Dialog
-        open={!!selectedExercise}
-        onOpenChange={(open) => !open && setSelectedExercise(null)}
+        open={!!exerciseId}
+        onOpenChange={(open) => !open && navigate(-1)}
       >
         <DialogContent className="w-screen h-[100vh] max-w-none m-0 p-0 rounded-none overflow-y-auto">
           <div className="flex flex-col h-full">
@@ -163,27 +160,16 @@ export default function MobileExercises() {
                 <Button
                   variant="ghost"
                   size="icon"
-                  onClick={() => setSelectedExercise(null)}
+                  onClick={() => navigate(-1)}
                 >
                   <ChevronLeft className="h-5 w-5" />
                 </Button>
                 <div className="flex-1">
-                  <h2 className="text-xl font-bold">
-                    {selectedExercise?.name}
-                  </h2>
+                  <h2 className="text-xl font-bold">{exercise?.name}</h2>
                   <p className="text-sm text-muted-foreground">
-                    {selectedExercise?.muscleGroups.join(", ")}
+                    {exercise?.muscleGroups.join(", ")}
                   </p>
                 </div>
-              </div>
-            </div>
-
-            {/* Exercise Content - Fixed height and overflow */}
-            <div className="flex-1 overflow-y-auto">
-              <div className="p-4 pb-20">
-                {selectedExercise && (
-                  <ExerciseGuide exercise={selectedExercise} isMobile={true} />
-                )}
               </div>
             </div>
           </div>

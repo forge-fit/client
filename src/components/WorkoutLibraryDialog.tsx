@@ -11,7 +11,8 @@ import { WorkoutCard, WorkoutCardProps } from "./WorkoutCard";
 import { cn } from "@/lib/utils";
 import { useState } from "react";
 import { useIsMobile } from "@/hooks/use-mobile";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
+import { useDialog } from "@/hooks/use-dialog";
 
 interface WorkoutCategory {
   id: string;
@@ -33,34 +34,17 @@ interface WorkoutLibraryDialogProps {
 }
 
 export function WorkoutLibraryDialog({ workouts }: WorkoutLibraryDialogProps) {
-  const isMobile = useIsMobile();
-  const navigate = useNavigate();
+  const location = useLocation();
   const [selectedCategory, setSelectedCategory] = useState("all");
-
+  const navigate = useNavigate();
+  const isOpen = location.pathname === "/workout-library";
   const filteredWorkouts = workouts.filter(
     (workout) =>
       selectedCategory === "all" || workout.category === selectedCategory
   );
 
-  if (isMobile) {
-    return (
-      <Button
-        variant="ghost"
-        className="text-primary-700"
-        onClick={() => navigate("/workout-library")}
-      >
-        <TrendingUp className="mr-2 h-4 w-4" /> View All
-      </Button>
-    );
-  }
-
   return (
-    <Dialog>
-      <DialogTrigger asChild>
-        <Button variant="ghost" className="text-primary-700">
-          <TrendingUp className="mr-2 h-4 w-4" /> View All
-        </Button>
-      </DialogTrigger>
+    <Dialog open={isOpen} onOpenChange={() => navigate("/")}>
       <DialogContent className="sm:max-w-[90vw] max-h-[90vh] w-full p-0">
         <DialogHeader className="px-6 py-4 border-b">
           <DialogTitle className="text-2xl font-bold">

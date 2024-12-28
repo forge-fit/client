@@ -3,6 +3,7 @@ import { WorkoutPlannerSection } from "@/components/sections/WorkoutPlannerSecti
 import { FeaturedWorkoutsSection } from "@/components/sections/FeaturedWorkoutsSection";
 import { featuredWorkouts } from "@/data/workouts";
 import { ExercisesSection } from "@/components/sections/ExercisesSection";
+import { Outlet } from "react-router-dom";
 
 export default function Index() {
   return (
@@ -11,6 +12,7 @@ export default function Index() {
       <FeaturedWorkoutsSection featuredWorkouts={featuredWorkouts} />
       <ExercisesSection />
       <WorkoutPlannerSection />
+      <Outlet />
     </div>
   );
 }
