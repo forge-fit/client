@@ -1,5 +1,5 @@
 import { createSlice, PayloadAction, createAsyncThunk } from "@reduxjs/toolkit";
-import { AppDispatch } from "./store";
+import { AppDispatch, store } from "./store";
 
 interface NotificationState {
   reminderTime: string;
@@ -94,12 +94,6 @@ export const notificationSlice = createSlice({
       ).toISOString();
 
       let timeUntilReminder = reminderDate.getTime() - now.getTime();
-      console.log(
-        "Time until reminder:",
-        timeUntilReminder,
-        "Local time:",
-        reminderDate.toLocaleString()
-      );
 
       // Schedule for tomorrow if time has passed
       if (timeUntilReminder < 0) {
@@ -110,37 +104,26 @@ export const notificationSlice = createSlice({
       // Store the next reminder time with timezone offset
       localStorage.setItem("nextReminderTime", localISOString);
 
-      const showNotification = () => {
-        console.log("Showing notification");
-        if (Notification.permission === "granted") {
-          try {
-            new Notification("Workout Reminder", {
-              body: "Time for your daily workout!",
-              icon: "/fit-track/icons/icon-192x192.png",
-              badge: "/fit-track/icons/icon-192x192.png",
-              requireInteraction: true,
-            });
-          } catch (e) {
-            console.error("Native notification failed:", e);
-            navigator.serviceWorker.ready.then((registration) => {
-              registration.showNotification("Workout Reminder", {
-                body: "Time for your daily workout!",
-                icon: "/fit-track/icons/icon-192x192.png",
-                badge: "/fit-track/icons/icon-192x192.png",
-                requireInteraction: true,
-              });
-            });
-          }
-        }
-      };
-
       // Show immediately if within a minute
       if (Math.abs(timeUntilReminder) < 60000) {
-        console.log("Showing immediate notification");
-        showNotification();
+        store.dispatch(
+          sendNotification({
+            title: "Workout Reminder",
+            options: { body: "Time for your daily workout!" },
+          })
+        );
       }
 
-      state.scheduledReminder = setTimeout(showNotification, timeUntilReminder);
+      state.scheduledReminder = setTimeout(
+        () =>
+          store.dispatch(
+            sendNotification({
+              title: "Workout Reminder",
+              options: { body: "Time for your daily workout!" },
+            })
+          ),
+        timeUntilReminder
+      );
     },
   },
   extraReducers: (builder) => {
