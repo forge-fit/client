@@ -15,10 +15,21 @@ const initialState: NotificationState = {
 export const requestNotificationPermission = createAsyncThunk(
   "notification/requestPermission",
   async () => {
-    if (!("Notification" in window)) return false;
+    if (!("Notification" in window)) {
+      console.log("This browser does not support notifications");
+      return false;
+    }
 
     try {
+      // For both desktop and mobile browsers
       const permission = await Notification.requestPermission();
+
+      // If permission is already granted, register the service worker
+      if (permission === "granted") {
+        const registration = await navigator.serviceWorker.ready;
+        console.log("Service Worker ready for notifications");
+      }
+
       return permission === "granted";
     } catch (error) {
       console.error("Error requesting notification permission:", error);

@@ -23,3 +23,18 @@ self.addEventListener("fetch", (event) => {
       .then((response) => response || fetch(event.request))
   );
 });
+
+self.addEventListener("push", (event) => {
+  if (event.data) {
+    const data = event.data.json();
+    const options = {
+      body: data.body,
+      icon: "/fit-track/icons/icon-192x192.png",
+      badge: "/fit-track/icons/icon-192x192.png",
+      data: data.data,
+      requireInteraction: true,
+    };
+
+    event.waitUntil(self.registration.showNotification(data.title, options));
+  }
+});
