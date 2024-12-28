@@ -16,8 +16,10 @@ export function NotificationPromptDialog({
   const dispatch = useAppDispatch();
 
   const handleEnable = async () => {
-    await dispatch(requestNotificationPermission());
-    onClose();
+    const result = await dispatch(requestNotificationPermission()).unwrap();
+    if (result) {
+      onClose();
+    }
   };
 
   return (
