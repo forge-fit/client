@@ -15,19 +15,14 @@ export function NotificationPromptDialog({
   onClose,
 }: NotificationPromptDialogProps) {
   const dispatch = useAppDispatch();
-  const permission = useAppSelector(
-    (state: RootState) => state.notification.permission
-  );
 
   const handleEnable = async () => {
-    // Close dialog if permission is already granted
     if (Notification.permission === "granted" && open) {
       onClose();
       return null;
     }
     try {
       await dispatch(requestNotificationPermission()).unwrap();
-      // Check current permission after the request
       if (Notification.permission === "granted") {
         onClose();
       }

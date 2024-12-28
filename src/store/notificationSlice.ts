@@ -155,25 +155,3 @@ export const notificationSlice = createSlice({
 
 export const { setReminderTime } = notificationSlice.actions;
 export default notificationSlice.reducer;
-
-// Add this to check and reschedule notifications on app load
-export const checkAndRescheduleNotification = () => (dispatch: AppDispatch) => {
-  const nextReminderTime = localStorage.getItem("nextReminderTime");
-  if (nextReminderTime) {
-    const reminderDate = new Date(nextReminderTime);
-    const now = new Date();
-    if (reminderDate > now) {
-      const [hours, minutes] = [
-        reminderDate.getHours(),
-        reminderDate.getMinutes(),
-      ];
-      dispatch(
-        setReminderTime(
-          `${hours.toString().padStart(2, "0")}:${minutes
-            .toString()
-            .padStart(2, "0")}`
-        )
-      );
-    }
-  }
-};
