@@ -1,4 +1,5 @@
 import { createSlice, PayloadAction, createAsyncThunk } from "@reduxjs/toolkit";
+import { AppDispatch } from "./store";
 
 interface NotificationState {
   reminderTime: string;
@@ -85,24 +86,20 @@ export const notificationSlice = createSlice({
       const [hours, minutes] = action.payload.split(":").map(Number);
       const now = new Date();
       const reminderDate = new Date();
+
+      // Set time in local timezone
       reminderDate.setHours(hours, minutes, 0, 0);
+      const localISOString = new Date(
+        reminderDate.getTime() - reminderDate.getTimezoneOffset() * 60000
+      ).toISOString();
 
       let timeUntilReminder = reminderDate.getTime() - now.getTime();
-
-      const showNotification = async () => {
-        const registration = await navigator.serviceWorker.ready;
-        await registration.showNotification("Workout Reminder", {
-          body: "Time for your daily workout!",
-          icon: "/fit-track/icons/icon-192x192.png",
-          badge: "/fit-track/icons/icon-192x192.png",
-          requireInteraction: true,
-        });
-      };
-
-      // If time has passed today, try for today first if it's within 1 minute
-      if (timeUntilReminder > -60000 && timeUntilReminder < 0) {
-        showNotification();
-      }
+      console.log(
+        "Time until reminder:",
+        timeUntilReminder,
+        "Local time:",
+        reminderDate.toLocaleString()
+      );
 
       // Schedule for tomorrow if time has passed
       if (timeUntilReminder < 0) {
@@ -110,11 +107,40 @@ export const notificationSlice = createSlice({
         timeUntilReminder = reminderDate.getTime() - now.getTime();
       }
 
-      state.scheduledReminder = setTimeout(() => {
+      // Store the next reminder time with timezone offset
+      localStorage.setItem("nextReminderTime", localISOString);
+
+      const showNotification = () => {
+        console.log("Showing notification");
+        if (Notification.permission === "granted") {
+          try {
+            new Notification("Workout Reminder", {
+              body: "Time for your daily workout!",
+              icon: "/fit-track/icons/icon-192x192.png",
+              badge: "/fit-track/icons/icon-192x192.png",
+              requireInteraction: true,
+            });
+          } catch (e) {
+            console.error("Native notification failed:", e);
+            navigator.serviceWorker.ready.then((registration) => {
+              registration.showNotification("Workout Reminder", {
+                body: "Time for your daily workout!",
+                icon: "/fit-track/icons/icon-192x192.png",
+                badge: "/fit-track/icons/icon-192x192.png",
+                requireInteraction: true,
+              });
+            });
+          }
+        }
+      };
+
+      // Show immediately if within a minute
+      if (Math.abs(timeUntilReminder) < 60000) {
+        console.log("Showing immediate notification");
         showNotification();
-        // Reschedule for next day
-        setReminderTime(action.payload);
-      }, timeUntilReminder);
+      }
+
+      state.scheduledReminder = setTimeout(showNotification, timeUntilReminder);
     },
   },
   extraReducers: (builder) => {
@@ -129,3 +155,25 @@ export const notificationSlice = createSlice({
 
 export const { setReminderTime } = notificationSlice.actions;
 export default notificationSlice.reducer;
+
+// Add this to check and reschedule notifications on app load
+export const checkAndRescheduleNotification = () => (dispatch: AppDispatch) => {
+  const nextReminderTime = localStorage.getItem("nextReminderTime");
+  if (nextReminderTime) {
+    const reminderDate = new Date(nextReminderTime);
+    const now = new Date();
+    if (reminderDate > now) {
+      const [hours, minutes] = [
+        reminderDate.getHours(),
+        reminderDate.getMinutes(),
+      ];
+      dispatch(
+        setReminderTime(
+          `${hours.toString().padStart(2, "0")}:${minutes
+            .toString()
+            .padStart(2, "0")}`
+        )
+      );
+    }
+  }
+};

@@ -13,10 +13,16 @@ import { useIsMobile } from "@/hooks/use-mobile";
 import { useAppDispatch } from "@/store/hooks";
 import { requestNotificationPermission } from "@/store/notificationSlice";
 import { NotificationPromptDialog } from "@/components/NotificationPromptDialog";
+import { checkAndRescheduleNotification } from "@/store/notificationSlice";
 
 const App = () => {
   const [showNotificationPrompt, setShowNotificationPrompt] = useState(false);
   const isMobile = useIsMobile();
+  const dispatch = useAppDispatch();
+
+  useEffect(() => {
+    dispatch(checkAndRescheduleNotification());
+  }, [dispatch]);
 
   useEffect(() => {
     // Check if we've shown the prompt before
