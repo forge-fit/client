@@ -20,17 +20,21 @@ export function NotificationPromptDialog({
   );
 
   const handleEnable = async () => {
-    const result = await dispatch(requestNotificationPermission()).unwrap();
-    if (result || permission === "granted") {
+    // Close dialog if permission is already granted
+    if (Notification.permission === "granted" && open) {
       onClose();
+      return null;
+    }
+    try {
+      await dispatch(requestNotificationPermission()).unwrap();
+      // Check current permission after the request
+      if (Notification.permission === "granted") {
+        onClose();
+      }
+    } catch (error) {
+      console.error("Error requesting notification permission:", error);
     }
   };
-
-  // Close dialog if permission is already granted
-  if (permission === "granted" && open) {
-    onClose();
-    return null;
-  }
 
   return (
     <Dialog open={open} onOpenChange={onClose}>

@@ -83,23 +83,34 @@ export const notificationSlice = createSlice({
       }
 
       const [hours, minutes] = action.payload.split(":").map(Number);
+      const now = new Date();
       const reminderDate = new Date();
-      reminderDate.setHours(hours, minutes, 0);
+      reminderDate.setHours(hours, minutes, 0, 0); // Set seconds and ms to 0
 
-      if (reminderDate.getTime() < Date.now()) {
-        reminderDate.setDate(reminderDate.getDate() + 1);
+      // Calculate time until reminder
+      let timeUntilReminder = reminderDate.getTime() - now.getTime();
+
+      // If time has passed today, try for today first if it's within 1 minute
+      if (timeUntilReminder > -60000 && timeUntilReminder < 0) {
+        // within last minute
+        new Notification("Workout Reminder", {
+          body: "Time for your daily workout!",
+          icon: "/fit-track/favicon.ico",
+          requireInteraction: true,
+        });
       }
 
-      const timeUntilReminder = reminderDate.getTime() - Date.now();
+      // Schedule for tomorrow if time has passed
+      if (timeUntilReminder < 0) {
+        reminderDate.setDate(reminderDate.getDate() + 1);
+        timeUntilReminder = reminderDate.getTime() - now.getTime();
+      }
 
       state.scheduledReminder = setTimeout(() => {
-        sendNotification({
-          title: "Workout Reminder",
-          options: {
-            body: "Time for your daily workout!",
-            icon: "/fit-track/favicon.ico",
-            requireInteraction: true,
-          },
+        new Notification("Workout Reminder", {
+          body: "Time for your daily workout!",
+          icon: "/fit-track/favicon.ico",
+          requireInteraction: true,
         });
         // Reschedule for next day
         setReminderTime(action.payload);
