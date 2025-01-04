@@ -10,6 +10,9 @@ permissions:
   pages: write
   id-token: write
 
+env:
+  GITHUB_PACKAGES_TOKEN: ${{ secrets.NPM_AUTH_AUTOMATED }}
+
 jobs:
   build:
     runs-on: ubuntu-latest
