@@ -10,13 +10,14 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "./ui/tabs";
 import { ScrollArea } from "@radix-ui/react-scroll-area";
 import { cn } from "@/lib/utils";
 import { Badge } from "./ui/badge";
+import { useAppSelector } from "@/store/hooks";
+import { RootState } from "@/store/store";
 
 export function ExerciseDialog() {
   const isMobile = useIsMobile();
   const { exerciseId } = useParams();
   const navigate = useNavigate();
   const location = useLocation();
-
   const exercise = exerciseGuides.find((e) => e.id === exerciseId);
   const isOpen = !!exerciseId;
 

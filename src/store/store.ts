@@ -3,7 +3,7 @@ import notificationReducer from "./notificationSlice";
 import workoutPlanReducer from "./workoutPlanSlice";
 import workoutProgressReducer from "./workoutProgressSlice";
 import workoutHistoryReducer from "./workoutHistorySlice";
-
+import exerciseReducer from "./exerciseSlice";
 // Load state from localStorage
 const loadState = () => {
   try {
@@ -34,6 +34,7 @@ const rootReducer = combineReducers({
   workoutPlan: workoutPlanReducer,
   workoutProgress: workoutProgressReducer,
   workoutHistory: workoutHistoryReducer,
+  exercise: exerciseReducer,
 });
 
 export const store = configureStore({
