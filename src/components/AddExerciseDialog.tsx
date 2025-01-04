@@ -16,11 +16,13 @@ import { useToast } from "@/hooks/use-toast";
 import { ExerciseSelector } from "./ExerciseSelector";
 import { SetsRepsInput } from "./SetsRepsInput";
 import { WeightInput } from "./WeightInput";
-import { exerciseGuides } from "@/data/exerciseGuides";
 import { ScrollArea } from "./ui/scroll-area";
 import { Card } from "./ui/card";
 import { Badge } from "./ui/badge";
 import { cn } from "@/lib/utils";
+import { ExerciseDto } from "@forge-fit/server";
+import { useAppSelector } from "@/store/hooks";
+import { RootState } from "@/store/store";
 
 interface AddExerciseDialogProps {
   onAddExercise: (exercise: Exercise) => void;
@@ -38,14 +40,14 @@ export function AddExerciseDialog({ onAddExercise }: AddExerciseDialogProps) {
     notes: "",
     weight: { value: "", unit: "kg" },
   });
+  const exercises = useAppSelector(
+    (state: RootState) => state.exercise.exercises
+  );
 
-  const filteredExercises = exerciseGuides.filter(
+  const filteredExercises = exercises.filter(
     (ex) =>
       searchQuery === "" ||
-      ex.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      ex.muscleGroups.some((muscle) =>
-        muscle.toLowerCase().includes(searchQuery.toLowerCase())
-      )
+      ex.name.toLowerCase().includes(searchQuery.toLowerCase())
   );
 
   const sortedExercises = filteredExercises.sort((a, b) => {
@@ -85,7 +87,7 @@ export function AddExerciseDialog({ onAddExercise }: AddExerciseDialogProps) {
     });
   };
 
-  const handleSelectExercise = (ex: (typeof exerciseGuides)[0]) => {
+  const handleSelectExercise = (ex: ExerciseDto) => {
     setSelectedExerciseId(ex.id);
     setExercise((prev) => ({ ...prev, name: ex.name }));
   };
@@ -129,15 +131,9 @@ export function AddExerciseDialog({ onAddExercise }: AddExerciseDialogProps) {
                     <div className="space-y-2">
                       <h3 className="font-medium">{ex.name}</h3>
                       <div className="flex flex-wrap gap-1">
-                        {ex.muscleGroups.map((muscle) => (
-                          <Badge
-                            key={muscle}
-                            variant="secondary"
-                            className="text-xs"
-                          >
-                            {muscle}
-                          </Badge>
-                        ))}
+                        <span className="text-xs text-muted-foreground bg-secondary px-2 py-1 rounded-full">
+                          {ex.bodyPart}
+                        </span>
                       </div>
                     </div>
                   </Card>

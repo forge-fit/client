@@ -12,7 +12,7 @@ permissions:
 
 env:
   GITHUB_PACKAGES_TOKEN: ${{ secrets.NPM_AUTH_AUTOMATED }}
-  VITE_API_URL: ${{ secrets.VITE_API_URL }}
+
 jobs:
   build:
     runs-on: ubuntu-latest

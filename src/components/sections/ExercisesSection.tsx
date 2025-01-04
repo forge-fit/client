@@ -1,16 +1,21 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { exerciseGuides } from "@/data/exerciseGuides";
 import { useIsMobile } from "@/hooks/use-mobile";
 import { Button } from "@/components/ui/button";
-import { ExerciseGuide } from "@/types/exercise";
 import { useNavigate } from "react-router-dom";
 import { Search } from "lucide-react";
+import { useAppSelector } from "@/store/hooks";
+import { RootState } from "@/store/store";
+import { ExerciseDto } from "@forge-fit/server";
+import { ExerciseCard } from "../ExerciseCard";
 
 export function ExercisesSection() {
   const isMobile = useIsMobile();
   const navigate = useNavigate();
 
-  const handleExerciseClick = (exercise: ExerciseGuide) => {
+  const exercises = useAppSelector(
+    (state: RootState) => state.exercise.exercises
+  );
+  const handleExerciseClick = (exercise: ExerciseDto) => {
     navigate(`/exercises/${exercise.id}`);
   };
 
@@ -32,34 +37,13 @@ export function ExercisesSection() {
           </Button>
         </div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-          {exerciseGuides.slice(0, isMobile ? 3 : 6).map((exercise) => (
-            <Card
+        <div className="grid grid-cols-1 sm:grid-cols-2  lg:grid-cols-3 gap-4">
+          {exercises.slice(0, isMobile ? 3 : 6).map((exercise) => (
+            <ExerciseCard
               key={exercise.id}
-              className="group hover:shadow-lg transition-all cursor-pointer"
-              onClick={() => handleExerciseClick(exercise)}
-            >
-              <CardHeader>
-                <CardTitle className="flex justify-between items-start">
-                  <span className="text-lg font-semibold">{exercise.name}</span>
-                  <span className="text-xs text-muted-foreground bg-secondary px-2 py-1 rounded-full">
-                    {exercise.difficulty}
-                  </span>
-                </CardTitle>
-              </CardHeader>
-              <CardContent>
-                <div className="flex flex-wrap gap-1">
-                  {exercise.muscleGroups.map((muscle) => (
-                    <span
-                      key={muscle}
-                      className="text-xs text-muted-foreground bg-secondary/50 px-2 py-0.5 rounded-full"
-                    >
-                      {muscle}
-                    </span>
-                  ))}
-                </div>
-              </CardContent>
-            </Card>
+              exercise={exercise}
+              handleExerciseClick={handleExerciseClick}
+            />
           ))}
         </div>
       </div>
