@@ -1,5 +1,5 @@
 {
-  "name": "@free-fit/client",
+  "name": "@forge-fit/client",
   "private": true,
   "version": "0.0.0",
   "type": "module",
@@ -17,7 +17,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/free-fit/client.git"
+    "url": "https://github.com/forge-fit/client.git"
   },
   "dependencies": {
     "@hookform/resolvers": "^3.9.0",
