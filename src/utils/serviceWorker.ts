@@ -3,7 +3,7 @@ export function registerServiceWorker() {
     window.addEventListener("load", async () => {
       try {
         const registration = await navigator.serviceWorker.register(
-          "/fit-track/sw.js"
+          "/forge-fit/sw.js"
         );
         console.log("ServiceWorker registration successful:", registration);
       } catch (error) {

@@ -56,15 +56,15 @@ export const sendNotification = createAsyncThunk(
 
     try {
       new Notification(title, {
-        icon: "/fit-track/icons/icon-192x192.png",
-        badge: "/fit-track/icons/icon-192x192.png",
+        icon: "/forge-fit/icons/icon-192x192.png",
+        badge: "/forge-fit/icons/icon-192x192.png",
         requireInteraction: true,
         ...options,
       });
     } catch (e) {
       await registration.showNotification(title, {
-        icon: "/fit-track/icons/icon-192x192.png",
-        badge: "/fit-track/icons/icon-192x192.png",
+        icon: "/forge-fit/icons/icon-192x192.png",
+        badge: "/forge-fit/icons/icon-192x192.png",
         requireInteraction: true,
         ...options,
       });

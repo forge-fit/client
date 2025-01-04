@@ -27,7 +27,7 @@ const App = () => {
     <TooltipProvider>
       <Toaster />
       <Sonner />
-      <BrowserRouter basename="/fit-track">
+      <BrowserRouter basename="/forge-fit">
         <Routes>
           <Route path="/" element={<Index />}>
             <Route path="/workout-plan" element={<MobileWorkoutPlan />} />

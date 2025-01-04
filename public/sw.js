@@ -1,12 +1,12 @@
 const CACHE_NAME = "fitness-app-v2";
 const urlsToCache = [
-  // "/fit-track/",
-  // "/fit-track/index.html",
-  // "/fit-track/manifest.json",
-  // "/fit-track/favicon.ico",
-  // "/fit-track/apple-touch-icon.png",
-  // "/fit-track/icons/icon-192x192.png",
-  // "/fit-track/icons/icon-512x512.png",
+  // "/forge-fit/",
+  // "/forge-fit/index.html",
+  // "/forge-fit/manifest.json",
+  // "/forge-fit/favicon.ico",
+  // "/forge-fit/apple-touch-icon.png",
+  // "/forge-fit/icons/icon-192x192.png",
+  // "/forge-fit/icons/icon-512x512.png",
   // Add other static assets
 ];
 
@@ -29,8 +29,8 @@ self.addEventListener("push", (event) => {
     const data = event.data.json();
     const options = {
       body: data.body,
-      icon: "/fit-track/icons/icon-192x192.png",
-      badge: "/fit-track/icons/icon-192x192.png",
+      icon: "/forge-fit/icons/icon-192x192.png",
+      badge: "/forge-fit/icons/icon-192x192.png",
       data: data.data,
       requireInteraction: true,
     };
