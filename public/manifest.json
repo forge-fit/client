@@ -1,32 +1,32 @@
 {
-  "name": "FitTrack",
-  "short_name": "FitTrack",
+  "name": "Forge Fit",
+  "short_name": "Forge Fit",
   "description": "Track your workouts and stay fit",
-  "start_url": "/forge-fit/",
+  "start_url": "/client/",
   "display": "standalone",
   "background_color": "#ffffff",
   "theme_color": "#6D28D9",
   "icons": [
     {
-      "src": "/forge-fit/icons/icon-192x192.png",
+      "src": "/client/icons/icon-192x192.png",
       "sizes": "192x192",
       "type": "image/png",
       "purpose": "any maskable"
     },
     {
-      "src": "/forge-fit/icons/icon-512x512.png",
+      "src": "/client/icons/icon-512x512.png",
       "sizes": "512x512",
       "type": "image/png",
       "purpose": "any maskable"
     },
     {
-      "src": "/forge-fit/icons/icon-192x192-dark.png",
+      "src": "/client/icons/icon-192x192-dark.png",
       "sizes": "192x192",
       "type": "image/png",
       "purpose": "maskable"
     },
     {
-      "src": "/forge-fit/icons/icon-512x512-dark.png",
+      "src": "/client/icons/icon-512x512-dark.png",
       "sizes": "512x512",
       "type": "image/png",
       "purpose": "maskable"
@@ -37,10 +37,10 @@
       "name": "Start Workout",
       "short_name": "Workout",
       "description": "Start a workout quickly",
-      "url": "/forge-fit/",
+      "url": "/client/",
       "icons": [
         {
-          "src": "/forge-fit/icons/icon-192x192.png",
+          "src": "/client/icons/icon-192x192.png",
           "sizes": "192x192",
           "type": "image/png"
         }

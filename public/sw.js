@@ -1,4 +1,4 @@
-const CACHE_NAME = "fitness-app-v2";
+const CACHE_NAME = "forge-fit-v2";
 const urlsToCache = [
   // "/forge-fit/",
   // "/forge-fit/index.html",
@@ -29,8 +29,8 @@ self.addEventListener("push", (event) => {
     const data = event.data.json();
     const options = {
       body: data.body,
-      icon: "/forge-fit/icons/icon-192x192.png",
-      badge: "/forge-fit/icons/icon-192x192.png",
+      icon: "/client/icons/icon-192x192.png",
+      badge: "/client/icons/icon-192x192.png",
       data: data.data,
       requireInteraction: true,
     };

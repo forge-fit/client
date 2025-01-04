@@ -94,5 +94,5 @@
     "typescript-eslint": "^8.0.1",
     "vite": "^5.4.1"
   },
-  "homepage": "https://talsag-dev.github.io/forge-fit"
+  "homepage": "https://forge-fit.github.io/client"
 }

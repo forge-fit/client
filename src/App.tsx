@@ -27,7 +27,7 @@ const App = () => {
     <TooltipProvider>
       <Toaster />
       <Sonner />
-      <BrowserRouter basename="/forge-fit">
+      <BrowserRouter basename="/client">
         <Routes>
           <Route path="/" element={<Index />}>
             <Route path="/workout-plan" element={<MobileWorkoutPlan />} />
