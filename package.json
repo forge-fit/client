@@ -1,5 +1,5 @@
 {
-  "name": "vite_react_shadcn_ts",
+  "name": "@free-fit/client",
   "private": true,
   "version": "0.0.0",
   "type": "module",
@@ -14,6 +14,10 @@
     "deploy": "gh-pages -d dist",
     "deploy:dev": "gh-pages -d dist --mode development",
     "deploy:prod": "gh-pages -d dist --mode production"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/free-fit/client.git"
   },
   "dependencies": {
     "@hookform/resolvers": "^3.9.0",
