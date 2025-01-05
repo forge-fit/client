@@ -39,7 +39,6 @@ export const fetchExercises = createAsyncThunk(
         getExercisesParams.search || undefined,
         getExercisesParams.targetMuscle || undefined
       );
-      console.log("data", data);
       return data;
     } catch (error) {
       return rejectWithValue(error.message);
